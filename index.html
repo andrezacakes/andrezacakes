@@ -1,47 +1,209 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Andreza Cakes</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <style>
-body{font-family:Arial;margin:0;background:#fff5f7}
-header{background:#fff;padding:20px;display:flex;justify-content:space-between}
-h1{color:#d63384}
-.card{background:#fff;margin:15px;padding:15px;border-radius:15px}
-button{background:#ff4d88;color:#fff;border:none;padding:10px;border-radius:10px}
+:root{
+  --rosa:#d96491;--rosa2:#ff8db4;--vinho:#8d2b58;--claro:#fff3f7;--borda:#f1c4d5;
+  --texto:#2c1b24;--muted:#7b6170;--ouro:#d7a84c;--sombra:0 22px 55px rgba(112,48,75,.18);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--texto);background:linear-gradient(135deg,#fff8f2,#ffe3ee)}
+header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--borda)}
+.nav{max-width:1180px;margin:auto;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;gap:14px}
+.brand{display:flex;align-items:center;gap:12px;font-weight:900}
+.brand img{width:58px;height:58px;object-fit:contain;animation:float 4s ease-in-out infinite}
+.brand small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.menu{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.menu a,.btn{border:0;text-decoration:none;cursor:pointer;font-weight:900;border-radius:999px;padding:12px 18px;background:linear-gradient(135deg,var(--rosa),var(--rosa2));color:#fff;box-shadow:0 12px 25px rgba(217,100,145,.24)}
+.menu a:not(.btn){background:transparent;color:var(--texto);box-shadow:none;padding:8px}
+.hero{max-width:1180px;margin:auto;padding:62px 20px 36px;display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center}
+.badge{display:inline-block;padding:8px 14px;border-radius:999px;background:#fff;border:1px solid var(--borda);color:var(--vinho);font-weight:900;margin-bottom:14px}
+.hero h1{font-size:clamp(38px,6vw,70px);line-height:.98;margin:0 0 18px}
+.hero p{font-size:18px;color:var(--muted);line-height:1.6;margin:0 0 22px}
+.hero-card{background:rgba(255,255,255,.93);border:1px solid var(--borda);border-radius:34px;box-shadow:var(--sombra);padding:28px;text-align:center}
+.hero-card img{width:min(280px,80%);animation:float 4s ease-in-out infinite}
+.mini{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px}
+.mini div{background:#fff7fb;border:1px solid var(--borda);border-radius:18px;padding:14px;font-weight:900}
+section{max-width:1180px;margin:auto;padding:38px 20px}
+.title{text-align:center;margin-bottom:24px}
+.title h2{font-size:clamp(28px,4vw,42px);margin:0 0 8px}
+.title p{color:var(--muted);margin:0}
+.tabs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:22px}
+.tab{border:1px solid var(--borda);background:#fff;color:var(--vinho);font-weight:900;border-radius:999px;padding:11px 15px;cursor:pointer}
+.tab.active{background:var(--rosa);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:#fff;border:1px solid var(--borda);border-radius:28px;padding:20px;box-shadow:var(--sombra);display:flex;flex-direction:column;gap:10px;transition:.25s}
+.card:hover{transform:translateY(-5px)}
+.icon{width:56px;height:56px;border-radius:18px;background:var(--claro);display:grid;place-items:center;font-size:28px}
+.card h3{margin:0;font-size:22px}.card p{margin:0;color:var(--muted);line-height:1.45}
+.price{font-size:22px;font-weight:900;color:var(--vinho)}
+.card button{margin-top:auto}
+.float-cart{position:fixed;right:18px;bottom:88px;width:62px;height:62px;border:0;border-radius:22px;background:linear-gradient(135deg,var(--rosa),var(--rosa2));color:#fff;font-size:28px;box-shadow:var(--sombra);z-index:40;cursor:pointer}
+.count{position:absolute;top:-8px;right:-8px;background:#fff;color:var(--vinho);border:1px solid var(--borda);font-size:12px;font-weight:900;border-radius:999px;min-width:24px;height:24px;display:grid;place-items:center}
+.music{position:fixed;right:18px;bottom:18px;z-index:40;border:1px solid var(--borda);background:#fff;color:var(--vinho);border-radius:999px;padding:12px 16px;font-weight:900;box-shadow:var(--sombra);cursor:pointer}
+.modal{display:none;position:fixed;inset:0;background:rgba(40,20,30,.42);backdrop-filter:blur(6px);z-index:70;align-items:center;justify-content:center;padding:16px}
+.modal.open{display:flex}
+.box{background:#fff;width:min(980px,100%);max-height:92vh;overflow:auto;border-radius:30px;border:1px solid var(--borda);box-shadow:0 30px 80px rgba(40,20,30,.30);padding:24px}
+.top{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:12px}
+.close{border:0;background:var(--claro);color:var(--vinho);width:42px;height:42px;border-radius:14px;font-size:24px;font-weight:900;cursor:pointer}
+.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.full{grid-column:1/-1}
+label{font-size:13px;color:var(--vinho);font-weight:900;display:block;margin-bottom:6px}
+input,select,textarea{width:100%;border:1px solid var(--borda);border-radius:15px;padding:12px;background:#fff;font-size:14px}
+textarea{min-height:85px}
+.checks{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.checks label{color:var(--texto);font-weight:700;background:#fff7fb;border:1px solid var(--borda);border-radius:14px;padding:10px;margin:0}
+.cart-item{display:grid;grid-template-columns:1fr auto;gap:12px;background:#fff7fb;border:1px solid #f4d1df;border-radius:18px;padding:12px;margin:8px 0}
+.actions{display:flex;gap:8px;align-items:flex-start}
+.actions button{border:0;border-radius:12px;padding:8px 10px;font-weight:900;cursor:pointer}
+.danger{background:#ffe5e5!important;color:#a33!important}
+.total{font-size:25px;font-weight:900;color:var(--vinho)}
+footer{text-align:center;padding:35px 20px;color:var(--muted)}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@media(max-width:850px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.checks{grid-template-columns:1fr}.menu a:not(.btn){display:none}}
 </style>
 </head>
 <body>
-
 <header>
-<h1>Andreza Cakes</h1>
+  <div class="nav">
+    <div class="brand"><img src="logo-andreza-cakes.png" alt="Andreza Cakes"><div>Andreza Cakes<small>Confeitaria artesanal</small></div></div>
+    <div class="menu"><a href="#catalogo">Catálogo</a><a href="#kits">Kits</a><button class="btn" onclick="openCart()">Montar Pedido</button></div>
+  </div>
 </header>
 
-<div class="card">
-<h3>Bolo por KG</h3>
-<select id="massa">
-<option>Branca</option>
-<option>Chocolate</option>
-<option>Red Velvet (+R$10/kg)</option>
-</select>
-<input type="number" id="kg" placeholder="KG">
-<button onclick="addBolo()">Adicionar</button>
+<main>
+<section class="hero">
+  <div>
+    <div class="badge">✨ Encomendas personalizadas em Recife/PE</div>
+    <h1>Seu momento merece um sabor especial.</h1>
+    <p>Bolos, kits festa, salgados, doces, personalizados, doces finos, salgados finos, ovos de colher e café da manhã.</p>
+    <button class="btn" onclick="document.getElementById('catalogo').scrollIntoView()">Ver catálogo</button>
+    <button class="btn" onclick="openCart()">Montar Pedido</button>
+  </div>
+  <div class="hero-card">
+    <img src="logo-andreza-cakes.png" alt="Andreza Cakes">
+    <div class="mini"><div>Kits festa</div><div>Personalizados</div><div>Doces finos</div><div>Café da manhã</div></div>
+  </div>
+</section>
+
+<section id="catalogo">
+  <div class="title"><h2>Catálogo premium</h2><p>Escolha o item, personalize e envie tudo pronto pelo WhatsApp.</p></div>
+  <div class="tabs" id="tabs"></div>
+  <div class="grid" id="produtos"></div>
+</section>
+
+<section id="kits">
+  <div class="title"><h2>Regras importantes</h2><p>Red Velvet acrescenta R$ 10,00 por kg em todos os bolos.</p></div>
+  <div class="grid">
+    <div class="card"><div class="icon">🎂</div><h3>Bolo à parte</h3><p>R$ 90,00 por kg. Red Velvet + R$10/kg.</p></div>
+    <div class="card"><div class="icon">🥐</div><h3>Salgados e doces</h3><p>R$ 0,80 por unidade. Sem kibe e sem olho de sogra.</p></div>
+    <div class="card"><div class="icon">🚚</div><h3>Entrega</h3><p>Retirada no local ou entrega a combinar por aplicativo.</p></div>
+  </div>
+</section>
+</main>
+
+<button class="float-cart" onclick="openCart()">🛒<span class="count" id="count">0</span></button>
+<button class="music" onclick="toggleMusic()">🎵 Música</button>
+<audio id="player"></audio>
+
+<div class="modal" id="customModal">
+  <div class="box">
+    <div class="top"><h2 id="customTitle">Personalizar item</h2><button class="close" onclick="closeCustom()">×</button></div>
+    <div class="formgrid">
+      <div><label>Quantidade</label><input id="customQty" type="number" min="1" step="1" value="1"></div>
+      <div id="kgBox"><label>Kg do bolo</label><input id="customKg" type="number" min="0.5" step="0.5" value="1"></div>
+      <div id="massaBox"><label>Massa</label><select id="customMassa"><option>Branca</option><option>Chocolate</option><option>Red Velvet (+R$10/kg)</option></select></div>
+      <div id="recheioBox"><label>Recheio</label><select id="customRecheio"></select></div>
+      <div class="full" id="salgadosBox"><label>Escolha os salgados do kit</label><div class="checks" id="salgadosChecks"></div></div>
+      <div class="full" id="docesBox"><label>Escolha os doces do kit</label><div class="checks" id="docesChecks"></div></div>
+      <div class="full"><label>Observação do item</label><input id="customObs" placeholder="Ex: tema, cor, frase, detalhe do modelo..."></div>
+    </div>
+    <button class="btn" style="margin-top:15px" onclick="saveCustom()">Adicionar ao carrinho</button>
+  </div>
 </div>
 
-<script>
-let total=0;
-function addBolo(){
- let kg=document.getElementById("kg").value;
- let massa=document.getElementById("massa").value;
- let preco=kg*90;
- if(massa.includes("Red Velvet")){
-   preco+=kg*10;
- }
- total+=preco;
- alert("Total: R$ "+total);
-}
-</script>
+<div class="modal" id="cartModal">
+  <div class="box">
+    <div class="top"><h2>Finalizar pedido</h2><button class="close" onclick="closeCart()">×</button></div>
+    <div class="top"><strong>Seu pedido</strong><div class="total" id="total">R$ 0,00</div></div>
+    <div id="cartList"></div>
+    <hr style="border:0;border-top:1px solid var(--borda);margin:18px 0">
+    <div class="formgrid">
+      <div><label>Nome do cliente *</label><input id="cliente" placeholder="Digite seu nome"></div>
+      <div><label>WhatsApp do cliente</label><input id="telefone" placeholder="(81) 99999-9999"></div>
+      <div><label>Data da festa/entrega *</label><input id="data" type="date"></div>
+      <div><label>Horário desejado *</label><input id="hora" type="time"></div>
+      <div><label>Tema do bolo/festa *</label><input id="tema" placeholder="Ex: Hulk, princesa, futebol..."></div>
+      <div><label>Nome do aniversariante *</label><input id="aniversariante" placeholder="Nome que vai no bolo"></div>
+      <div><label>Idade</label><input id="idade" placeholder="Opcional"></div>
+      <div><label>Recebimento *</label><select id="entrega" onchange="document.getElementById('enderecoBox').style.display=this.value==='Entrega a combinar'?'block':'none'"><option value="">Escolha</option><option>Retirada no local</option><option>Entrega a combinar</option></select></div>
+      <div class="full" id="enderecoBox" style="display:none"><label>Endereço</label><input id="endereco" placeholder="Rua, número, bairro"></div>
+      <div class="full"><label>Foto/modelo de referência</label><input id="foto" type="file" accept="image/*"><small style="color:var(--muted)">O WhatsApp não envia a foto automaticamente. A pessoa pode anexar depois na conversa.</small></div>
+      <div class="full"><label>Observações</label><textarea id="obsPedido" placeholder="Frase, detalhes, cores, modelo, etc."></textarea></div>
+    </div>
+    <button class="btn" style="margin-top:15px" onclick="sendOrder()">Enviar pelo WhatsApp</button>
+    <button class="btn" style="margin-top:15px;background:#fff;color:var(--vinho);border:1px solid var(--borda)" onclick="clearCart()">Limpar pedido</button>
+  </div>
+</div>
 
+<footer>
+  Andreza Cakes • Recife/PE • <a href="https://www.instagram.com/Andrezaa_cakes" target="_blank" style="color:var(--vinho);font-weight:900">@ANDREZAA_CAKES</a><br>
+  <a href="/admin/" style="font-size:12px;color:#aaa;text-decoration:none">Área administrativa</a>
+</footer>
+
+<script>
+const supabaseClient = window.supabase.createClient("https://zybwkqjkwpdusnxjgnfu.supabase.co","sb_publishable_9Fe8WMnzl0geZvxGqCkjAg_PyeJC-mf");
+const whatsappNumber="5581984225298";
+const recheios=["Chocolate","Chocolate branco","Bem casado","Prestígio","Sensação","Bicho de pé","Doce de leite","Maracujá","Limão","Napolitano","Oreo","Paçoca"];
+const salgados=["Coxinha","Risole de queijo","Risole de presunto","Pastel","Empada","Enroladinho"];
+const doces=["Brigadeiro","Beijinho","Surpresa de uva","Bem casado"];
+const cats=["Todos","Kits festa","Bolos","Salgados","Doces","Personalizados","Doces finos","Salgados finos","Ovo de colher","Café da manhã"];
+const produtos=[
+{id:1,cat:"Kits festa",nome:"Kit Chantininho 1kg",emoji:"🎉",desc:"Bolo 1kg + 40 salgados + 30 doces.",preco:140,boloKg:1,kit:true},
+{id:2,cat:"Kits festa",nome:"Kit Chantininho 1,5kg",emoji:"🎉",desc:"Bolo 1,5kg + 60 salgados + 40 doces.",preco:200,boloKg:1.5,kit:true},
+{id:3,cat:"Kits festa",nome:"Kit Chantininho 2kg",emoji:"🎉",desc:"Bolo 2kg + 80 salgados + 60 doces.",preco:260,boloKg:2,kit:true},
+{id:4,cat:"Kits festa",nome:"Kit Chantininho 3kg",emoji:"🎉",desc:"Bolo 3kg + 120 salgados + 90 doces.",preco:380,boloKg:3,kit:true},
+{id:5,cat:"Kits festa",nome:"Kit Chantininho 4kg",emoji:"🎉",desc:"Bolo 4kg + 160 salgados + 120 doces.",preco:500,boloKg:4,kit:true},
+{id:6,cat:"Bolos",nome:"Bolo à parte",emoji:"🎂",desc:"R$90 por kg. Escolha massa, recheio e quantidade de kg.",preco:90,bolo:true},
+{id:10,cat:"Salgados",nome:"Coxinha",emoji:"🥐",desc:"R$0,80 por unidade.",preco:.8},
+{id:11,cat:"Salgados",nome:"Risole de queijo",emoji:"🥐",desc:"R$0,80 por unidade.",preco:.8},
+{id:12,cat:"Salgados",nome:"Risole de presunto",emoji:"🥐",desc:"R$0,80 por unidade.",preco:.8},
+{id:13,cat:"Salgados",nome:"Pastel",emoji:"🥐",desc:"R$0,80 por unidade.",preco:.8},
+{id:14,cat:"Salgados",nome:"Empada",emoji:"🥐",desc:"R$0,80 por unidade.",preco:.8},
+{id:15,cat:"Salgados",nome:"Enroladinho",emoji:"🥐",desc:"R$0,80 por unidade.",preco:.8},
+{id:20,cat:"Doces",nome:"Brigadeiro",emoji:"🍬",desc:"R$0,80 por unidade.",preco:.8},
+{id:21,cat:"Doces",nome:"Beijinho",emoji:"🍬",desc:"R$0,80 por unidade.",preco:.8},
+{id:22,cat:"Doces",nome:"Surpresa de uva",emoji:"🍬",desc:"R$0,80 por unidade.",preco:.8},
+{id:23,cat:"Doces",nome:"Bem casado",emoji:"🍬",desc:"R$0,80 por unidade.",preco:.8},
+{id:30,cat:"Personalizados",nome:"Cupcake",emoji:"🧁",desc:"Personalizado.",preco:7},
+{id:31,cat:"Personalizados",nome:"Bolo no palito",emoji:"🍰",desc:"Personalizado.",preco:8},
+{id:32,cat:"Personalizados",nome:"Maçã",emoji:"🍎",desc:"Personalizada.",preco:7},
+{id:33,cat:"Personalizados",nome:"Pirulito",emoji:"🍭",desc:"Personalizado.",preco:6},
+{id:34,cat:"Personalizados",nome:"Trufas",emoji:"🍫",desc:"Personalizada.",preco:5},
+{id:40,cat:"Doces finos",nome:"Doces finos",emoji:"💎",desc:"Sob orçamento, conforme modelo e quantidade.",preco:0,orc:true},
+{id:41,cat:"Salgados finos",nome:"Salgados finos",emoji:"✨",desc:"Sob orçamento, conforme evento e quantidade.",preco:0,orc:true},
+{id:42,cat:"Ovo de colher",nome:"Ovo de colher",emoji:"🥚",desc:"Sob orçamento, sabores e tamanhos variados.",preco:0,orc:true},
+{id:43,cat:"Café da manhã",nome:"Cesta de café da manhã",emoji:"☕",desc:"Sob orçamento, personalizada para presente.",preco:0,orc:true}
+];
+let cart=[], current="Todos", editing=null, selected=null, playlist=["assets/audio/musica1.mp3","assets/audio/musica2.mp3","assets/audio/musica3.mp3"], music=0;
+function money(v){return Number(v||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"})}
+function renderTabs(){tabs.innerHTML=cats.map(c=>`<button class="tab ${c===current?'active':''}" onclick="current='${c}';renderTabs();renderProducts()">${c}</button>`).join("")}
+function renderProducts(){let lista=current==="Todos"?produtos:produtos.filter(p=>p.cat===current);produtosEl=document.getElementById("produtos");produtosEl.innerHTML=lista.map(p=>`<div class="card"><div class="icon">${p.emoji}</div><h3>${p.nome}</h3><p>${p.desc}</p><div class="price">${p.orc?"Sob orçamento":money(p.preco)+(p.bolo?"/kg":"")}</div><button class="btn" onclick="openCustom(${p.id})">${p.orc?"Combinar":"Adicionar"}</button></div>`).join("")}
+function fillSelects(){customRecheio.innerHTML=recheios.map(r=>`<option>${r}</option>`).join("");salgadosChecks.innerHTML=salgados.map(s=>`<label><input type="checkbox" value="${s}"> ${s}</label>`).join("");docesChecks.innerHTML=doces.map(d=>`<label><input type="checkbox" value="${d}"> ${d}</label>`).join("")}
+function openCustom(id,idx=null){selected=produtos.find(p=>p.id===id);editing=idx;customTitle.textContent=(idx===null?"Adicionar ":"Editar ")+selected.nome;customQty.value=idx!==null?cart[idx].qty:1;customKg.value=idx!==null?(cart[idx].kg||selected.boloKg||1):(selected.boloKg||1);customMassa.value=idx!==null?(cart[idx].massa||"Branca"):"Branca";customRecheio.value=idx!==null?(cart[idx].recheio||recheios[0]):recheios[0];customObs.value=idx!==null?(cart[idx].obs||""):"";kgBox.style.display=selected.bolo&&!selected.kit?"block":"none";massaBox.style.display=(selected.bolo||selected.kit)?"block":"none";recheioBox.style.display=(selected.bolo||selected.kit)?"block":"none";salgadosBox.style.display=selected.kit?"block":"none";docesBox.style.display=selected.kit?"block":"none";document.querySelectorAll("#salgadosChecks input,#docesChecks input").forEach(i=>i.checked=false);if(idx!==null){(cart[idx].salgados||[]).forEach(v=>{let el=[...document.querySelectorAll("#salgadosChecks input")].find(i=>i.value===v);if(el)el.checked=true});(cart[idx].doces||[]).forEach(v=>{let el=[...document.querySelectorAll("#docesChecks input")].find(i=>i.value===v);if(el)el.checked=true})}customModal.classList.add("open")}
+function closeCustom(){customModal.classList.remove("open")}
+function itemPrice(obj){let base=obj.preco*(obj.bolo&&!obj.kit?obj.kg:obj.qty);let kg=obj.kit?obj.boloKg:(obj.bolo?obj.kg:0);if((obj.bolo||obj.kit)&&obj.massa.includes("Red Velvet"))base+=kg*10*obj.qty;return base}
+function saveCustom(){let obj={...selected,qty:Number(customQty.value||1),kg:Number(customKg.value||selected.boloKg||1),massa:customMassa.value,recheio:customRecheio.value,obs:customObs.value,salgados:[...document.querySelectorAll("#salgadosChecks input:checked")].map(i=>i.value),doces:[...document.querySelectorAll("#docesChecks input:checked")].map(i=>i.value)};if(obj.orc){quickWhats(obj.nome);closeCustom();return}if(editing===null)cart.push(obj);else cart[editing]=obj;closeCustom();renderCart()}
+function renderCart(){count.textContent=cart.reduce((a,b)=>a+b.qty,0);let total=cart.reduce((a,b)=>a+itemPrice(b),0);document.getElementById("total").textContent=money(total);cartList.innerHTML=cart.map((i,idx)=>`<div class="cart-item"><div><strong>${i.qty}x ${i.nome}</strong><br><span style="color:var(--muted)">${i.massa?`Massa: ${i.massa}<br>`:""}${i.recheio?`Recheio: ${i.recheio}<br>`:""}${i.salgados?.length?`Salgados: ${i.salgados.join(", ")}<br>`:""}${i.doces?.length?`Doces: ${i.doces.join(", ")}<br>`:""}${i.obs?`Obs: ${i.obs}<br>`:""}${money(itemPrice(i))}</span></div><div class="actions"><button onclick="openCustom(${i.id},${idx})">Editar</button><button class="danger" onclick="cart.splice(${idx},1);renderCart()">Remover</button></div></div>`).join("")||"<p style='color:var(--muted)'>Nenhum item no carrinho.</p>"}
+function openCart(){cartModal.classList.add("open");renderCart()}function closeCart(){cartModal.classList.remove("open")}function clearCart(){cart=[];renderCart()}
+function quickWhats(s){window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Olá! Vim pelo site da Andreza Cakes e gostaria de falar sobre: "+s)}`,"_blank")}
+async function sendOrder(){let req=["cliente","data","hora","tema","aniversariante","entrega"];for(let id of req){if(!document.getElementById(id).value.trim()){alert("Preencha os campos obrigatórios.");return}}if(!cart.length){alert("Adicione itens ao pedido.");return}let total=cart.reduce((a,b)=>a+itemPrice(b),0);let itens=cart.map(i=>`${i.qty}x ${i.nome} | ${i.massa?i.massa+" | ":""}${i.recheio?i.recheio+" | ":""}${i.salgados?.length?"Salgados: "+i.salgados.join(", ")+" | ":""}${i.doces?.length?"Doces: "+i.doces.join(", ")+" | ":""}${money(itemPrice(i))}`).join("\\n");try{await supabaseClient.from("pedidos").insert([{cliente:cliente.value,data_evento:data.value,hora:hora.value,tema:tema.value,aniversariante:aniversariante.value,idade:idade.value,entrega:entrega.value,endereco:endereco.value,observacoes:obsPedido.value,itens,total:money(total)}])}catch(e){console.log(e)}let msg=`🧁 *Andreza Cakes - Pedido*%0A%0A📌 *DADOS DO CLIENTE*%0A*Cliente:* ${cliente.value}%0A*WhatsApp:* ${telefone.value||"-"}%0A*Data da festa:* ${data.value}%0A*Horário:* ${hora.value}%0A*Tema:* ${tema.value}%0A*Aniversariante:* ${aniversariante.value}%0A*Idade:* ${idade.value||"-"}%0A*Recebimento:* ${entrega.value}%0A${endereco.value?`*Endereço:* ${endereco.value}%0A`:""}${obsPedido.value?`*Observações:* ${obsPedido.value}%0A`:""}%0A━━━━━━━━━━━━━━━%0A🛒 *ITENS DO PEDIDO*%0A`;cart.forEach(i=>{msg+=`%0A• *${i.qty}x ${i.nome}*%0A${i.massa?`Massa: ${i.massa}%0A`:""}${i.recheio?`Recheio: ${i.recheio}%0A`:""}${i.salgados?.length?`Salgados: ${i.salgados.join(", ")}%0A`:""}${i.doces?.length?`Doces: ${i.doces.join(", ")}%0A`:""}${i.obs?`Obs: ${i.obs}%0A`:""}💰 ${money(itemPrice(i))}%0A`});msg+=`%0A━━━━━━━━━━━━━━━%0A💵 *TOTAL: ${money(total)}*`;window.open(`https://wa.me/${whatsappNumber}?text=${msg}`,"_blank")}
+function toggleMusic(){let p=player;if(p.paused){p.src=playlist[music];p.play().catch(()=>alert("Coloque as músicas em assets/audio/musica1.mp3"));p.onended=()=>{music=(music+1)%playlist.length;p.src=playlist[music];p.play()}}else p.pause()}
+fillSelects();renderTabs();renderProducts();renderCart();
+</script>
 </body>
 </html>
