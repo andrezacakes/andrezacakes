@@ -1,0 +1,41 @@
+ANDREZA CAKES V5 - PACOTE LIMPO FINAL
+
+ESTE ZIP FOI REFEITO DO ZERO PARA EVITAR CONFLITO.
+
+COMO SUBIR NO NETLIFY:
+1. Extraia o ZIP.
+2. Abra a pasta extraída.
+3. Selecione TODO o conteúdo de dentro dela:
+   - index.html
+   - logo-andreza-cakes.png
+   - favicon-app-style.png
+   - admin/
+   - LEIA-ME.txt
+4. Arraste tudo para Deploys > deploy manual no projeto andrezaacakes.
+
+NÃO ARRASTE O ZIP FECHADO.
+NÃO ARRASTE UMA PASTA QUE CONTÉM OUTRA PASTA POR DENTRO.
+O index.html precisa estar na raiz do deploy.
+
+COMO TESTAR:
+Site público:
+https://andrezaacakes.netlify.app/?v=5
+
+Admin:
+https://andrezaacakes.netlify.app/admin/
+
+O QUE TEM NESTA VERSÃO:
+- Carrinho flutuante.
+- Finalização com nome do cliente obrigatório.
+- Tema obrigatório.
+- Nome do aniversariante obrigatório.
+- Idade opcional.
+- Data e horário obrigatórios.
+- Retirada ou entrega a combinar.
+- Campo de endereço.
+- Observações.
+- Foto/modelo de referência.
+- Kit personalizado sem quantidade.
+- Entrega a combinar sem quantidade.
+- Botão de música ambiente.
+- Menu mobile de três pontinhos.
