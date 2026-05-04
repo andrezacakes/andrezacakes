@@ -314,16 +314,56 @@ async function sendOrder(){
   msg+=`%0A━━━━━━━━━━━━━━━%0A💵 *TOTAL: ${money(totalValue)}*`;
   window.open(`https://wa.me/${whatsappNumber}?text=${msg}`,"_blank");
 }
-function toggleMusic(){let p=player;if(p.paused){p.src=playlist[music];p.play().catch(()=>alert("Coloque as músicas em assets/audio/musica1.mp3"));p.onended=()=>{music=(music+1)%playlist.length;p.src=playlist[music];p.play()}}else p.pause()}
-function makeDraggable(el,onClick){
-  let drag=false,moved=false,dx=0,dy=0;
-  el.addEventListener("pointerdown",e=>{drag=true;moved=false;dx=e.clientX-el.offsetLeft;dy=e.clientY-el.offsetTop;el.classList.add("dragging");el.setPointerCapture(e.pointerId)});
-  el.addEventListener("pointermove",e=>{if(!drag)return;moved=true;el.style.left=Math.max(0,Math.min(window.innerWidth-el.offsetWidth,e.clientX-dx))+"px";el.style.top=Math.max(0,Math.min(window.innerHeight-el.offsetHeight,e.clientY-dy))+"px";el.style.right="auto";el.style.bottom="auto"});
-  el.addEventListener("pointerup",e=>{drag=false;el.classList.remove("dragging"); if(!moved && typeof onClick==="function") onClick();});
+function toggleMusic(){
+  const p = document.getElementById("player");
+  if(!p) return;
+  if(!p.src){
+    p.src = playlist[music] || "assets/audio/musica1.mp3";
+  }
+  if(p.paused){
+    p.play().catch(function(){
+      alert("A música não tocou. Confira se existe o arquivo: assets/audio/musica1.mp3");
+    });
+    p.onended = function(){
+      music = (music + 1) % playlist.length;
+      p.src = playlist[music];
+      p.play();
+    };
+  }else{
+    p.pause();
+  }
 }
+
+
+function makeDraggable(el, onClick){
+  if(!el) return;
+  let down=false, moved=false, dx=0, dy=0;
+  el.addEventListener("pointerdown", function(e){
+    down=true;
+    moved=false;
+    dx=e.clientX-el.offsetLeft;
+    dy=e.clientY-el.offsetTop;
+    el.classList.add("dragging");
+    try{el.setPointerCapture(e.pointerId)}catch(err){}
+  });
+  el.addEventListener("pointermove", function(e){
+    if(!down) return;
+    moved=true;
+    el.style.left=Math.max(0, Math.min(window.innerWidth-el.offsetWidth, e.clientX-dx))+"px";
+    el.style.top=Math.max(0, Math.min(window.innerHeight-el.offsetHeight, e.clientY-dy))+"px";
+    el.style.right="auto";
+    el.style.bottom="auto";
+  });
+  el.addEventListener("pointerup", function(e){
+    down=false;
+    el.classList.remove("dragging");
+    if(!moved && typeof onClick==="function") onClick();
+  });
+}
+
 fillSelects();renderTabs();renderProducts();renderCart();
-makeDraggable(cartFloat,openCart);
-makeDraggable(musicFloat,toggleMusic);
+makeDraggable(document.getElementById("cartFloat"), openCart);
+makeDraggable(document.getElementById("musicFloat"), toggleMusic);
 </script>
 </body>
 </html>
