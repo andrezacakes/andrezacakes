@@ -213,79 +213,6 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 }
 </style>
 
-
-<style id="ifood-foto-layout-produtos">
-/* Layout estilo iFood com foto */
-#produtos .card {
-  padding: 0 !important;
-  overflow: hidden;
-  border-radius: 28px !important;
-  background: #fff !important;
-}
-
-.produto-foto {
-  width: 100%;
-  height: 150px;
-  background: linear-gradient(135deg, #fff3f7, #ffe0ec);
-  display: grid;
-  place-items: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.produto-foto img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: none;
-}
-
-.produto-foto img.ok {
-  display: block;
-}
-
-.produto-fallback {
-  width: 74px;
-  height: 74px;
-  border-radius: 24px;
-  background: rgba(255,255,255,.72);
-  border: 1px solid #f1c4d5;
-  display: grid;
-  place-items: center;
-  font-size: 38px;
-  box-shadow: 0 12px 26px rgba(112,48,75,.13);
-}
-
-.produto-conteudo {
-  padding: 18px 20px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  min-height: 190px;
-}
-
-.produto-conteudo h3 {
-  margin: 0;
-  font-size: 21px;
-}
-
-.produto-conteudo .price {
-  font-size: 22px;
-  margin-top: auto;
-}
-
-.produto-conteudo .btn {
-  width: 100%;
-  text-align: center;
-  justify-content: center;
-  margin-top: 2px;
-}
-
-#produtos .card .icon {
-  display: none !important;
-}
-</style>
-
 </head>
 <body>
 <header>
@@ -321,235 +248,14 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
     <button class="tab" onclick="filterCat('Personalizados',this)">Personalizados</button>
   </div>
   <div class="grid" id="produtos">
-    <div class="card" data-cat="Kits festa">
-      <div class="produto-foto">
-        <img src="assets/produtos/trufas.jpg" alt="Trufas" onload="this.classList.add('ok')" onerror="this.style.display='none'">
-        <div class="produto-fallback">🍫</div>
-      </div>
-      <div class="produto-conteudo">
-        <div class="produto-foto">
-        <img src="assets/produtos/pirulito.jpg" alt="Pirulito" onload="this.classList.add('ok')" onerror="this.style.display='none'">
-        <div class="produto-fallback">🍭</div>
-      </div>
-      <div class="produto-conteudo">
-        <div class="produto-foto">
-        <img src="assets/produtos/maca-personalizada.jpg" alt="Maçã" onload="this.classList.add('ok')" onerror="this.style.display='none'">
-        <div class="produto-fallback">🍎</div>
-      </div>
-      <div class="produto-conteudo">
-        <div class="produto-foto">
-        <img src="assets/produtos/bolo-no-palito.jpg" alt="Bolo no palito" onload="this.classList.add('ok')" onerror="this.style.display='none'">
-        <div class="produto-fallback">🍰</div>
-      </div>
-      <div class="produto-conteudo">
-        <div class="produto-foto">
-        <img src="assets/produtos/cupcake.jpg" alt="Cupcake" onload="this.classList.add('ok')" onerror="this.style.display='none'">
-        <div class="produto-fallback">🧁</div>
-      </div>
-      <div class="produto-conteudo">
-        <div class="produto-foto">
-        <img src="assets/produtos/beijinho.jpg" alt="Beijinho" onload="this.classList.add('ok')" onerror="this.style.display='none'">
-        <div class="produto-fallback">🥥</div>
-      </div>
-      <div class="produto-conteudo">
-        <div class="produto-foto">
-        <img src="assets/produtos/bem-casado.jpg" alt="Bem casado" onload="this.classList.add('ok')" onerror="this.style.display='none'">
-        <div class="produto-fallback">🎁</div>
-      </div>
-      <div class="produto-conteudo">
-        <div class="produto-foto">
-        <img src="assets/produtos/ourico.jpg" alt="Ouriço" onload="this.classList.add('ok')" onerror="this.style.display='none'">
-        <div class="produto-fallback">🍬</div>
-      </div>
-      <div class="produto-conteudo">
-        <div class="produto-foto">
-        <img src="assets/produtos/brigadeiro.jpg" alt="Brigadeiro" onload="this.classList.add('ok')" onerror="this.style.display='none'">
-        <div class="produto-fallback">🍫</div>
-      </div>
-      <div class="produto-conteudo">
-        <div class="produto-foto">
-        <img src="assets/produtos/bicho-de-pe.jpg" alt="Bicho de pé" onload="this.classList.add('ok')" onerror="this.style.display='none'">
-        <div class="produto-fallback">🍓</div>
-      </div>
-      <div class="produto-conteudo">
-        <div class="produto-foto">
-        <img src="assets/produtos/surpresa-de-uva.jpg" alt="Surpresa de uva" onload="this.classList.add('ok')" onerror="this.style.display='none'">
-        <div class="produto-fallback">🍇</div>
-      </div>
-      <div class="produto-conteudo">
-        <div class="produto-foto">
-        <img src="assets/produtos/tortinha-doce.jpg" alt="Tortinha doce" onload="this.classList.add('ok')" onerror="this.style.display='none'">
-        <div class="produto-fallback">🥧</div>
-      </div>
-      <div class="produto-conteudo">
-        <div class="produto-foto">
-        <img src="assets/produtos/queijadinha.jpg" alt="Queijadinha" onload="this.classList.add('ok')" onerror="this.style.display='none'">
-        <div class="produto-fallback">🧁</div>
-      </div>
-      <div class="produto-conteudo">
-        <div class="produto-foto">
-        <img src="assets/produtos/enroladinho.jpg" alt="Enroladinho" onload="this.classList.add('ok')" onerror="this.style.display='none'">
-        <div class="produto-fallback">🌭</div>
-      </div>
-      <div class="produto-conteudo">
-        <div class="produto-foto">
-        <img src="assets/produtos/pastel-de-forno.jpg" alt="Pastel de forno" onload="this.classList.add('ok')" onerror="this.style.display='none'">
-        <div class="produto-fallback">🥟</div>
-      </div>
-      <div class="produto-conteudo">
-        <div class="produto-foto">
-        <img src="assets/produtos/pastel-frito.jpg" alt="Pastel frito" onload="this.classList.add('ok')" onerror="this.style.display='none'">
-        <div class="produto-fallback">🥟</div>
-      </div>
-      <div class="produto-conteudo">
-        <div class="produto-foto">
-        <img src="assets/produtos/empada.jpg" alt="Empada" onload="this.classList.add('ok')" onerror="this.style.display='none'">
-        <div class="produto-fallback">🥧</div>
-      </div>
-      <div class="produto-conteudo">
-        <div class="produto-foto">
-        <img src="assets/produtos/risole-misto.jpg" alt="Risole misto" onload="this.classList.add('ok')" onerror="this.style.display='none'">
-        <div class="produto-fallback">🥐</div>
-      </div>
-      <div class="produto-conteudo">
-        <div class="produto-foto">
-        <img src="assets/produtos/risole-de-calabresa.jpg" alt="Risole de calabresa" onload="this.classList.add('ok')" onerror="this.style.display='none'">
-        <div class="produto-fallback">🥐</div>
-      </div>
-      <div class="produto-conteudo">
-        <div class="produto-foto">
-        <img src="assets/produtos/risole-de-carne.jpg" alt="Risole de carne" onload="this.classList.add('ok')" onerror="this.style.display='none'">
-        <div class="produto-fallback">🥐</div>
-      </div>
-      <div class="produto-conteudo">
-        <div class="produto-foto">
-        <img src="assets/produtos/bolinho-de-queijo.jpg" alt="Bolinho de queijo" onload="this.classList.add('ok')" onerror="this.style.display='none'">
-        <div class="produto-fallback">🧀</div>
-      </div>
-      <div class="produto-conteudo">
-        <div class="produto-foto">
-        <img src="assets/produtos/coxinha.jpg" alt="Coxinha" onload="this.classList.add('ok')" onerror="this.style.display='none'">
-        <div class="produto-fallback">🥟</div>
-      </div>
-      <div class="produto-conteudo">
-        <div class="produto-foto">
-        <img src="assets/produtos/bolo.jpg" alt="Bolo à parte" onload="this.classList.add('ok')" onerror="this.style.display='none'">
-        <div class="produto-fallback">🎂</div>
-      </div>
-      <div class="produto-conteudo">
-        <div class="produto-foto">
-        <img src="assets/produtos/kit-chantininho-4kg.jpg" alt="Kit Chantininho 4kg" onload="this.classList.add('ok')" onerror="this.style.display='none'">
-        <div class="produto-fallback">🎉</div>
-      </div>
-      <div class="produto-conteudo">
-        <div class="produto-foto">
-        <img src="assets/produtos/kit-chantininho-3kg.jpg" alt="Kit Chantininho 3kg" onload="this.classList.add('ok')" onerror="this.style.display='none'">
-        <div class="produto-fallback">🎉</div>
-      </div>
-      <div class="produto-conteudo">
-        <div class="produto-foto">
-        <img src="assets/produtos/kit-chantininho-2kg.jpg" alt="Kit Chantininho 2kg" onload="this.classList.add('ok')" onerror="this.style.display='none'">
-        <div class="produto-fallback">🎉</div>
-      </div>
-      <div class="produto-conteudo">
-        <div class="produto-foto">
-        <img src="assets/produtos/kit-chantininho-15kg.jpg" alt="Kit Chantininho 1,5kg" onload="this.classList.add('ok')" onerror="this.style.display='none'">
-        <div class="produto-fallback">🎉</div>
-      </div>
-      <div class="produto-conteudo">
-        <div class="produto-foto">
-        <img src="assets/produtos/kit-chantininho-1kg.jpg" alt="Kit Chantininho 1kg" onload="this.classList.add('ok')" onerror="this.style.display='none'">
-        <div class="produto-fallback">🎉</div>
-      </div>
-      <div class="produto-conteudo">
-        <h3>Kit Chantininho 1kg</h3><p>Bolo 1kg + 40 salgados + 30 doces.</p><div class="price">R$ 140,00</div><button class="btn" onclick="openCustom(1)">Adicionar</button>
-      </div>
-    </div>
-    <div class="card" data-cat="Kits festa"><h3>Kit Chantininho 1,5kg</h3><p>Bolo 1,5kg + 60 salgados + 40 doces.</p><div class="price">R$ 200,00</div><button class="btn" onclick="openCustom(2)">Adicionar</button>
-      </div>
-    </div>
-    <div class="card" data-cat="Kits festa"><h3>Kit Chantininho 2kg</h3><p>Bolo 2kg + 80 salgados + 60 doces.</p><div class="price">R$ 260,00</div><button class="btn" onclick="openCustom(3)">Adicionar</button>
-      </div>
-    </div>
-    <div class="card" data-cat="Kits festa"><h3>Kit Chantininho 3kg</h3><p>Bolo 3kg + 120 salgados + 90 doces.</p><div class="price">R$ 380,00</div><button class="btn" onclick="openCustom(4)">Adicionar</button>
-      </div>
-    </div>
-    <div class="card" data-cat="Kits festa"><h3>Kit Chantininho 4kg</h3><p>Bolo 4kg + 160 salgados + 120 doces.</p><div class="price">R$ 500,00</div><button class="btn" onclick="openCustom(5)">Adicionar</button>
-      </div>
-    </div>
-
-    <div class="card" data-cat="Bolos"><h3>Bolo à parte</h3><p>R$90 por kg. Red Velvet acrescenta R$10/kg.</p><div class="price">R$ 90,00/kg</div><button class="btn" onclick="openCustom(6)">Adicionar</button>
-      </div>
-    </div>
-    <div class="card" data-cat="Salgados"><h3>Coxinha</h3><div class="price">R$ 0,80 / unidade</div><button class="btn" onclick="openCustom(10)">Adicionar</button>
-      </div>
-    </div>
-    <div class="card" data-cat="Salgados"><h3>Bolinho de queijo</h3><div class="price">R$ 0,80 / unidade</div><button class="btn" onclick="openCustom(11)">Adicionar</button>
-      </div>
-    </div>
-    <div class="card" data-cat="Salgados"><h3>Risole de carne</h3><div class="price">R$ 0,80 / unidade</div><button class="btn" onclick="openCustom(12)">Adicionar</button>
-      </div>
-    </div>
-    <div class="card" data-cat="Salgados"><h3>Risole de calabresa</h3><div class="price">R$ 0,80 / unidade</div><button class="btn" onclick="openCustom(13)">Adicionar</button>
-      </div>
-    </div>
-    <div class="card" data-cat="Salgados"><h3>Risole misto</h3><div class="price">R$ 0,80 / unidade</div><button class="btn" onclick="openCustom(14)">Adicionar</button>
-      </div>
-    </div>
-    <div class="card" data-cat="Salgados"><h3>Empada</h3><div class="price">R$ 0,80 / unidade</div><button class="btn" onclick="openCustom(15)">Adicionar</button>
-      </div>
-    </div>
-    <div class="card" data-cat="Salgados"><h3>Pastel frito</h3><div class="price">R$ 0,80 / unidade</div><button class="btn" onclick="openCustom(16)">Adicionar</button>
-      </div>
-    </div>
-    <div class="card" data-cat="Salgados"><h3>Pastel de forno</h3><div class="price">R$ 0,80 / unidade</div><button class="btn" onclick="openCustom(17)">Adicionar</button>
-      </div>
-    </div>
-    <div class="card" data-cat="Salgados"><h3>Enroladinho</h3><div class="price">R$ 0,80 / unidade</div><button class="btn" onclick="openCustom(18)">Adicionar</button>
-      </div>
-    </div>
-
-    <div class="card" data-cat="Doces"><h3>Queijadinha</h3><div class="price">R$ 0,80 / unidade</div><button class="btn" onclick="openCustom(20)">Adicionar</button>
-      </div>
-    </div>
-    <div class="card" data-cat="Doces"><h3>Tortinha doce</h3><div class="price">R$ 0,80 / unidade</div><button class="btn" onclick="openCustom(21)">Adicionar</button>
-      </div>
-    </div>
-    <div class="card" data-cat="Doces"><div class="icon">🍬</div><div class="icon">🍇</div><h3>Surpresa de uva</h3><div class="price">R$ 0,80 / unidade</div><button class="btn" onclick="openCustom(22)">Adicionar</button>
-      </div>
-    </div>
-    <div class="card" data-cat="Doces"><div class="icon">🍬</div><div class="icon">🍓</div><h3>Bicho de pé</h3><div class="price">R$ 0,80 / unidade</div><button class="btn" onclick="openCustom(23)">Adicionar</button>
-      </div>
-    </div>
-    <div class="card" data-cat="Doces"><div class="icon">🍬</div><div class="icon">🍫</div><h3>Brigadeiro</h3><div class="price">R$ 0,80 / unidade</div><button class="btn" onclick="openCustom(24)">Adicionar</button>
-      </div>
-    </div>
-    <div class="card" data-cat="Doces"><div class="icon">🍬</div><div class="icon">🍬</div><h3>Ouriço</h3><div class="price">R$ 0,80 / unidade</div><button class="btn" onclick="openCustom(25)">Adicionar</button>
-      </div>
-    </div>
-    <div class="card" data-cat="Doces"><div class="icon">🍬</div><div class="icon">🎁</div><h3>Bem casado</h3><div class="price">R$ 0,80 / unidade</div><button class="btn" onclick="openCustom(26)">Adicionar</button>
-      </div>
-    </div>
-    <div class="card" data-cat="Doces"><div class="icon">🍬</div><div class="icon">🥥</div><h3>Beijinho</h3><div class="price">R$ 0,80 / unidade</div><button class="btn" onclick="openCustom(27)">Adicionar</button>
-      </div>
-    </div>
+    <div class="card" data-cat="Kits festa"><div class="icon">🥥</div><h3>Beijinho</h3><div class="price">R$ 0,80 / unidade</div><button class="btn" onclick="openCustom(27)">Adicionar</button></div>
 
 
-    <div class="card" data-cat="Personalizados"><div class="icon">🧁</div><h3>Cupcake</h3><p>Personalizado.</p><div class="price">R$ 7,00</div><button class="btn" onclick="openCustom(30)">Adicionar</button>
-      </div>
-    </div>
-    <div class="card" data-cat="Personalizados"><div class="icon">🍰</div><h3>Bolo no palito</h3><p>Personalizado.</p><div class="price">R$ 8,00</div><button class="btn" onclick="openCustom(31)">Adicionar</button>
-      </div>
-    </div>
-    <div class="card" data-cat="Personalizados"><div class="icon">🍎</div><h3>Maçã</h3><p>Personalizada.</p><div class="price">R$ 7,00</div><button class="btn" onclick="openCustom(32)">Adicionar</button>
-      </div>
-    </div>
-    <div class="card" data-cat="Personalizados"><div class="icon">🍭</div><h3>Pirulito</h3><p>Personalizado.</p><div class="price">R$ 6,00</div><button class="btn" onclick="openCustom(33)">Adicionar</button>
-      </div>
-    </div>
-    <div class="card" data-cat="Personalizados"><div class="icon">🍫</div><h3>Trufas</h3><p>Personalizada.</p><div class="price">R$ 5,00</div><button class="btn" onclick="openCustom(34)">Adicionar</button>
-      </div>
-    </div>
+    <div class="card" data-cat="Personalizados"><div class="icon">🧁</div><h3>Cupcake</h3><p>Personalizado.</p><div class="price">R$ 7,00</div><button class="btn" onclick="openCustom(30)">Adicionar</button></div>
+    <div class="card" data-cat="Personalizados"><div class="icon">🍰</div><h3>Bolo no palito</h3><p>Personalizado.</p><div class="price">R$ 8,00</div><button class="btn" onclick="openCustom(31)">Adicionar</button></div>
+    <div class="card" data-cat="Personalizados"><div class="icon">🍎</div><h3>Maçã</h3><p>Personalizada.</p><div class="price">R$ 7,00</div><button class="btn" onclick="openCustom(32)">Adicionar</button></div>
+    <div class="card" data-cat="Personalizados"><div class="icon">🍭</div><h3>Pirulito</h3><p>Personalizado.</p><div class="price">R$ 6,00</div><button class="btn" onclick="openCustom(33)">Adicionar</button></div>
+    <div class="card" data-cat="Personalizados"><div class="icon">🍫</div><h3>Trufas</h3><p>Personalizada.</p><div class="price">R$ 5,00</div><button class="btn" onclick="openCustom(34)">Adicionar</button></div>
   </div>
 </section>
 </main>
@@ -574,7 +280,6 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
       </div>
       <div class="full" id="itemObsBox" style="display:none"><label>Observação do bolo/kit</label><input id="customObs" placeholder="Ex: frase, cor, acabamento, detalhe do modelo..."></div>
       <div class="full"><div class="price" id="modalPrice">R$ 0,00</div></div>
-    </div>
     <button class="btn" style="margin-top:15px;font-size:16px;padding:15px 22px" onclick="saveCustom()">Salvar no carrinho</button>
   </div>
 </div>
@@ -601,7 +306,6 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
       <div class="full" id="enderecoBox" style="display:none"><label>Endereço</label><input id="endereco" placeholder="Rua, número, bairro"></div>
       <div class="full"><label>Foto/modelo de referência</label><input id="foto" type="file" accept="image/*"><small style="color:var(--muted)">O WhatsApp não envia a foto automaticamente. A pessoa pode anexar depois na conversa.</small></div>
       <div class="full"><label>Observações gerais do pedido</label><textarea id="obsPedido" placeholder="Frase, detalhes, cores, modelo, evitar cebola, etc."></textarea></div>
-    </div>
     <button class="btn" style="margin-top:15px" onclick="sendOrder()">Enviar pelo WhatsApp</button>
     <button class="btn" style="margin-top:15px;background:#fff;color:var(--vinho);border:1px solid var(--borda)" onclick="clearCart()">Limpar pedido</button>
   </div>
@@ -1001,7 +705,6 @@ fillSelects();criarBotoes();renderCart();
           </div>
         </div>
       </div>
-    </div>
 
     <div class="editar-botoes">
       <button id="salvarEditarCompleto" type="button">Salvar alteração</button>
