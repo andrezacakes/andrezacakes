@@ -6,7 +6,16 @@
 <title>Andreza Cakes</title>
 <link rel="icon" type="image/png" href="favicon-app-style.png">
 <link rel="shortcut icon" type="image/png" href="favicon-app-style.png">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js">
+document.addEventListener("click", function(e){
+  const btn = e.target.closest(".btn-editar");
+  if (!btn) return;
+  e.preventDefault();
+  e.stopPropagation();
+  editItem(btn.dataset.editIndex);
+});
+
+</script>
 <style>
 :root{
   --rosa:#d96491;--rosa2:#ff8db4;--vinho:#8d2b58;--claro:#fff3f7;--borda:#f1c4d5;
@@ -112,7 +121,6 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
   <div class="title"><h2>Regras importantes</h2><p>Red Velvet acrescenta R$ 10,00 por kg em todos os bolos.</p></div>
   <div class="grid">
     <div class="card"><div class="icon">🎂</div><h3>Bolo à parte</h3><p>R$ 90,00 por kg. Red Velvet + R$10/kg.</p></div>
-    <div class="card"><div class="icon">🥐</div><h3>Salgados e doces</h3><p>R$ 0,80 por unidade. Sem kibe e sem olho de sogra.</p></div>
     <div class="card"><div class="icon">🚚</div><h3>Entrega</h3><p>Retirada no local ou entrega a combinar por aplicativo.</p></div>
   </div>
 </section>
@@ -239,27 +247,10 @@ function money(v){return Number(v||0).toLocaleString("pt-BR",{style:"currency",c
 function renderTabs(){tabs.innerHTML=cats.map(c=>`<button class="tab ${c===current?'active':''}" onclick="current='${c}';renderTabs();renderProducts()">${c}</button>`).join("")}
 function renderProducts(){let lista=current==="Todos"?produtos:produtos.filter(p=>p.cat===current);document.getElementById('produtos').innerHTML=lista.map(p=>`<div class="card"><div class="icon">${p.emoji}</div><h3>${p.nome}</h3><p>${p.desc}</p><div class="price">${money(p.preco)}${p.bolo?"/kg":""}</div><button class="btn" onclick="openCustom(${p.id})">Adicionar</button></div>`).join("")}
 function fillSelects(){customRecheio.innerHTML=recheios.map(r=>`<option>${r}</option>`).join("");salgadosRows.innerHTML=salgados.map(s=>`<div class="choice-row"><span>${s}</span><input type="number" min="0" value="0" data-type="salgado" data-name="${s}" oninput="validateKitInputs()"></div>`).join("");docesRows.innerHTML=doces.map(d=>`<div class="choice-row"><span>${d}</span><input type="number" min="0" value="0" data-type="doce" data-name="${d}" oninput="validateKitInputs()"></div>`).join("")}
-function editItem(idx){const item=cart[idx]; if(!item)return; openCustom(item.id,idx)}
-function openCustom(id,idx=null){
-  selected=produtos.find(p=>p.id===id);editing=idx;
-  customTitle.textContent=(idx===null?"Adicionar ":"Editar ")+selected.nome;
-  customQty.value=idx!==null?(cart[idx].qty||1):1;
-  customKg.value=idx!==null?(cart[idx].kg||selected.boloKg||1):(selected.boloKg||1);
-  customMassa.value=idx!==null?(cart[idx].massa||"Branca"):"Branca";
-  customRecheio.value=idx!==null?(cart[idx].recheio||recheios[0]):recheios[0];
-  customObs.value=idx!==null?(cart[idx].obs||""):"";
-  qtyBox.style.display=selected.kit?"none":"block";
-  kgBox.style.display=selected.bolo&&!selected.kit?"block":"none";
-  massaBox.style.display=(selected.bolo||selected.kit)?"block":"none";
-  recheioBox.style.display=(selected.bolo||selected.kit)?"block":"none";
-  kitChoices.style.display=selected.kit?"block":"none";
-  itemObsBox.style.display=(selected.bolo||selected.kit)?"block":"none";
-  document.querySelectorAll("#salgadosRows input,#docesRows input").forEach(i=>i.value=0);
-  if(idx!==null){
-    Object.entries(cart[idx].salgados||{}).forEach(([k,v])=>{let el=[...document.querySelectorAll("#salgadosRows input")].find(i=>i.dataset.name===k);if(el)el.value=v});
-    Object.entries(cart[idx].doces||{}).forEach(([k,v])=>{let el=[...document.querySelectorAll("#docesRows input")].find(i=>i.dataset.name===k);if(el)el.value=v});
-  }
-  customModal.classList.add("open");validateKitInputs();updateModalPrice();
+function editItem(idx){
+  idx = Number(idx);
+  if (!cart[idx]) return;
+  openCustom(cart[idx].id, idx);
 }
 function closeCustom(){customModal.classList.remove("open")}
 function togglePagamento(){
@@ -292,7 +283,7 @@ function renderCart(){
   count.textContent=cart.reduce((a,b)=>a+(b.kit?1:b.qty),0);
   let totalValue=cart.reduce((a,b)=>a+itemPrice(b),0);
   total.textContent=money(totalValue);
-  cartList.innerHTML=cart.map((i,idx)=>`<div class="cart-item"><div><strong>${i.kit?1:i.qty}x ${i.nome}</strong><br><span style="color:var(--muted)">${(i.bolo||i.kit)&&i.massa?`Massa: ${i.massa}<br>`:""}${(i.bolo||i.kit)&&i.recheio?`Recheio: ${i.recheio}<br>`:""}${Object.keys(i.salgados||{}).length?`Salgados: ${Object.entries(i.salgados).map(([k,v])=>`${k}: ${v}`).join(", ")}<br>`:""}${Object.keys(i.doces||{}).length?`Doces: ${Object.entries(i.doces).map(([k,v])=>`${k}: ${v}`).join(", ")}<br>`:""}${(i.bolo||i.kit)&&i.obs?`Obs: ${i.obs}<br>`:""}${money(itemPrice(i))}</span></div><div class="actions"><button type="button" onclick="openCustom(cart[${idx}].id, ${idx})">Editar</button><button type="button" class="danger" onclick="cart.splice(${idx},1);renderCart()">Remover</button></div></div>`).join("")||"<p style='color:var(--muted)'>Nenhum item no carrinho.</p>";
+  cartList.innerHTML=cart.map((i,idx)=>`<div class="cart-item"><div><strong>${i.kit?1:i.qty}x ${i.nome}</strong><br><span style="color:var(--muted)">${(i.bolo||i.kit)&&i.massa?`Massa: ${i.massa}<br>`:""}${(i.bolo||i.kit)&&i.recheio?`Recheio: ${i.recheio}<br>`:""}${Object.keys(i.salgados||{}).length?`Salgados: ${Object.entries(i.salgados).map(([k,v])=>`${k}: ${v}`).join(", ")}<br>`:""}${Object.keys(i.doces||{}).length?`Doces: ${Object.entries(i.doces).map(([k,v])=>`${k}: ${v}`).join(", ")}<br>`:""}${(i.bolo||i.kit)&&i.obs?`Obs: ${i.obs}<br>`:""}${money(itemPrice(i))}</span></div><div class="actions"><button type="button" class="btn-editar" data-edit-index="${idx}">Editar</button><button type="button" class="danger" onclick="cart.splice(${idx},1);renderCart()">Remover</button></div></div>`).join("")||"<p style='color:var(--muted)'>Nenhum item no carrinho.</p>";
 }
 function openCart(){cartModal.classList.add("open");renderCart()}
 function closeCart(){cartModal.classList.remove("open")}
