@@ -261,16 +261,22 @@ let cart=[], current="Todos", editing=null, selected=null, playlist=["assets/aud
 function money(v){return Number(v||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"})}
 function renderTabs(){tabs.innerHTML=cats.map(c=>`<button class="tab ${c===current?'active':''}" onclick="current='${c}';renderTabs();renderProducts()">${c}</button>`).join("")}
 function renderProducts(){
-  const lista = current === "Todos" ? produtos : produtos.filter(p => p.cat === current);
+  const lista = current === "Todos"
+    ? produtos
+    : produtos.filter(p => p.cat === current);
+
   const area = document.getElementById("produtos");
   if(!area) return;
+
   area.innerHTML = lista.map(p => `
     <div class="card">
       <div class="icon">${p.emoji}</div>
       <h3>${p.nome}</h3>
       <p>${p.desc}</p>
       <div class="price">${money(p.preco)}${p.bolo ? "/kg" : ""}</div>
-      <button class="btn btn-add-produto" type="button" data-produto-id="${p.id}">Adicionar</button>
+      <button class="btn" onclick="openCustom(${p.id})">
+        Adicionar
+      </button>
     </div>
   `).join("");
 }
