@@ -25,6 +25,15 @@ document.addEventListener("click", function(e){
   if(id) openCustom(id);
 });
 
+
+document.addEventListener("click", function(e){
+  const btn = e.target.closest(".btn-editar-item");
+  if(!btn) return;
+  e.preventDefault();
+  e.stopPropagation();
+  editItemSeguro(btn.dataset.index);
+});
+
 </script>
 <style>
 :root{
@@ -247,6 +256,7 @@ const produtos=[
 {id:33,cat:"Personalizados",nome:"Pirulito",emoji:"🍭",desc:"Personalizado.",preco:6},
 {id:34,cat:"Personalizados",nome:"Trufas",emoji:"🍫",desc:"Personalizada.",preco:5}
 ];
+let editingIndex=null;
 let cart=[], current="Todos", editing=null, selected=null, playlist=["assets/audio/musica1.mp3","assets/audio/musica2.mp3","assets/audio/musica3.mp3"], music=0;
 function money(v){return Number(v||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"})}
 function renderTabs(){tabs.innerHTML=cats.map(c=>`<button class="tab ${c===current?'active':''}" onclick="current='${c}';renderTabs();renderProducts()">${c}</button>`).join("")}
@@ -288,14 +298,14 @@ function saveCustom(){
   if(selected.kit&&!validateKitInputs()){alert("Para continuar, complete exatamente a quantidade de salgados e doces do kit.");return}
   let temBolo=selected.bolo||selected.kit;
   let obj={...selected,qty:Number(customQty.value||1),kg:Number(customKg.value||selected.boloKg||1),massa:temBolo?customMassa.value:"",recheio:temBolo?customRecheio.value:"",obs:temBolo?customObs.value:"",salgados:selected.kit?objectFromInputs("salgado"):{},doces:selected.kit?objectFromInputs("doce"):{}};
-  if(editing===null)cart.push(obj);else cart[editing]=obj;
+  if(editingIndex!==null){cart[editingIndex]=obj;editingIndex=null;}else if(editing===null){cart.push(obj);}else{cart[editing]=obj;}
   renderCart();addFeedback.classList.add("show");setTimeout(()=>{addFeedback.classList.remove("show");closeCustom()},650);
 }
 function renderCart(){
   count.textContent=cart.reduce((a,b)=>a+(b.kit?1:b.qty),0);
   let totalValue=cart.reduce((a,b)=>a+itemPrice(b),0);
   total.textContent=money(totalValue);
-  cartList.innerHTML=cart.map((i,idx)=>`<div class="cart-item"><div><strong>${i.kit?1:i.qty}x ${i.nome}</strong><br><span style="color:var(--muted)">${(i.bolo||i.kit)&&i.massa?`Massa: ${i.massa}<br>`:""}${(i.bolo||i.kit)&&i.recheio?`Recheio: ${i.recheio}<br>`:""}${Object.keys(i.salgados||{}).length?`Salgados: ${Object.entries(i.salgados).map(([k,v])=>`${k}: ${v}`).join(", ")}<br>`:""}${Object.keys(i.doces||{}).length?`Doces: ${Object.entries(i.doces).map(([k,v])=>`${k}: ${v}`).join(", ")}<br>`:""}${(i.bolo||i.kit)&&i.obs?`Obs: ${i.obs}<br>`:""}${money(itemPrice(i))}</span></div><div class="actions"><button type="button" class="btn-editar" data-edit-index="${idx}">Editar</button><button type="button" class="danger" onclick="cart.splice(${idx},1);renderCart()">Remover</button></div></div>`).join("")||"<p style='color:var(--muted)'>Nenhum item no carrinho.</p>";
+  cartList.innerHTML=cart.map((i,idx)=>`<div class="cart-item"><div><strong>${i.kit?1:i.qty}x ${i.nome}</strong><br><span style="color:var(--muted)">${(i.bolo||i.kit)&&i.massa?`Massa: ${i.massa}<br>`:""}${(i.bolo||i.kit)&&i.recheio?`Recheio: ${i.recheio}<br>`:""}${Object.keys(i.salgados||{}).length?`Salgados: ${Object.entries(i.salgados).map(([k,v])=>`${k}: ${v}`).join(", ")}<br>`:""}${Object.keys(i.doces||{}).length?`Doces: ${Object.entries(i.doces).map(([k,v])=>`${k}: ${v}`).join(", ")}<br>`:""}${(i.bolo||i.kit)&&i.obs?`Obs: ${i.obs}<br>`:""}${money(itemPrice(i))}</span></div><div class="actions"><button type="button" class="btn-editar-item" data-index="${idx}">Editar</button><button type="button" class="danger" onclick="cart.splice(${idx},1);renderCart()">Remover</button></div></div>`).join("")||"<p style='color:var(--muted)'>Nenhum item no carrinho.</p>";
 }
 function openCart(){cartModal.classList.add("open");renderCart()}
 function closeCart(){cartModal.classList.remove("open")}
