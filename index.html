@@ -75,27 +75,6 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 @media(max-width:850px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.choice-area{grid-template-columns:1fr}.menu a:not(.btn){display:none}}
 </style>
 
-<style id="cart-edit-polish">
-.box{
-  scrollbar-width: thin;
-  scrollbar-color: #d96491 #fff3f7;
-}
-.box::-webkit-scrollbar{width:8px}
-.box::-webkit-scrollbar-track{background:#fff3f7;border-radius:999px}
-.box::-webkit-scrollbar-thumb{background:#d96491;border-radius:999px}
-.cart-item{
-  align-items:center;
-}
-.actions button{
-  min-width:78px;
-}
-.actions .edit-ok{
-  background:#fff;
-  color:#8d2b58;
-  border:1px solid #f1c4d5;
-}
-</style>
-
 </head>
 <body>
 <header>
@@ -260,46 +239,138 @@ function criarBotoes(){let cartBtn=document.createElement("button");cartBtn.id="
 fillSelects();criarBotoes();renderCart();
 </script>
 
-<script id="fix-editar-carrinho">
+
+<style id="editar-simples-css">
+#editarSimplesModal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:120000;
+  background:rgba(40,20,30,.45);
+  backdrop-filter:blur(6px);
+  align-items:center;
+  justify-content:center;
+  padding:16px;
+}
+#editarSimplesModal.open{display:flex}
+#editarSimplesBox{
+  width:min(440px,100%);
+  background:#fff;
+  border:1px solid #f1c4d5;
+  border-radius:26px;
+  box-shadow:0 30px 80px rgba(40,20,30,.30);
+  padding:22px;
+  font-family:Arial,Helvetica,sans-serif;
+}
+#editarSimplesBox h3{margin:0 0 12px;color:#8d2b58}
+#editarSimplesBox label{display:block;margin-top:10px;margin-bottom:6px;font-size:13px;color:#8d2b58;font-weight:900}
+#editarSimplesBox input{
+  width:100%;
+  border:1px solid #f1c4d5;
+  border-radius:14px;
+  padding:12px;
+  font-size:15px;
+}
+#editarSimplesBox .linha-botoes{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:16px;
+}
+#editarSimplesBox button{
+  border:0;
+  border-radius:999px;
+  padding:12px 18px;
+  font-weight:900;
+  cursor:pointer;
+}
+#salvarEdicaoSimples{
+  background:linear-gradient(135deg,#d96491,#ff8db4);
+  color:#fff;
+}
+#fecharEdicaoSimples{
+  background:#fff3f7;
+  color:#8d2b58;
+}
+.cart-item{
+  align-items:center;
+}
+.actions .editar-simples-btn{
+  background:#fff;
+  color:#8d2b58;
+  border:1px solid #f1c4d5;
+}
+.box{
+  scrollbar-width:thin;
+  scrollbar-color:#d96491 #fff3f7;
+}
+.box::-webkit-scrollbar{width:8px}
+.box::-webkit-scrollbar-track{background:#fff3f7;border-radius:999px}
+.box::-webkit-scrollbar-thumb{background:#d96491;border-radius:999px}
+</style>
+
+<div id="editarSimplesModal">
+  <div id="editarSimplesBox">
+    <h3>Editar item</h3>
+    <div id="editarSimplesNome" style="color:#805d70;font-weight:900;margin-bottom:8px"></div>
+    <label>Quantidade</label>
+    <input id="editarSimplesQtd" type="number" min="1" step="1">
+    <div class="linha-botoes">
+      <button id="salvarEdicaoSimples" type="button">Salvar alteração</button>
+      <button id="fecharEdicaoSimples" type="button">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script id="editar-simples-js">
 (function(){
-  function safeMoney(v){
-    try{
-      return Number(v||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
-    }catch(e){ return "R$ " + Number(v||0).toFixed(2); }
+  let editandoIndice = null;
+
+  function moeda(v){
+    return Number(v||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
   }
 
-  function getItemPrice(item){
-    if(typeof window.itemPrice === "function") return window.itemPrice(item);
-    let qty = item.kit ? 1 : Number(item.qty || 1);
-    let base = item.bolo && !item.kit ? Number(item.preco||0) * Number(item.kg||1) : Number(item.preco||0) * qty;
+  function precoItem(item){
+    if(typeof itemPrice === "function"){
+      try{return itemPrice(item)}catch(e){}
+    }
+    let qtd = item.kit ? 1 : Number(item.qty||1);
+    let base = item.bolo && !item.kit ? Number(item.preco||0)*Number(item.kg||1) : Number(item.preco||0)*qtd;
     let kg = item.kit ? Number(item.boloKg||0) : (item.bolo ? Number(item.kg||0) : 0);
-    if((item.bolo || item.kit) && item.massa && item.massa.includes("Red Velvet")) base += kg * 10 * qty;
+    if((item.bolo||item.kit) && item.massa && item.massa.includes("Red Velvet")) base += kg*10*qtd;
     return base;
   }
 
-  window.renderCart = function(){
-    const cartList = document.getElementById("cartList");
-    const totalEl = document.getElementById("total");
-    const countEl = document.getElementById("count");
+  function pegarCarrinho(){
+    try{
+      if(typeof cart !== "undefined") return cart;
+    }catch(e){}
+    if(window.cart) return window.cart;
+    return [];
+  }
+
+  function redesenharCarrinho(){
+    const carrinho = pegarCarrinho();
+    const lista = document.getElementById("cartList");
+    const total = document.getElementById("total");
+    const count = document.getElementById("count");
     const fixCount = document.getElementById("andrezaCartCountFix");
 
-    if(!Array.isArray(window.cart)) window.cart = cart || [];
+    const qtdTotal = carrinho.reduce((s,i)=>s+(i.kit?1:Number(i.qty||1)),0);
+    const totalValor = carrinho.reduce((s,i)=>s+precoItem(i),0);
 
-    let totalValue = window.cart.reduce((a,b)=>a+getItemPrice(b),0);
-    let qtd = window.cart.reduce((a,b)=>a+(b.kit?1:Number(b.qty||1)),0);
+    if(total) total.textContent = moeda(totalValor);
+    if(count) count.textContent = qtdTotal;
+    if(fixCount) fixCount.textContent = qtdTotal;
 
-    if(totalEl) totalEl.textContent = safeMoney(totalValue);
-    if(countEl) countEl.textContent = qtd;
-    if(fixCount) fixCount.textContent = qtd;
+    if(!lista) return;
 
-    if(!cartList) return;
-
-    if(!window.cart.length){
-      cartList.innerHTML = "<p style='color:#805d70'>Nenhum item no carrinho.</p>";
+    if(!carrinho.length){
+      lista.innerHTML = "<p style='color:#805d70'>Nenhum item no carrinho.</p>";
       return;
     }
 
-    cartList.innerHTML = window.cart.map((i,idx)=>`
+    lista.innerHTML = carrinho.map((i,idx)=>`
       <div class="cart-item">
         <div>
           <strong>${i.kit ? 1 : (i.qty || 1)}x ${i.nome}</strong><br>
@@ -309,74 +380,67 @@ fillSelects();criarBotoes();renderCart();
             ${i.salgados && Object.keys(i.salgados).length ? `Salgados: ${Object.entries(i.salgados).map(([k,v])=>`${k}: ${v}`).join(", ")}<br>` : ""}
             ${i.doces && Object.keys(i.doces).length ? `Doces: ${Object.entries(i.doces).map(([k,v])=>`${k}: ${v}`).join(", ")}<br>` : ""}
             ${(i.bolo||i.kit)&&i.obs ? `Obs: ${i.obs}<br>` : ""}
-            ${safeMoney(getItemPrice(i))}
+            ${moeda(precoItem(i))}
           </span>
         </div>
         <div class="actions">
-          <button type="button" class="edit-ok" data-edit-index="${idx}">Editar</button>
-          <button type="button" class="danger" data-remove-index="${idx}">Remover</button>
+          ${i.kit ? `<button type="button" onclick="openCustom(${i.id},${idx})">Editar kit</button>` : `<button type="button" class="editar-simples-btn" data-editar-simples="${idx}">Editar</button>`}
+          <button type="button" class="danger" data-remover-simples="${idx}">Remover</button>
         </div>
       </div>
     `).join("");
-  };
+  }
 
-  window.editCartItem = function(idx){
-    idx = Number(idx);
-    if(!window.cart || !window.cart[idx]) return;
-
-    if(typeof window.openCustom === "function"){
-      window.openCustom(window.cart[idx].id, idx);
-      return;
-    }
-
-    alert("Não consegui abrir a edição deste item.");
+  const renderOriginal = window.renderCart;
+  window.renderCart = function(){
+    redesenharCarrinho();
   };
 
   document.addEventListener("click", function(e){
-    const editBtn = e.target.closest("[data-edit-index]");
-    if(editBtn){
+    const botaoEditar = e.target.closest("[data-editar-simples]");
+    if(botaoEditar){
       e.preventDefault();
       e.stopPropagation();
-      window.editCartItem(editBtn.getAttribute("data-edit-index"));
+
+      const carrinho = pegarCarrinho();
+      editandoIndice = Number(botaoEditar.getAttribute("data-editar-simples"));
+      const item = carrinho[editandoIndice];
+      if(!item) return;
+
+      document.getElementById("editarSimplesNome").textContent = item.nome;
+      document.getElementById("editarSimplesQtd").value = item.qty || 1;
+      document.getElementById("editarSimplesModal").classList.add("open");
       return;
     }
 
-    const removeBtn = e.target.closest("[data-remove-index]");
-    if(removeBtn){
+    const botaoRemover = e.target.closest("[data-remover-simples]");
+    if(botaoRemover){
       e.preventDefault();
       e.stopPropagation();
-      const idx = Number(removeBtn.getAttribute("data-remove-index"));
-      if(window.cart && window.cart[idx]){
-        window.cart.splice(idx,1);
-        window.renderCart();
+      const carrinho = pegarCarrinho();
+      const idx = Number(botaoRemover.getAttribute("data-remover-simples"));
+      if(carrinho[idx]){
+        carrinho.splice(idx,1);
+        redesenharCarrinho();
       }
     }
   });
 
-  // Patch saveCustom to replace when editing is set.
-  const oldSave = window.saveCustom;
-  window.saveCustom = function(){
-    const beforeLength = window.cart ? window.cart.length : 0;
-    const editingBefore = typeof window.editing !== "undefined" ? window.editing : null;
+  document.getElementById("fecharEdicaoSimples").addEventListener("click", function(){
+    document.getElementById("editarSimplesModal").classList.remove("open");
+    editandoIndice = null;
+  });
 
-    if(typeof oldSave === "function"){
-      oldSave();
-    }
-
-    // If old save duplicated during edit, remove the duplicated last item.
-    if(editingBefore !== null && window.cart && window.cart.length > beforeLength){
-      const last = window.cart.pop();
-      window.cart[editingBefore] = last;
-      window.editing = null;
-      window.renderCart();
-      if(typeof window.closeCustom === "function") window.closeCustom();
-    }
-  };
-
-  // Ensure cart variable is attached to window in browsers where let doesn't expose it
-  try{
-    if(typeof cart !== "undefined" && !window.cart) window.cart = cart;
-  }catch(e){}
+  document.getElementById("salvarEdicaoSimples").addEventListener("click", function(){
+    const carrinho = pegarCarrinho();
+    if(editandoIndice === null || !carrinho[editandoIndice]) return;
+    let novaQtd = Number(document.getElementById("editarSimplesQtd").value || 1);
+    if(novaQtd < 1) novaQtd = 1;
+    carrinho[editandoIndice].qty = novaQtd;
+    document.getElementById("editarSimplesModal").classList.remove("open");
+    editandoIndice = null;
+    redesenharCarrinho();
+  });
 
 })();
 </script>
