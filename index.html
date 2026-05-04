@@ -15,6 +15,15 @@ document.addEventListener("click", function(e){
   editItem(btn.dataset.editIndex);
 });
 
+
+document.addEventListener("click", function(e){
+  const addBtn = e.target.closest(".btn-add-produto");
+  if(!addBtn) return;
+  e.preventDefault();
+  e.stopPropagation();
+  openCustom(Number(addBtn.dataset.produtoId));
+});
+
 </script>
 <style>
 :root{
@@ -92,7 +101,7 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 <header>
   <div class="nav">
     <div class="brand"><img src="logo-andreza-cakes.png" alt="Andreza Cakes"><div>Andreza Cakes<small>Confeitaria artesanal</small></div></div>
-    <div class="menu"><a href="#catalogo">Catálogo</a><a href="#kits">Kits</a><button class="btn" onclick="openCart()">Montar Pedido</button></div>
+    <div class="menu"><a href="#catalogo">Catálogo</a><button class="btn" onclick="openCart()">Montar Pedido</button></div>
   </div>
 </header>
 
@@ -117,13 +126,6 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
   <div class="grid" id="produtos"></div>
 </section>
 
-<section id="kits">
-  <div class="title"><h2>Regras importantes</h2><p>Red Velvet acrescenta R$ 10,00 por kg em todos os bolos.</p></div>
-  <div class="grid">
-    <div class="card"><div class="icon">🎂</div><h3>Bolo à parte</h3><p>R$ 90,00 por kg. Red Velvet + R$10/kg.</p></div>
-    <div class="card"><div class="icon">🚚</div><h3>Entrega</h3><p>Retirada no local ou entrega a combinar por aplicativo.</p></div>
-  </div>
-</section>
 </main>
 
 <button class="float-btn float-cart" id="cartFloat" type="button">🛒<span class="count" id="count">0</span></button>
@@ -245,12 +247,18 @@ const produtos=[
 let cart=[], current="Todos", editing=null, selected=null, playlist=["assets/audio/musica1.mp3","assets/audio/musica2.mp3","assets/audio/musica3.mp3"], music=0;
 function money(v){return Number(v||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"})}
 function renderTabs(){tabs.innerHTML=cats.map(c=>`<button class="tab ${c===current?'active':''}" onclick="current='${c}';renderTabs();renderProducts()">${c}</button>`).join("")}
-function renderProducts(){let lista=current==="Todos"?produtos:produtos.filter(p=>p.cat===current);document.getElementById('produtos').innerHTML=lista.map(p=>`<div class="card"><div class="icon">${p.emoji}</div><h3>${p.nome}</h3><p>${p.desc}</p><div class="price">${money(p.preco)}${p.bolo?"/kg":""}</div><button class="btn" onclick="openCustom(${p.id})">Adicionar</button></div>`).join("")}
-function fillSelects(){customRecheio.innerHTML=recheios.map(r=>`<option>${r}</option>`).join("");salgadosRows.innerHTML=salgados.map(s=>`<div class="choice-row"><span>${s}</span><input type="number" min="0" value="0" data-type="salgado" data-name="${s}" oninput="validateKitInputs()"></div>`).join("");docesRows.innerHTML=doces.map(d=>`<div class="choice-row"><span>${d}</span><input type="number" min="0" value="0" data-type="doce" data-name="${d}" oninput="validateKitInputs()"></div>`).join("")}
-function editItem(idx){
-  idx = Number(idx);
-  if (!cart[idx]) return;
-  openCustom(cart[idx].id, idx);
+function renderProducts(){
+  const lista = current === "Todos" ? produtos : produtos.filter(p => p.cat === current);
+  const area = document.getElementById("produtos");
+  area.innerHTML = lista.map(p => `
+    <div class="card">
+      <div class="icon">${p.emoji}</div>
+      <h3>${p.nome}</h3>
+      <p>${p.desc}</p>
+      <div class="price">${money(p.preco)}${p.bolo ? "/kg" : ""}</div>
+      <button class="btn btn-add-produto" type="button" data-produto-id="${p.id}">Adicionar</button>
+    </div>
+  `).join("");
 }
 function closeCustom(){customModal.classList.remove("open")}
 function togglePagamento(){
