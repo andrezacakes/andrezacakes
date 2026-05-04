@@ -386,7 +386,7 @@ fillSelects();criarBotoes();renderCart();
           </span>
         </div>
         <div class="actions">
-          ${i.kit ? `<button type="button" class="editar-kit-btn" data-editar-kit="${idx}">Editar kit</button>` : `<button type="button" class="editar-simples-btn" data-editar-simples="${idx}">Editar</button>`}
+          ${(i.kit||i.bolo) ? `<button type="button" class="editar-completo-btn" data-editar-completo="${idx}">Editar</button>` : `<button type="button" class="editar-simples-btn" data-editar-simples="${idx}">Editar</button>`}
           <button type="button" class="danger" data-remover-simples="${idx}">Remover</button>
         </div>
       </div>
@@ -414,25 +414,7 @@ fillSelects();criarBotoes();renderCart();
       document.getElementById("editarSimplesModal").classList.add("open");
       return;
     }
-
-
-    const botaoEditarKit = e.target.closest("[data-editar-kit]");
-    if(botaoEditarKit){
-      e.preventDefault();
-      e.stopPropagation();
-      const carrinho = pegarCarrinho();
-      const idx = Number(botaoEditarKit.getAttribute("data-editar-kit"));
-      const item = carrinho[idx];
-      if(!item) return;
-      if(typeof openCustom === "function"){
-        openCustom(item.id, idx);
-      }else{
-        alert("Não consegui abrir a edição do kit.");
-      }
-      return;
-    }
-
-    const botaoRemover = e.target.closest("[data-remover-simples]");
+const botaoRemover = e.target.closest("[data-remover-simples]");
     if(botaoRemover){
       e.preventDefault();
       e.stopPropagation();
@@ -461,6 +443,76 @@ fillSelects();criarBotoes();renderCart();
     redesenharCarrinho();
   });
 
+})();
+</script>
+
+
+<script id="fix-editar-kit-definitivo">
+(function(){
+  document.addEventListener("click", function(e){
+    const btn = e.target.closest(".editar-kit-direto,[data-kit-index]");
+    if(!btn) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    const idx = Number(btn.getAttribute("data-kit-index"));
+    let carrinho = [];
+
+    try{
+      if(typeof cart !== "undefined") carrinho = cart;
+      else if(window.cart) carrinho = window.cart;
+    }catch(err){
+      carrinho = window.cart || [];
+    }
+
+    const item = carrinho[idx];
+    if(!item){
+      alert("Não encontrei esse kit no carrinho.");
+      return;
+    }
+
+    if(typeof openCustom === "function"){
+      openCustom(item.id, idx);
+    }else{
+      alert("Não consegui abrir a edição do kit.");
+    }
+  }, true);
+})();
+</script>
+
+
+<script id="fix-editar-completo-bolo-kit">
+(function(){
+  document.addEventListener("click", function(e){
+    const btn = e.target.closest("[data-editar-completo]");
+    if(!btn) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    const idx = Number(btn.getAttribute("data-editar-completo"));
+    let carrinho = [];
+
+    try{
+      if(typeof cart !== "undefined") carrinho = cart;
+      else if(window.cart) carrinho = window.cart;
+    }catch(err){
+      carrinho = window.cart || [];
+    }
+
+    const item = carrinho[idx];
+    if(!item){
+      alert("Não encontrei esse item no carrinho.");
+      return;
+    }
+
+    if(typeof openCustom === "function"){
+      openCustom(item.id, idx);
+    }else{
+      alert("Não consegui abrir a edição completa.");
+    }
+  }, true);
 })();
 </script>
 
