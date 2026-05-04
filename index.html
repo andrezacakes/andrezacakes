@@ -15,6 +15,16 @@ document.addEventListener("click", function(e){
   editItem(btn.dataset.editIndex);
 });
 
+
+document.addEventListener("click", function(e){
+  const addBtn = e.target.closest(".btn-add-produto");
+  if(!addBtn) return;
+  e.preventDefault();
+  e.stopPropagation();
+  const id = Number(addBtn.getAttribute("data-produto-id"));
+  if(id) openCustom(id);
+});
+
 </script>
 <style>
 :root{
@@ -240,12 +250,19 @@ const produtos=[
 let cart=[], current="Todos", editing=null, selected=null, playlist=["assets/audio/musica1.mp3","assets/audio/musica2.mp3","assets/audio/musica3.mp3"], music=0;
 function money(v){return Number(v||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"})}
 function renderTabs(){tabs.innerHTML=cats.map(c=>`<button class="tab ${c===current?'active':''}" onclick="current='${c}';renderTabs();renderProducts()">${c}</button>`).join("")}
-function renderProducts(){let lista=current==="Todos"?produtos:produtos.filter(p=>p.cat===current);document.getElementById('produtos').innerHTML=lista.map(p=>`<div class="card"><div class="icon">${p.emoji}</div><h3>${p.nome}</h3><p>${p.desc}</p><div class="price">${money(p.preco)}${p.bolo?"/kg":""}</div><button class="btn" onclick="openCustom(${p.id})">Adicionar</button></div>`).join("")}
-function fillSelects(){customRecheio.innerHTML=recheios.map(r=>`<option>${r}</option>`).join("");salgadosRows.innerHTML=salgados.map(s=>`<div class="choice-row"><span>${s}</span><input type="number" min="0" value="0" data-type="salgado" data-name="${s}" oninput="validateKitInputs()"></div>`).join("");docesRows.innerHTML=doces.map(d=>`<div class="choice-row"><span>${d}</span><input type="number" min="0" value="0" data-type="doce" data-name="${d}" oninput="validateKitInputs()"></div>`).join("")}
-function editItem(idx){
-  idx = Number(idx);
-  if (!cart[idx]) return;
-  openCustom(cart[idx].id, idx);
+function renderProducts(){
+  const lista = current === "Todos" ? produtos : produtos.filter(p => p.cat === current);
+  const area = document.getElementById("produtos");
+  if(!area) return;
+  area.innerHTML = lista.map(p => `
+    <div class="card">
+      <div class="icon">${p.emoji}</div>
+      <h3>${p.nome}</h3>
+      <p>${p.desc}</p>
+      <div class="price">${money(p.preco)}${p.bolo ? "/kg" : ""}</div>
+      <button class="btn btn-add-produto" type="button" data-produto-id="${p.id}">Adicionar</button>
+    </div>
+  `).join("");
 }
 function closeCustom(){customModal.classList.remove("open")}
 function togglePagamento(){
