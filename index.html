@@ -76,50 +76,64 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 </style>
 
 
-<style id="visual-premium-carrinho-final">
-/* VISUAL PREMIUM DO CARRINHO - sem mexer no funcionamento */
+
+<style id="scroll-iphone-real-carrinho">
+/* Carrinho premium + scroll estilo iPhone real */
 #cartModal {
   padding: 18px !important;
 }
 
 #cartModal .box {
+  position: relative !important;
   max-height: 92vh !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
   border-radius: 30px !important;
-  padding: 24px 26px 24px 24px !important;
+  padding: 24px 34px 24px 24px !important;
   background:
     radial-gradient(circle at top right, rgba(255, 141, 180, .13), transparent 32%),
     #fff !important;
   box-shadow: 0 35px 90px rgba(40,20,30,.34) !important;
   scroll-behavior: smooth;
-}
 
-/* Scroll estilo iPhone: fino, bonito e funcional */
-#cartModal .box {
-  scrollbar-width: thin;
-  scrollbar-color: #d96491 transparent;
+  /* Esconde a barra nativa feia do Windows/Chrome */
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
 }
 
 #cartModal .box::-webkit-scrollbar {
-  width: 6px;
+  width: 0 !important;
+  height: 0 !important;
+  display: none !important;
 }
 
-#cartModal .box::-webkit-scrollbar-track {
-  background: transparent;
-  margin: 24px 0;
-}
-
-#cartModal .box::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #ff8db4, #d96491);
+/* Barra falsa estilo iPhone */
+#cartModal .iphone-scroll-track {
+  position: absolute;
+  top: 26px;
+  right: 10px;
+  width: 5px;
+  height: calc(100% - 52px);
   border-radius: 999px;
+  background: rgba(217,100,145,.08);
+  pointer-events: none;
+  opacity: .55;
+  z-index: 20;
 }
 
-#cartModal .box::-webkit-scrollbar-thumb:hover {
-  background: #c94f7f;
+#cartModal .iphone-scroll-thumb {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 5px;
+  min-height: 34px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ff8db4, #d96491);
+  box-shadow: 0 4px 14px rgba(217,100,145,.35);
+  opacity: .9;
 }
 
-/* Cabeçalho do carrinho mais limpo */
+/* Cabeçalho e total */
 #cartModal .top {
   background: rgba(255,255,255,.88);
   backdrop-filter: blur(8px);
@@ -129,7 +143,6 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
   padding: 8px 0 12px;
 }
 
-/* Total mais destacado */
 #cartModal .total {
   background: #fff3f7;
   border: 1px solid #f1c4d5;
@@ -138,7 +151,7 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
   box-shadow: 0 8px 20px rgba(217,100,145,.12);
 }
 
-/* Itens do carrinho mais premium */
+/* Itens do carrinho */
 #cartList {
   display: grid;
   gap: 10px;
@@ -154,7 +167,6 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
   align-items: center;
 }
 
-/* Botões editar/remover mais bonitos */
 #cartList .actions {
   display: flex;
   flex-direction: column;
@@ -180,7 +192,7 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
   color: #b3304b !important;
 }
 
-/* Formulário final mais organizado */
+/* Formulário final */
 #cartModal .formgrid {
   background: #fff7fb;
   border: 1px solid #f1c4d5;
@@ -189,40 +201,14 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
   margin-top: 14px;
 }
 
-#cartModal input,
-#cartModal select,
-#cartModal textarea {
-  box-shadow: 0 6px 16px rgba(112,48,75,.05);
-}
-
-/* Botões finais */
-#cartModal button.btn {
-  transition: transform .18s ease, box-shadow .18s ease;
-}
-
-#cartModal button.btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 16px 28px rgba(217,100,145,.22);
-}
-
 @media(max-width: 750px){
   #cartModal {
     padding: 10px !important;
   }
-
   #cartModal .box {
     max-height: 94vh !important;
     border-radius: 24px !important;
-    padding: 18px 18px 18px 16px !important;
-  }
-
-  #cartList .cart-item {
-    grid-template-columns: 1fr !important;
-  }
-
-  #cartList .actions {
-    flex-direction: row;
-    flex-wrap: wrap;
+    padding: 18px 28px 18px 16px !important;
   }
 }
 </style>
@@ -966,6 +952,69 @@ fillSelects();criarBotoes();renderCart();
     renderCartSeguro();
   });
 
+})();
+</script>
+
+
+<script id="scroll-iphone-real-carrinho-js">
+(function(){
+  function criarScrollIphone(){
+    const box = document.querySelector("#cartModal .box");
+    if(!box) return;
+
+    let track = box.querySelector(".iphone-scroll-track");
+    if(!track){
+      track = document.createElement("div");
+      track.className = "iphone-scroll-track";
+      track.innerHTML = '<div class="iphone-scroll-thumb"></div>';
+      box.appendChild(track);
+    }
+
+    const thumb = track.querySelector(".iphone-scroll-thumb");
+
+    function atualizar(){
+      const visible = box.clientHeight;
+      const total = box.scrollHeight;
+      const top = box.scrollTop;
+
+      if(total <= visible + 4){
+        track.style.display = "none";
+        return;
+      }
+
+      track.style.display = "block";
+      const trackHeight = track.clientHeight;
+      const thumbHeight = Math.max(34, (visible / total) * trackHeight);
+      const maxTop = trackHeight - thumbHeight;
+      const thumbTop = (top / (total - visible)) * maxTop;
+
+      thumb.style.height = thumbHeight + "px";
+      thumb.style.transform = "translateY(" + thumbTop + "px)";
+    }
+
+    box.removeEventListener("scroll", atualizar);
+    box.addEventListener("scroll", atualizar);
+    setTimeout(atualizar, 100);
+    setTimeout(atualizar, 600);
+  }
+
+  document.addEventListener("click", function(e){
+    if(e.target.closest("#andrezaCartFix") || e.target.closest("[onclick*='openCart']")){
+      setTimeout(criarScrollIphone, 120);
+      setTimeout(criarScrollIphone, 600);
+    }
+  });
+
+  const originalOpenCart = window.openCart;
+  if(typeof originalOpenCart === "function"){
+    window.openCart = function(){
+      originalOpenCart();
+      setTimeout(criarScrollIphone, 120);
+      setTimeout(criarScrollIphone, 600);
+    };
+  }
+
+  document.addEventListener("DOMContentLoaded", criarScrollIphone);
 })();
 </script>
 
