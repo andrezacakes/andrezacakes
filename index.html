@@ -117,6 +117,7 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
     <div class="card" data-cat="Kits festa"><div class="icon">🎉</div><h3>Kit Chantininho 4kg</h3><p>Bolo 4kg + 160 salgados + 120 doces.</p><div class="price">R$ 500,00</div><button class="btn" onclick="openCustom(5)">Adicionar</button></div>
 
     <div class="card" data-cat="Bolos"><div class="icon">🎂</div><h3>Bolo à parte</h3><p>R$90 por kg. Red Velvet acrescenta R$10/kg.</p><div class="price">R$ 90,00/kg</div><button class="btn" onclick="openCustom(6)">Adicionar</button></div>
+    <div class="card" data-cat="Bolos"><div class="icon">🍰</div><h3>Bolo melado</h3><p>R$70 por kg. Red Velvet acrescenta R$10/kg.</p><div class="price">R$ 70,00/kg</div><button class="btn" onclick="openCustom(7)">Adicionar</button></div>
 
     <div class="card" data-cat="Salgados"><div class="icon">🥐</div><h3>Coxinha</h3><p>R$0,80 por unidade.</p><div class="price">R$ 0,80</div><button class="btn" onclick="openCustom(10)">Adicionar</button></div>
     <div class="card" data-cat="Salgados"><div class="icon">🥐</div><h3>Risole misto</h3><p>R$0,80 por unidade.</p><div class="price">R$ 0,80</div><button class="btn" onclick="openCustom(11)">Adicionar</button></div>
@@ -211,6 +212,7 @@ const produtos=[
 {id:4,cat:"Kits festa",nome:"Kit Chantininho 3kg",preco:380,boloKg:3,limSalg:120,limDoces:90,kit:true},
 {id:5,cat:"Kits festa",nome:"Kit Chantininho 4kg",preco:500,boloKg:4,limSalg:160,limDoces:120,kit:true},
 {id:6,cat:"Bolos",nome:"Bolo à parte",preco:90,bolo:true},
+{id:7,cat:"Bolos",nome:"Bolo melado",preco:70,bolo:true},
 {id:10,nome:"Coxinha",preco:.8},{id:11,nome:"Risole misto",preco:.8},{id:12,nome:"Risole de queijo",preco:.8},{id:13,nome:"Empada de forno frango",preco:.8},{id:14,nome:"Empada de forno camarão",preco:.8},{id:15,nome:"Pastel frito queijo",preco:.8},{id:16,nome:"Pastel frito misto",preco:.8},{id:17,nome:"Pastel de forno frango",preco:.8},{id:18,nome:"Pastel de forno camarão",preco:.8},{id:19,nome:"Enroladinho",preco:.8},
 {id:20,nome:"Brigadeiro",preco:.8},{id:21,nome:"Beijinho",preco:.8},{id:22,nome:"Surpresa de uva",preco:.8},{id:23,nome:"Bem casado",preco:.8},
 {id:30,nome:"Cupcake",preco:7},{id:31,nome:"Bolo no palito",preco:8},{id:32,nome:"Maçã",preco:7},{id:33,nome:"Pirulito",preco:6},{id:34,nome:"Trufas",preco:5}
@@ -384,7 +386,7 @@ fillSelects();criarBotoes();renderCart();
           </span>
         </div>
         <div class="actions">
-          ${i.kit ? `<button type="button" onclick="openCustom(${i.id},${idx})">Editar kit</button>` : `<button type="button" class="editar-simples-btn" data-editar-simples="${idx}">Editar</button>`}
+          ${i.kit ? `<button type="button" class="editar-kit-btn" data-editar-kit="${idx}">Editar kit</button>` : `<button type="button" class="editar-simples-btn" data-editar-simples="${idx}">Editar</button>`}
           <button type="button" class="danger" data-remover-simples="${idx}">Remover</button>
         </div>
       </div>
@@ -410,6 +412,23 @@ fillSelects();criarBotoes();renderCart();
       document.getElementById("editarSimplesNome").textContent = item.nome;
       document.getElementById("editarSimplesQtd").value = item.qty || 1;
       document.getElementById("editarSimplesModal").classList.add("open");
+      return;
+    }
+
+
+    const botaoEditarKit = e.target.closest("[data-editar-kit]");
+    if(botaoEditarKit){
+      e.preventDefault();
+      e.stopPropagation();
+      const carrinho = pegarCarrinho();
+      const idx = Number(botaoEditarKit.getAttribute("data-editar-kit"));
+      const item = carrinho[idx];
+      if(!item) return;
+      if(typeof openCustom === "function"){
+        openCustom(item.id, idx);
+      }else{
+        alert("Não consegui abrir a edição do kit.");
+      }
       return;
     }
 
