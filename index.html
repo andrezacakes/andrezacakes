@@ -368,23 +368,52 @@ function saveCustom(){
   editing=null;renderCart();closeCustom();
 }
 function renderCart(){
-  cartCount.textContent=cart.reduce((a,b)=>a+(b.kit?1:Number(b.qty||1)),0);
-  total.textContent=money(cart.reduce((a,b)=>a+itemPrice(b),0));
-  cartList.innerHTML=cart.length?cart.map((i,idx)=>`
+  cartCount.textContent = cart.reduce((a,b)=>a+(b.kit?1:Number(b.qty||1)),0);
+
+  total.textContent = money(cart.reduce((a,b)=>a+itemPrice(b),0));
+
+  if(!cart.length){
+    cartList.innerHTML = "<p style='color:var(--muted)'>Nenhum item no carrinho.</p>";
+    return;
+  }
+
+  cartList.innerHTML = cart.map((i,idx)=>`
     <div class="cart-item">
-      <div><strong>${i.kit?1:i.qty}x ${i.nome}</strong><br><span style="color:var(--muted)">
-      ${(i.bolo||i.kit)&&i.massa?`Massa: ${i.massa}<br>`:""}
-      ${(i.bolo||i.kit)&&i.recheio?`Recheio: ${i.recheio}<br>`:""}
-      ${Object.keys(i.salgados||{}).length?`Salgados: ${Object.entries(i.salgados).map(([k,v])=>`${k}: ${v}`).join(", ")}<br>`:""}
-      ${Object.keys(i.doces||{}).length?`Doces: ${Object.entries(i.doces).map(([k,v])=>`${k}: ${v}`).join(", ")}<br>`:""}
-      ${(i.bolo||i.kit)&&i.obs?`Obs: ${i.obs}<br>`:""}
-      ${money(itemPrice(i))}</span></div>
-      <div class="actions"><button type="button" class="btn-edit-cart" data-edit-index="${idx}">Editar</button><button type="button" class="danger" onclick="cart.splice(${idx},1);renderCart()">Remover</button></div>
-    </div>`).join(""):"<p style='color:var(--muted)'>Nenhum item no carrinho.</p>";
+      <div>
+        <strong>${i.kit?1:i.qty}x ${i.nome}</strong><br>
+        <span style="color:var(--muted)">
+          ${(i.bolo||i.kit)&&i.massa?`Massa: ${i.massa}<br>`:""}
+          ${(i.bolo||i.kit)&&i.recheio?`Recheio: ${i.recheio}<br>`:""}
+          ${Object.keys(i.salgados||{}).length?`Salgados: ${Object.entries(i.salgados).map(([k,v])=>`${k}: ${v}`).join(", ")}<br>`:""}
+          ${Object.keys(i.doces||{}).length?`Doces: ${Object.entries(i.doces).map(([k,v])=>`${k}: ${v}`).join(", ")}<br>`:""}
+          ${(i.bolo||i.kit)&&i.obs?`Obs: ${i.obs}<br>`:""}
+          ${money(itemPrice(i))}
+        </span>
+      </div>
+
+      <div class="actions">
+        <button class="btn-edit" data-index="${idx}">Editar</button>
+        <button class="danger" onclick="removeItem(${idx})">Remover</button>
+      </div>
+    </div>
+  `).join("");
+
+  document.querySelectorAll(".btn-edit").forEach(btn=>{
+    btn.onclick = function(){
+      const index = Number(this.dataset.index);
+      const item = cart[index];
+      if(!item) return;
+      openCustom(item.id, index);
+    };
+  });
 }
 function openCart(){cartModal.classList.add("open");renderCart()}
 function closeCart(){cartModal.classList.remove("open")}
 function clearCart(){cart=[];renderCart()}
+function removeItem(index){
+  cart.splice(index,1);
+  renderCart();
+}
 function togglePagamento(){trocoBox.style.display=pagamento.value==="Dinheiro"?"block":"none";cartaoBox.style.display=pagamento.value==="Cartão"?"block":"none";if(pagamento.value!=="Cartão"){tipoCartao.value="";parcelasBox.style.display="none";parcelasCartao.value=""}}
 async function sendOrder(){
   for(let id of ["cliente","data","hora","tema","aniversariante","entrega","pagamento"]){if(!document.getElementById(id).value.trim()){alert("Preencha os campos obrigatórios.");return}}
