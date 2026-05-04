@@ -314,56 +314,193 @@ async function sendOrder(){
   msg+=`%0A━━━━━━━━━━━━━━━%0A💵 *TOTAL: ${money(totalValue)}*`;
   window.open(`https://wa.me/${whatsappNumber}?text=${msg}`,"_blank");
 }
-function toggleMusic(){
-  const p = document.getElementById("player");
-  if(!p) return;
-  if(!p.src){
-    p.src = playlist[music] || "assets/audio/musica1.mp3";
-  }
-  if(p.paused){
-    p.play().catch(function(){
-      alert("A música não tocou. Confira se existe o arquivo: assets/audio/musica1.mp3");
-    });
-    p.onended = function(){
-      music = (music + 1) % playlist.length;
-      p.src = playlist[music];
-      p.play();
-    };
-  }else{
-    p.pause();
-  }
+function toggleMusic(){let p=player;if(p.paused){p.src=playlist[music];p.play().catch(()=>alert("Coloque as músicas em assets/audio/musica1.mp3"));p.onended=()=>{music=(music+1)%playlist.length;p.src=playlist[music];p.play()}}else p.pause()}
+function makeDraggable(el,onClick){
+  let drag=false,moved=false,dx=0,dy=0;
+  el.addEventListener("pointerdown",e=>{drag=true;moved=false;dx=e.clientX-el.offsetLeft;dy=e.clientY-el.offsetTop;el.classList.add("dragging");el.setPointerCapture(e.pointerId)});
+  el.addEventListener("pointermove",e=>{if(!drag)return;moved=true;el.style.left=Math.max(0,Math.min(window.innerWidth-el.offsetWidth,e.clientX-dx))+"px";el.style.top=Math.max(0,Math.min(window.innerHeight-el.offsetHeight,e.clientY-dy))+"px";el.style.right="auto";el.style.bottom="auto"});
+  el.addEventListener("pointerup",e=>{drag=false;el.classList.remove("dragging"); if(!moved && typeof onClick==="function") onClick();});
 }
-
-
-function makeDraggable(el, onClick){
-  if(!el) return;
-  let down=false, moved=false, dx=0, dy=0;
-  el.addEventListener("pointerdown", function(e){
-    down=true;
-    moved=false;
-    dx=e.clientX-el.offsetLeft;
-    dy=e.clientY-el.offsetTop;
-    el.classList.add("dragging");
-    try{el.setPointerCapture(e.pointerId)}catch(err){}
-  });
-  el.addEventListener("pointermove", function(e){
-    if(!down) return;
-    moved=true;
-    el.style.left=Math.max(0, Math.min(window.innerWidth-el.offsetWidth, e.clientX-dx))+"px";
-    el.style.top=Math.max(0, Math.min(window.innerHeight-el.offsetHeight, e.clientY-dy))+"px";
-    el.style.right="auto";
-    el.style.bottom="auto";
-  });
-  el.addEventListener("pointerup", function(e){
-    down=false;
-    el.classList.remove("dragging");
-    if(!moved && typeof onClick==="function") onClick();
-  });
-}
-
 fillSelects();renderTabs();renderProducts();renderCart();
-makeDraggable(document.getElementById("cartFloat"), openCart);
-makeDraggable(document.getElementById("musicFloat"), toggleMusic);
+makeDraggable(cartFloat,openCart);
+makeDraggable(musicFloat,toggleMusic);
 </script>
+
+<style id="fix-botoes-flutuantes">
+/* Corrige somente os botões flutuantes, sem mexer no catálogo */
+.float-cart, .music, #cartFloat, #musicFloat { display: none !important; }
+
+.andreza-float-btn{
+  position:fixed;
+  right:18px;
+  z-index:99999;
+  border:0;
+  box-shadow:0 20px 45px rgba(112,48,75,.28);
+  cursor:grab;
+  touch-action:none;
+  user-select:none;
+  font-family:Arial,Helvetica,sans-serif;
+}
+.andreza-float-btn:active{cursor:grabbing}
+#andrezaCartFix{
+  bottom:88px;
+  width:64px;
+  height:64px;
+  border-radius:22px;
+  background:linear-gradient(135deg,#d96491,#ff8db4);
+  color:#fff;
+  font-size:28px;
+}
+#andrezaMusicFix{
+  bottom:18px;
+  border-radius:999px;
+  background:#fff;
+  color:#8d2b58;
+  border:1px solid #f1c4d5;
+  padding:13px 17px;
+  font-weight:900;
+  font-size:15px;
+}
+#andrezaCartCountFix{
+  position:absolute;
+  top:-8px;
+  right:-8px;
+  background:#fff;
+  color:#8d2b58;
+  border:1px solid #f1c4d5;
+  font-size:12px;
+  font-weight:900;
+  border-radius:999px;
+  min-width:24px;
+  height:24px;
+  display:grid;
+  place-items:center;
+}
+</style>
+
+<script id="fix-botoes-flutuantes-js">
+(function(){
+  function ready(fn){
+    if(document.readyState !== "loading") fn();
+    else document.addEventListener("DOMContentLoaded", fn);
+  }
+
+  ready(function(){
+    var oldCount = document.getElementById("count");
+
+    var cartBtn = document.createElement("button");
+    cartBtn.id = "andrezaCartFix";
+    cartBtn.className = "andreza-float-btn";
+    cartBtn.type = "button";
+    cartBtn.innerHTML = "🛒<span id='andrezaCartCountFix'>0</span>";
+    document.body.appendChild(cartBtn);
+
+    var musicBtn = document.createElement("button");
+    musicBtn.id = "andrezaMusicFix";
+    musicBtn.className = "andreza-float-btn";
+    musicBtn.type = "button";
+    musicBtn.innerHTML = "🎵 Música";
+    document.body.appendChild(musicBtn);
+
+    var audio = document.createElement("audio");
+    audio.id = "andrezaAudioFix";
+    audio.preload = "none";
+    document.body.appendChild(audio);
+
+    var musicas = ["assets/audio/musica1.mp3","assets/audio/musica2.mp3","assets/audio/musica3.mp3"];
+    var musicaAtual = 0;
+
+    function atualizarContador(){
+      var novo = document.getElementById("andrezaCartCountFix");
+      if(novo && oldCount) novo.textContent = oldCount.textContent || "0";
+    }
+    atualizarContador();
+    setInterval(atualizarContador, 700);
+
+    function tocarMusica(){
+      if(!audio.src){
+        audio.src = musicas[musicaAtual];
+      }
+      if(audio.paused){
+        audio.play().catch(function(){
+          alert("A música não tocou. Confira se o arquivo existe em: assets/audio/musica1.mp3");
+        });
+        musicBtn.innerHTML = "⏸️ Música";
+      }else{
+        audio.pause();
+        musicBtn.innerHTML = "🎵 Música";
+      }
+    }
+
+    audio.addEventListener("ended", function(){
+      musicaAtual = (musicaAtual + 1) % musicas.length;
+      audio.src = musicas[musicaAtual];
+      audio.play().catch(function(){});
+    });
+
+    function abrirCarrinho(){
+      if(typeof window.openCart === "function"){
+        window.openCart();
+      }else{
+        var modal = document.getElementById("cartModal");
+        if(modal) modal.classList.add("open");
+      }
+    }
+
+    function arrastavel(el, clickFn){
+      var down = false, moved = false, startX = 0, startY = 0, dx = 0, dy = 0;
+
+      function getPoint(e){
+        if(e.touches && e.touches[0]) return {x:e.touches[0].clientX, y:e.touches[0].clientY};
+        return {x:e.clientX, y:e.clientY};
+      }
+
+      function start(e){
+        down = true;
+        moved = false;
+        var p = getPoint(e);
+        startX = p.x;
+        startY = p.y;
+        dx = p.x - el.offsetLeft;
+        dy = p.y - el.offsetTop;
+      }
+
+      function move(e){
+        if(!down) return;
+        var p = getPoint(e);
+        if(Math.abs(p.x - startX) > 4 || Math.abs(p.y - startY) > 4) moved = true;
+
+        if(moved){
+          e.preventDefault();
+          el.style.left = Math.max(0, Math.min(window.innerWidth - el.offsetWidth, p.x - dx)) + "px";
+          el.style.top = Math.max(0, Math.min(window.innerHeight - el.offsetHeight, p.y - dy)) + "px";
+          el.style.right = "auto";
+          el.style.bottom = "auto";
+        }
+      }
+
+      function end(e){
+        if(!down) return;
+        down = false;
+        if(!moved && typeof clickFn === "function"){
+          clickFn();
+        }
+      }
+
+      el.addEventListener("mousedown", start);
+      document.addEventListener("mousemove", move);
+      document.addEventListener("mouseup", end);
+
+      el.addEventListener("touchstart", start, {passive:false});
+      document.addEventListener("touchmove", move, {passive:false});
+      document.addEventListener("touchend", end);
+    }
+
+    arrastavel(cartBtn, abrirCarrinho);
+    arrastavel(musicBtn, tocarMusica);
+  });
+})();
+</script>
+
 </body>
 </html>
