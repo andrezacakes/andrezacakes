@@ -379,7 +379,7 @@ function renderCart(){
       ${Object.keys(i.doces||{}).length?`Doces: ${Object.entries(i.doces).map(([k,v])=>`${k}: ${v}`).join(", ")}<br>`:""}
       ${(i.bolo||i.kit)&&i.obs?`Obs: ${i.obs}<br>`:""}
       ${money(itemPrice(i))}</span></div>
-      <div class="actions"><button type="button" onclick="openCustom(${i.id},${idx})">Editar</button><button type="button" class="danger" onclick="cart.splice(${idx},1);renderCart()">Remover</button></div>
+      <div class="actions"><button type="button" class="btn-edit-cart" data-edit-index="${idx}">Editar</button><button type="button" class="danger" onclick="cart.splice(${idx},1);renderCart()">Remover</button></div>
     </div>`).join(""):"<p style='color:var(--muted)'>Nenhum item no carrinho.</p>";
 }
 function openCart(){cartModal.classList.add("open");renderCart()}
@@ -413,5 +413,26 @@ function arrastavel(el,clickFn){
 }
 fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrastavel(musicBtn,tocarMusica);
 </script>
+
+<script id="fix-editar-todos-itens">
+(function(){
+  document.addEventListener("click", function(e){
+    const btn = e.target.closest(".btn-edit-cart,[data-edit-index]");
+    if(!btn) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    const idx = Number(btn.getAttribute("data-edit-index"));
+    if(Number.isNaN(idx) || !cart[idx]){
+      alert("Não consegui encontrar esse item no carrinho.");
+      return;
+    }
+
+    openCustom(cart[idx].id, idx);
+  }, true);
+})();
+</script>
+
 </body>
 </html>
