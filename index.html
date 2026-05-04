@@ -6,35 +6,7 @@
 <title>Andreza Cakes</title>
 <link rel="icon" type="image/png" href="favicon-app-style.png">
 <link rel="shortcut icon" type="image/png" href="favicon-app-style.png">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js">
-document.addEventListener("click", function(e){
-  const btn = e.target.closest(".btn-editar");
-  if (!btn) return;
-  e.preventDefault();
-  e.stopPropagation();
-  editItem(btn.dataset.editIndex);
-});
-
-
-document.addEventListener("click", function(e){
-  const addBtn = e.target.closest(".btn-add-produto");
-  if(!addBtn) return;
-  e.preventDefault();
-  e.stopPropagation();
-  const id = Number(addBtn.getAttribute("data-produto-id"));
-  if(id) openCustom(id);
-});
-
-
-document.addEventListener("click", function(e){
-  const btn = e.target.closest(".btn-editar-item");
-  if(!btn) return;
-  e.preventDefault();
-  e.stopPropagation();
-  editItemSeguro(btn.dataset.index);
-});
-
-</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <style>
 :root{
   --rosa:#d96491;--rosa2:#ff8db4;--vinho:#8d2b58;--claro:#fff3f7;--borda:#f1c4d5;
