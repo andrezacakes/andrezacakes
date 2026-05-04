@@ -185,7 +185,7 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 </footer>
 
 <script>
-const supabaseClient = window.supabase.createClient("https://zybwkqjkwpdusnxjgnfu.supabase.co","sb_publishable_9Fe8WMnzl0geZvxGqCkjAg_PyeJC-mf");
+const supabaseClient = window.supabase ? window.supabase.createClient("https://zybwkqjkwpdusnxjgnfu.supabase.co","sb_publishable_9Fe8WMnzl0geZvxGqCkjAg_PyeJC-mf") : null;
 const whatsappNumber="5581984225298";
 const recheios=["Chocolate","Chocolate branco","Bem casado","Prestígio","Sensação","Bicho de pé","Doce de leite","Maracujá","Limão","Napolitano","Oreo","Paçoca"];
 const salgados=["Coxinha","Risole misto","Risole de queijo","Empada de forno frango","Empada de forno camarão","Pastel frito queijo","Pastel frito misto","Pastel de forno frango","Pastel de forno camarão","Enroladinho"];
@@ -221,7 +221,7 @@ const produtos=[
 let cart=[], current="Todos", editing=null, selected=null, playlist=["assets/audio/musica1.mp3","assets/audio/musica2.mp3","assets/audio/musica3.mp3"], music=0;
 function money(v){return Number(v||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"})}
 function renderTabs(){tabs.innerHTML=cats.map(c=>`<button class="tab ${c===current?'active':''}" onclick="current='${c}';renderTabs();renderProducts()">${c}</button>`).join("")}
-function renderProducts(){let lista=current==="Todos"?produtos:produtos.filter(p=>p.cat===current);produtosEl.innerHTML=lista.map(p=>`<div class="card"><div class="icon">${p.emoji}</div><h3>${p.nome}</h3><p>${p.desc}</p><div class="price">${money(p.preco)}${p.bolo?"/kg":""}</div><button class="btn" onclick="openCustom(${p.id})">Adicionar</button></div>`).join("")}
+function renderProducts(){let lista=current==="Todos"?produtos:produtos.filter(p=>p.cat===current);document.getElementById('produtos').innerHTML=lista.map(p=>`<div class="card"><div class="icon">${p.emoji}</div><h3>${p.nome}</h3><p>${p.desc}</p><div class="price">${money(p.preco)}${p.bolo?"/kg":""}</div><button class="btn" onclick="openCustom(${p.id})">Adicionar</button></div>`).join("")}
 function fillSelects(){customRecheio.innerHTML=recheios.map(r=>`<option>${r}</option>`).join("");salgadosRows.innerHTML=salgados.map(s=>`<div class="choice-row"><span>${s}</span><input type="number" min="0" value="0" data-type="salgado" data-name="${s}" oninput="validateKitInputs()"></div>`).join("");docesRows.innerHTML=doces.map(d=>`<div class="choice-row"><span>${d}</span><input type="number" min="0" value="0" data-type="doce" data-name="${d}" oninput="validateKitInputs()"></div>`).join("")}
 function editItem(idx){const item=cart[idx]; if(!item)return; openCustom(item.id,idx)}
 function openCustom(id,idx=null){
@@ -288,7 +288,7 @@ async function sendOrder(){
   if(!cart.length){alert("Adicione itens ao pedido.");return}
   let totalValue=cart.reduce((a,b)=>a+itemPrice(b),0);
   let itens=cart.map(i=>`${i.kit?1:i.qty}x ${i.nome} | ${(i.bolo||i.kit)&&i.massa?i.massa+" | ":""}${(i.bolo||i.kit)&&i.recheio?i.recheio+" | ":""}${Object.keys(i.salgados||{}).length?"Salgados: "+Object.entries(i.salgados).map(([k,v])=>`${k} ${v}`).join(", ")+" | ":""}${Object.keys(i.doces||{}).length?"Doces: "+Object.entries(i.doces).map(([k,v])=>`${k} ${v}`).join(", ")+" | ":""}${money(itemPrice(i))}`).join("\\n");
-  try{await supabaseClient.from("pedidos").insert([{cliente:cliente.value,data_evento:data.value,hora:hora.value,tema:tema.value,aniversariante:aniversariante.value,idade:idade.value,entrega:entrega.value,endereco:endereco.value,observacoes:obsPedido.value,pagamento:pagamento.value,tipo_cartao:tipoCartao.value,troco:troco.value,itens,total:money(totalValue)}])}catch(e){console.log(e)}
+  try{if(supabaseClient) await supabaseClient.from("pedidos").insert([{cliente:cliente.value,data_evento:data.value,hora:hora.value,tema:tema.value,aniversariante:aniversariante.value,idade:idade.value,entrega:entrega.value,endereco:endereco.value,observacoes:obsPedido.value,pagamento:pagamento.value,tipo_cartao:tipoCartao.value,troco:troco.value,itens,total:money(totalValue)}])}catch(e){console.log(e)}
   let msg=`🧁 *Andreza Cakes - Pedido*%0A%0A📌 *DADOS DO CLIENTE*%0A*Cliente:* ${cliente.value}%0A*WhatsApp:* ${telefone.value||"-"}%0A*Data da festa:* ${data.value}%0A*Horário:* ${hora.value}%0A*Tema:* ${tema.value}%0A*Aniversariante:* ${aniversariante.value}%0A*Idade:* ${idade.value||"-"}%0A*Recebimento:* ${entrega.value}%0A*Pagamento:* ${pagamento.value}%0A${pagamento.value==="Cartão"&&tipoCartao.value?`*Tipo de cartão:* ${tipoCartao.value}%0A`:""}${pagamento.value==="Dinheiro"&&troco.value?`*Troco para:* ${troco.value}%0A`:""}${endereco.value?`*Endereço:* ${endereco.value}%0A`:""}${obsPedido.value?`*Observações:* ${obsPedido.value}%0A`:""}%0A━━━━━━━━━━━━━━━%0A🛒 *ITENS DO PEDIDO*%0A`;
   cart.forEach(i=>{msg+=`%0A• *${i.kit?1:i.qty}x ${i.nome}*%0A${(i.bolo||i.kit)&&i.massa?`Massa: ${i.massa}%0A`:""}${(i.bolo||i.kit)&&i.recheio?`Recheio: ${i.recheio}%0A`:""}${Object.keys(i.salgados||{}).length?`Salgados: ${Object.entries(i.salgados).map(([k,v])=>`${k}: ${v}`).join(", ")}%0A`:""}${Object.keys(i.doces||{}).length?`Doces: ${Object.entries(i.doces).map(([k,v])=>`${k}: ${v}`).join(", ")}%0A`:""}${(i.bolo||i.kit)&&i.obs?`Obs: ${i.obs}%0A`:""}💰 ${money(itemPrice(i))}%0A`});
   msg+=`%0A━━━━━━━━━━━━━━━%0A💵 *TOTAL: ${money(totalValue)}*`;
