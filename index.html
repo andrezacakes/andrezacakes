@@ -154,20 +154,58 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 </style>
 
 
-<style>
-.title h2{
-  animation: fadeSlide 0.8s ease;
+
+<style id="animacoes-premium-andreza">
+/* Animação suave das logos */
+.brand img,
+.hero-card img {
+  animation: logoFloatAndreza 4.5s ease-in-out infinite;
+  transform-origin: center;
 }
-@keyframes fadeSlide{
-  from{opacity:0; transform:translateY(20px);}
-  to{opacity:1; transform:translateY(0);}
+
+@keyframes logoFloatAndreza {
+  0%,100% { transform: translateY(0) scale(1); filter: drop-shadow(0 8px 14px rgba(217,100,145,.10)); }
+  50% { transform: translateY(-6px) scale(1.025); filter: drop-shadow(0 14px 22px rgba(217,100,145,.22)); }
 }
-.btn{
-  transition:0.3s;
+
+/* Título Monte seu pedido com entrada e brilho */
+#catalogo .title h2 {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  animation: pedidoTitleEntrada .9s ease both;
 }
-.btn:hover{
-  transform:scale(1.05);
-  box-shadow:0 10px 25px rgba(0,0,0,0.2);
+
+#catalogo .title h2::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -85%;
+  width: 55%;
+  height: 100%;
+  background: linear-gradient(110deg, transparent, rgba(255,255,255,.75), transparent);
+  transform: skewX(-18deg);
+  animation: pedidoTitleBrilho 3.8s ease-in-out infinite;
+}
+
+@keyframes pedidoTitleEntrada {
+  from { opacity: 0; transform: translateY(18px) scale(.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes pedidoTitleBrilho {
+  0%, 35% { left: -85%; }
+  60%, 100% { left: 135%; }
+}
+
+/* Botão Ver produtos com destaque leve */
+.menu .btn {
+  animation: botaoRespiraAndreza 2.8s ease-in-out infinite;
+}
+
+@keyframes botaoRespiraAndreza {
+  0%,100% { transform: scale(1); box-shadow: 0 12px 25px rgba(217,100,145,.24); }
+  50% { transform: scale(1.035); box-shadow: 0 16px 34px rgba(217,100,145,.34); }
 }
 </style>
 
@@ -177,7 +215,7 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 <header>
   <div class="nav">
     <div class="brand"><img src="logo-andreza-cakes.png" alt="Andreza Cakes"><div>Andreza Cakes<small>Confeitaria artesanal</small></div></div>
-    <div class="menu"><a href="#catalogo">Catálogo</a><button class="btn" onclick="openCart()">Montar Pedido</button></div>
+    <div class="menu"><button class="btn" onclick="document.getElementById('catalogo').scrollIntoView({behavior:'smooth'})">Ver produtos</button></div>
   </div>
 </header>
 
