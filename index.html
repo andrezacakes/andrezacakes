@@ -209,6 +209,81 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 }
 </style>
 
+
+<style id="entrada-premium-hero">
+/* Entrada premium do texto principal */
+.hero .badge {
+  animation: badgePremium 0.75s ease both;
+}
+
+.hero h1 {
+  position: relative;
+  display: inline-block;
+  animation: heroTitlePremium 1s cubic-bezier(.22,1,.36,1) both;
+}
+
+.hero h1::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -80%;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(110deg, transparent, rgba(255,255,255,.65), transparent);
+  transform: skewX(-18deg);
+  animation: heroTitleGlow 4.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.hero p {
+  animation: heroTextPremium 1s ease .18s both;
+}
+
+@keyframes badgePremium {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes heroTitlePremium {
+  from {
+    opacity: 0;
+    transform: translateY(26px) scale(.96);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes heroTextPremium {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroTitleGlow {
+  0%, 38% {
+    left: -80%;
+  }
+  62%, 100% {
+    left: 130%;
+  }
+}
+</style>
+
 </head>
 
 <body>
