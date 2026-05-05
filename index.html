@@ -704,5 +704,59 @@ function arrastavel(el,clickFn){
 }
 fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrastavel(musicBtn,tocarMusica);
 </script>
+
+<script id="fix-bolo-melado-sem-red-velvet-modal">
+(function(){
+  const originalOpenCustom = window.openCustom;
+
+  window.openCustom = function(id, idx = null){
+    originalOpenCustom(id, idx);
+
+    const produto = produtos.find(p => p.id === id);
+    if(!produto) return;
+
+    const massaSelect = document.getElementById("customMassa");
+    const modalPrice = document.getElementById("modalPrice");
+
+    if(produto.nome === "Bolo melado"){
+      massaSelect.innerHTML = `
+        <option>Branca</option>
+        <option>Chocolate</option>
+      `;
+
+      if(idx !== null && cart[idx] && cart[idx].massa && !["Branca","Chocolate"].includes(cart[idx].massa)){
+        cart[idx].massa = "Branca";
+      }
+
+      massaSelect.value = (idx !== null && cart[idx] && ["Branca","Chocolate"].includes(cart[idx].massa)) ? cart[idx].massa : "Branca";
+
+      // preço do bolo melado sem acréscimo de Red Velvet
+      const kg = Number(document.getElementById("customKg").value || 1);
+      modalPrice.textContent = money(produto.preco * kg);
+    } else {
+      massaSelect.innerHTML = `
+        <option>Branca</option>
+        <option>Chocolate</option>
+        <option>Red Velvet (+R$10/kg)</option>
+      `;
+
+      if(idx !== null && cart[idx] && cart[idx].massa){
+        massaSelect.value = cart[idx].massa;
+      }
+    }
+  };
+
+  const originalUpdateModalPrice = window.updateModalPrice;
+  window.updateModalPrice = function(){
+    if(selected && selected.nome === "Bolo melado"){
+      const kg = Number(document.getElementById("customKg").value || 1);
+      document.getElementById("modalPrice").textContent = money(selected.preco * kg);
+      return;
+    }
+    originalUpdateModalPrice();
+  };
+})();
+</script>
+
 </body>
 </html>
