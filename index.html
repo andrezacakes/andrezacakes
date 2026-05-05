@@ -369,7 +369,6 @@ function saveCustom(){
 }
 function renderCart(){
   cartCount.textContent = cart.reduce((a,b)=>a+(b.kit?1:Number(b.qty||1)),0);
-
   total.textContent = money(cart.reduce((a,b)=>a+itemPrice(b),0));
 
   if(!cart.length){
@@ -389,31 +388,55 @@ function renderCart(){
           ${(i.bolo||i.kit)&&i.obs?`Obs: ${i.obs}<br>`:""}
           ${money(itemPrice(i))}
         </span>
+
+        ${!i.kit ? `
+          <div style="margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <label style="margin:0;color:var(--vinho);font-size:13px;font-weight:900">
+              ${i.bolo ? "Kg:" : "Quantidade:"}
+            </label>
+            <input 
+              type="number" 
+              min="${i.bolo ? "0.5" : "1"}" 
+              step="${i.bolo ? "0.5" : "1"}" 
+              value="${i.bolo ? (i.kg||1) : (i.qty||1)}"
+              onchange="updateCartValue(${idx}, this.value)"
+              oninput="updateCartValue(${idx}, this.value)"
+              style="max-width:110px;padding:8px 10px;border-radius:12px;border:1px solid var(--borda);font-weight:900;text-align:center"
+            >
+          </div>
+        ` : ""}
       </div>
 
       <div class="actions">
-        <button class="btn-edit" data-index="${idx}">Editar</button>
-        <button class="danger" onclick="removeItem(${idx})">Remover</button>
+        ${(i.bolo||i.kit) ? `<button type="button" onclick="openCustom(${i.id},${idx})">Alterar detalhes</button>` : ""}
+        <button type="button" class="danger" onclick="removeItem(${idx})">Remover</button>
       </div>
     </div>
   `).join("");
-
-  document.querySelectorAll(".btn-edit").forEach(btn=>{
-    btn.onclick = function(){
-      const index = Number(this.dataset.index);
-      const item = cart[index];
-      if(!item) return;
-      openCustom(item.id, index);
-    };
-  });
 }
-function openCart(){cartModal.classList.add("open");renderCart()}
-function closeCart(){cartModal.classList.remove("open")}
-function clearCart(){cart=[];renderCart()}
+function updateCartValue(index, value){
+  if(!cart[index]) return;
+  let v = Number(value || 1);
+
+  if(cart[index].bolo && !cart[index].kit){
+    if(v < 0.5) v = 0.5;
+    cart[index].kg = v;
+  }else{
+    if(v < 1) v = 1;
+    cart[index].qty = Math.floor(v);
+  }
+
+  renderCart();
+}
+
 function removeItem(index){
   cart.splice(index,1);
   renderCart();
 }
+
+function openCart(){cartModal.classList.add("open");renderCart()}
+function closeCart(){cartModal.classList.remove("open")}
+function clearCart(){cart=[];renderCart()}
 function togglePagamento(){trocoBox.style.display=pagamento.value==="Dinheiro"?"block":"none";cartaoBox.style.display=pagamento.value==="Cartão"?"block":"none";if(pagamento.value!=="Cartão"){tipoCartao.value="";parcelasBox.style.display="none";parcelasCartao.value=""}}
 async function sendOrder(){
   for(let id of ["cliente","data","hora","tema","aniversariante","entrega","pagamento"]){if(!document.getElementById(id).value.trim()){alert("Preencha os campos obrigatórios.");return}}
@@ -442,26 +465,5 @@ function arrastavel(el,clickFn){
 }
 fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrastavel(musicBtn,tocarMusica);
 </script>
-
-<script id="fix-editar-todos-itens">
-(function(){
-  document.addEventListener("click", function(e){
-    const btn = e.target.closest(".btn-edit-cart,[data-edit-index]");
-    if(!btn) return;
-
-    e.preventDefault();
-    e.stopPropagation();
-
-    const idx = Number(btn.getAttribute("data-edit-index"));
-    if(Number.isNaN(idx) || !cart[idx]){
-      alert("Não consegui encontrar esse item no carrinho.");
-      return;
-    }
-
-    openCustom(cart[idx].id, idx);
-  }, true);
-})();
-</script>
-
 </body>
 </html>
