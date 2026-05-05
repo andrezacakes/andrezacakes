@@ -426,6 +426,127 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 }
 </style>
 
+
+<style id="visual-misto-premium-produtos">
+/* Visual misto premium dos cards do catálogo */
+.card .icon {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255,255,255,.95), transparent 38%),
+    linear-gradient(135deg, #fff3f7, #ffd9e8);
+  border: 1px solid rgba(241,196,213,.9);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.55),
+    0 12px 28px rgba(112,48,75,.10);
+}
+
+.card .icon::after {
+  content: "";
+  position: absolute;
+  inset: -35%;
+  background: linear-gradient(110deg, transparent, rgba(255,255,255,.55), transparent);
+  transform: translateX(-85%) rotate(12deg);
+  animation: iconPremiumShine 5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes iconPremiumShine {
+  0%, 45% { transform: translateX(-85%) rotate(12deg); }
+  70%, 100% { transform: translateX(85%) rotate(12deg); }
+}
+
+/* Ícones premium feitos em CSS para kits e bolos */
+.premium-icon {
+  width: 34px;
+  height: 34px;
+  display: block;
+  position: relative;
+}
+
+.premium-icon.kit::before {
+  content: "";
+  position: absolute;
+  left: 5px;
+  right: 5px;
+  bottom: 4px;
+  height: 20px;
+  border-radius: 7px 7px 5px 5px;
+  background: linear-gradient(135deg, #d96491, #ff8db4);
+  box-shadow: 0 8px 16px rgba(217,100,145,.25);
+}
+
+.premium-icon.kit::after {
+  content: "";
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  top: 7px;
+  height: 9px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #fff5f8, #ffd6e6);
+  border: 2px solid #d96491;
+}
+
+.premium-icon.bolo::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  bottom: 5px;
+  height: 20px;
+  border-radius: 7px;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.55) 0 18%, transparent 18% 36%, rgba(255,255,255,.45) 36% 52%, transparent 52%),
+    linear-gradient(135deg, #d96491, #ff8db4);
+  box-shadow: 0 8px 16px rgba(217,100,145,.24);
+}
+
+.premium-icon.bolo::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 14px;
+  width: 6px;
+  height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ffd166, #ff8db4);
+  box-shadow: 0 11px 0 6px #fff4f8;
+}
+
+/* Fotos reais para doces/salgados, com fallback se a foto não existir */
+.card .product-photo {
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255,255,255,.95), transparent 38%),
+    linear-gradient(135deg, #fff3f7, #ffd9e8);
+  border: 1px solid rgba(241,196,213,.9);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.55),
+    0 12px 28px rgba(112,48,75,.10);
+}
+
+.card .product-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+}
+
+.card .product-photo img.ok {
+  display: block;
+}
+
+.card .product-photo span {
+  font-size: 24px;
+}
+</style>
+
 </head>
 
 <body>
@@ -755,6 +876,76 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
     }
     originalUpdateModalPrice();
   };
+})();
+</script>
+
+
+<script id="visual-misto-premium-produtos-js">
+(function(){
+  const fotoProdutos = {
+    "Coxinha": ["assets/produtos/coxinha.jpg", "🥟"],
+    "Bolinho de queijo": ["assets/produtos/bolinho-de-queijo.jpg", "🧀"],
+    "Risole de carne": ["assets/produtos/risole-de-carne.jpg", "🥟"],
+    "Risole de calabresa": ["assets/produtos/risole-de-calabresa.jpg", "🥟"],
+    "Risole misto": ["assets/produtos/risole-misto.jpg", "🥟"],
+    "Empada": ["assets/produtos/empada.jpg", "🥧"],
+    "Pastel frito": ["assets/produtos/pastel-frito.jpg", "🥟"],
+    "Pastel de forno": ["assets/produtos/pastel-de-forno.jpg", "🥟"],
+    "Enroladinho": ["assets/produtos/enroladinho.jpg", "🌭"],
+    "Queijadinha": ["assets/produtos/queijadinha.jpg", "🧁"],
+    "Tortinha doce": ["assets/produtos/tortinha-doce.jpg", "🥧"],
+    "Surpresa de uva": ["assets/produtos/surpresa-de-uva.jpg", "🍇"],
+    "Bicho de pé": ["assets/produtos/bicho-de-pe.jpg", "🍓"],
+    "Brigadeiro": ["assets/produtos/brigadeiro.jpg", "🍫"],
+    "Ouriço": ["assets/produtos/ourico.jpg", "🍬"],
+    "Bem casado": ["assets/produtos/bem-casado.jpg", "🎁"],
+    "Beijinho": ["assets/produtos/beijinho.jpg", "🥥"]
+  };
+
+  window.cardIconHTML = function(p){
+    if(p.cat === "Kits festa"){
+      return '<div class="icon"><span class="premium-icon kit"></span></div>';
+    }
+    if(p.cat === "Bolos"){
+      return '<div class="icon"><span class="premium-icon bolo"></span></div>';
+    }
+    if(p.cat === "Salgados" || p.cat === "Doces"){
+      const data = fotoProdutos[p.nome] || ["assets/produtos/produto.jpg", p.cat === "Doces" ? "🍬" : "🥟"];
+      return `<div class="product-photo">
+        <img src="${data[0]}" alt="${p.nome}" onload="this.classList.add('ok')" onerror="this.style.display='none'">
+        <span>${data[1]}</span>
+      </div>`;
+    }
+    return `<div class="icon">${p.emoji || "🧁"}</div>`;
+  };
+
+  const oldRenderProducts = window.renderProducts;
+  window.renderProducts = function(){
+    const area = document.getElementById("produtos");
+    if(!area || !Array.isArray(window.produtos || produtos)) {
+      if(typeof oldRenderProducts === "function") oldRenderProducts();
+      return;
+    }
+
+    const lista = produtos.filter(p => current === "Todos" || p.cat === current);
+    area.innerHTML = lista.map(p => `
+      <div class="card" data-cat="${p.cat}">
+        ${cardIconHTML(p)}
+        <h3>${p.nome}</h3>
+        ${p.desc ? `<p>${p.desc}</p>` : ""}
+        <div class="price">${p.preco === .8 ? "R$ 0,80 / unidade" : money(p.preco) + (p.bolo ? " / kg" : "")}</div>
+        <button class="btn" onclick="openCustom(${p.id})">Adicionar</button>
+      </div>
+    `).join("");
+  };
+
+  document.addEventListener("DOMContentLoaded", function(){
+    if(typeof window.renderProducts === "function") window.renderProducts();
+  });
+
+  setTimeout(function(){
+    if(typeof window.renderProducts === "function") window.renderProducts();
+  }, 80);
 })();
 </script>
 
