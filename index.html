@@ -143,6 +143,16 @@ textarea{min-height:85px}
 footer{text-align:center;padding:35px 20px;color:var(--muted)}
 @media(max-width:850px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.choice-area{grid-template-columns:1fr}.menu a:not(.btn){display:none}.cart-item{grid-template-columns:1fr}.actions{flex-direction:row;flex-wrap:wrap}}
 </style>
+
+<style id="fix-editar-direto-modal">
+#customModal{
+  z-index: 120000 !important;
+}
+#cartModal{
+  z-index: 90000 !important;
+}
+</style>
+
 </head>
 
 <body>
@@ -379,9 +389,17 @@ function renderCart(){
       ${Object.keys(i.doces||{}).length?`Doces: ${Object.entries(i.doces).map(([k,v])=>`${k}: ${v}`).join(", ")}<br>`:""}
       ${(i.bolo||i.kit)&&i.obs?`Obs: ${i.obs}<br>`:""}
       ${money(itemPrice(i))}</span></div>
-      <div class="actions"><button type="button" onclick="openCustom(${i.id},${idx})">Editar</button><button type="button" class="danger" onclick="cart.splice(${idx},1);renderCart()">Remover</button></div>
+      <div class="actions"><button type="button" onclick="editFromCart(${idx})">Editar</button><button type="button" class="danger" onclick="cart.splice(${idx},1);renderCart()">Remover</button></div>
     </div>`).join(""):"<p style='color:var(--muted)'>Nenhum item no carrinho.</p>";
 }
+function editFromCart(index){
+  if(!cart[index]) return;
+  cartModal.classList.remove("open");
+  setTimeout(function(){
+    openCustom(cart[index].id, index);
+  }, 80);
+}
+
 function openCart(){cartModal.classList.add("open");renderCart()}
 function closeCart(){cartModal.classList.remove("open")}
 function clearCart(){cart=[];renderCart()}
