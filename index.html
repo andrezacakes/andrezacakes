@@ -368,110 +368,20 @@ function saveCustom(){
   editing=null;renderCart();closeCustom();
 }
 function renderCart(){
-  cartCount.textContent = cart.reduce((a,b)=>a+(b.kit?1:Number(b.qty||1)),0);
-  total.textContent = money(cart.reduce((a,b)=>a+itemPrice(b),0));
-
-  if(!cart.length){
-    cartList.innerHTML = "<p style='color:var(--muted)'>Nenhum item no carrinho.</p>";
-    return;
-  }
-
-  cartList.innerHTML = cart.map((i,idx)=>`
+  cartCount.textContent=cart.reduce((a,b)=>a+(b.kit?1:Number(b.qty||1)),0);
+  total.textContent=money(cart.reduce((a,b)=>a+itemPrice(b),0));
+  cartList.innerHTML=cart.length?cart.map((i,idx)=>`
     <div class="cart-item">
-      <div>
-        <strong>${i.kit?1:i.qty}x ${i.nome}</strong><br>
-
-        ${i.kit ? `
-          <span style="color:var(--muted)">
-            ${i.massa?`Massa: ${i.massa}<br>`:""}
-            ${i.recheio?`Recheio: ${i.recheio}<br>`:""}
-            ${Object.keys(i.salgados||{}).length?`Salgados: ${Object.entries(i.salgados).map(([k,v])=>`${k}: ${v}`).join(", ")}<br>`:""}
-            ${Object.keys(i.doces||{}).length?`Doces: ${Object.entries(i.doces).map(([k,v])=>`${k}: ${v}`).join(", ")}<br>`:""}
-            ${i.obs?`Obs: ${i.obs}<br>`:""}
-            ${money(itemPrice(i))}
-          </span>
-        ` : ""}
-
-        ${i.bolo && !i.kit ? `
-          <div style="margin-top:10px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
-            <div>
-              <label style="margin:0 0 5px;color:var(--vinho);font-size:13px;font-weight:900">Kg</label>
-              <input type="number" min="0.5" step="0.5" value="${i.kg||1}" onchange="updateCartBolo(${idx}, 'kg', this.value)" oninput="updateCartBolo(${idx}, 'kg', this.value)" style="padding:8px 10px;border-radius:12px;border:1px solid var(--borda);font-weight:900;text-align:center">
-            </div>
-            <div>
-              <label style="margin:0 0 5px;color:var(--vinho);font-size:13px;font-weight:900">Massa</label>
-              <select onchange="updateCartBolo(${idx}, 'massa', this.value)" style="padding:8px 10px;border-radius:12px;border:1px solid var(--borda);font-weight:900">
-                <option ${i.massa==="Branca"?"selected":""}>Branca</option>
-                <option ${i.massa==="Chocolate"?"selected":""}>Chocolate</option>
-                <option ${i.massa&&i.massa.includes("Red Velvet")?"selected":""}>Red Velvet (+R$10/kg)</option>
-              </select>
-            </div>
-            <div style="grid-column:1/-1">
-              <label style="margin:0 0 5px;color:var(--vinho);font-size:13px;font-weight:900">Recheio</label>
-              <select onchange="updateCartBolo(${idx}, 'recheio', this.value)" style="padding:8px 10px;border-radius:12px;border:1px solid var(--borda);font-weight:900">
-                ${recheios.map(r=>`<option ${i.recheio===r?"selected":""}>${r}</option>`).join("")}
-              </select>
-            </div>
-            <div style="grid-column:1/-1">
-              <label style="margin:0 0 5px;color:var(--vinho);font-size:13px;font-weight:900">Observação</label>
-              <input value="${i.obs||""}" placeholder="Frase, cor, modelo, detalhe..." onchange="updateCartBolo(${idx}, 'obs', this.value)" oninput="updateCartBolo(${idx}, 'obs', this.value)" style="padding:8px 10px;border-radius:12px;border:1px solid var(--borda)">
-            </div>
-          </div>
-          <div style="margin-top:8px;color:var(--vinho);font-weight:900">${money(itemPrice(i))}</div>
-        ` : ""}
-
-        ${(!i.bolo && !i.kit) ? `
-          <span style="color:var(--muted)">${money(itemPrice(i))}</span>
-          <div style="margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-            <label style="margin:0;color:var(--vinho);font-size:13px;font-weight:900">Quantidade:</label>
-            <input type="number" min="1" step="1" value="${i.qty||1}" onchange="updateCartValue(${idx}, this.value)" oninput="updateCartValue(${idx}, this.value)" style="max-width:110px;padding:8px 10px;border-radius:12px;border:1px solid var(--borda);font-weight:900;text-align:center">
-          </div>
-        ` : ""}
-      </div>
-      <div class="actions">
-        ${i.kit ? `<button type="button" onclick="openCustom(${i.id},${idx})">Alterar kit</button>` : ""}
-        <button type="button" class="danger" onclick="removeItem(${idx})">Remover</button>
-      </div>
-    </div>
-  `).join("");
+      <div><strong>${i.kit?1:i.qty}x ${i.nome}</strong><br><span style="color:var(--muted)">
+      ${(i.bolo||i.kit)&&i.massa?`Massa: ${i.massa}<br>`:""}
+      ${(i.bolo||i.kit)&&i.recheio?`Recheio: ${i.recheio}<br>`:""}
+      ${Object.keys(i.salgados||{}).length?`Salgados: ${Object.entries(i.salgados).map(([k,v])=>`${k}: ${v}`).join(", ")}<br>`:""}
+      ${Object.keys(i.doces||{}).length?`Doces: ${Object.entries(i.doces).map(([k,v])=>`${k}: ${v}`).join(", ")}<br>`:""}
+      ${(i.bolo||i.kit)&&i.obs?`Obs: ${i.obs}<br>`:""}
+      ${money(itemPrice(i))}</span></div>
+      <div class="actions"><button type="button" onclick="openCustom(${i.id},${idx})">Editar</button><button type="button" class="danger" onclick="cart.splice(${idx},1);renderCart()">Remover</button></div>
+    </div>`).join(""):"<p style='color:var(--muted)'>Nenhum item no carrinho.</p>";
 }
-function updateCartBolo(index, field, value){
-  if(!cart[index]) return;
-
-  if(field === "kg"){
-    let kg = Number(value || 1);
-    if(kg < 0.5) kg = 0.5;
-    cart[index].kg = kg;
-  }
-
-  if(field === "massa") cart[index].massa = value;
-  if(field === "recheio") cart[index].recheio = value;
-  if(field === "obs") cart[index].obs = value;
-
-  cartCount.textContent = cart.reduce((a,b)=>a+(b.kit?1:Number(b.qty||1)),0);
-  total.textContent = money(cart.reduce((a,b)=>a+itemPrice(b),0));
-}
-
-function updateCartValue(index, value){
-  if(!cart[index]) return;
-  let v = Number(value || 1);
-
-  if(cart[index].bolo && !cart[index].kit){
-    if(v < 0.5) v = 0.5;
-    cart[index].kg = v;
-  }else{
-    if(v < 1) v = 1;
-    cart[index].qty = Math.floor(v);
-  }
-
-  renderCart();
-}
-
-function removeItem(index){
-  cart.splice(index,1);
-  renderCart();
-}
-
 function openCart(){cartModal.classList.add("open");renderCart()}
 function closeCart(){cartModal.classList.remove("open")}
 function clearCart(){cart=[];renderCart()}
