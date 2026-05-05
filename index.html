@@ -153,6 +153,24 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 }
 </style>
 
+
+<style>
+.title h2{
+  animation: fadeSlide 0.8s ease;
+}
+@keyframes fadeSlide{
+  from{opacity:0; transform:translateY(20px);}
+  to{opacity:1; transform:translateY(0);}
+}
+.btn{
+  transition:0.3s;
+}
+.btn:hover{
+  transform:scale(1.05);
+  box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+</style>
+
 </head>
 
 <body>
@@ -179,7 +197,7 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 </section>
 
 <section id="catalogo">
-  <div class="title"><h2>Catálogo premium</h2><p>Escolha o item, personalize e envie tudo pronto pelo WhatsApp.</p></div>
+  <div class="title"><h2>Monte seu pedido</h2><p>Escolha seus itens, personalize e finalize direto pelo WhatsApp.</p></div>
   <div class="tabs">
     <button class="tab active" onclick="filterCat('Todos',this)">Todos</button>
     <button class="tab" onclick="filterCat('Kits festa',this)">Kits festa</button>
