@@ -355,8 +355,8 @@
   <section id="loginPage" class="login-page">
     <div class="login-card">
       <div class="brand-icon"><img src="logo-andreza-cakes.png" style="width:100%; height:100%; object-fit:contain;"></div>
-      <h1>Andreza Cakes</h1>
-      <p>Sistema profissional para organizar pedidos, clientes, agenda, produtos e financeiro da confeitaria.</p>
+      <h1>Área Administrativa</h1>
+      <p>Entre com seu usuário e senha para acessar o painel.</p>
 
       <label for="user">Usuário</label>
       <input id="user" type="text" placeholder="Digite o usuário" autocomplete="username" />
@@ -366,10 +366,7 @@
 
       <button class="btn-primary btn-full" onclick="login()">Entrar no sistema</button>
       <div id="loginError" class="error hidden">Usuário ou senha incorretos.</div>
-      <div class="hint">
-        Acesso inicial: usuário <strong>admin</strong> e senha <strong>1234</strong>.<br>
-        Depois eu posso fazer a versão com login real e banco de dados online.
-      </div>
+      <div class="hint">Acesso protegido. Use o usuário e senha cadastrados.</div>
     </div>
   </section>
 
@@ -578,10 +575,8 @@
   </section>
 
   <script>
-    const USUARIOS = [
-      { usuario: 'Andreza', senha: 'Andreza2026@' },
-      { usuario: 'Maximylian', senha: 'Max2026@' }
-    ];
+    const LOGIN_USER = 'Andreza';
+    const LOGIN_PASS = 'Andreza2026@';
     let orders = JSON.parse(localStorage.getItem('ac_orders') || '[]');
     let products = JSON.parse(localStorage.getItem('ac_products') || '[]');
 
@@ -597,12 +592,7 @@
     function login() {
       const u = document.getElementById('user').value.trim();
       const p = document.getElementById('pass').value.trim();
-
-      const autorizado = USUARIOS.some(user =>
-        user.usuario === u && user.senha === p
-      );
-
-      if (autorizado) {
+      if (u === LOGIN_USER && p === LOGIN_PASS) {
         localStorage.setItem('ac_logged', 'yes');
         document.getElementById('loginPage').classList.add('hidden');
         document.getElementById('appPage').classList.remove('hidden');
