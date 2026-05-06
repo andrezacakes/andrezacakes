@@ -578,8 +578,10 @@
   </section>
 
   <script>
-    const LOGIN_USER = 'admin';
-    const LOGIN_PASS = '1234';
+    const USUARIOS = [
+      { usuario: 'Andreza', senha: 'Andreza2026@' },
+      { usuario: 'Maximylian', senha: 'Max2026@' }
+    ];
     let orders = JSON.parse(localStorage.getItem('ac_orders') || '[]');
     let products = JSON.parse(localStorage.getItem('ac_products') || '[]');
 
@@ -595,7 +597,12 @@
     function login() {
       const u = document.getElementById('user').value.trim();
       const p = document.getElementById('pass').value.trim();
-      if (u === LOGIN_USER && p === LOGIN_PASS) {
+
+      const autorizado = USUARIOS.some(user =>
+        user.usuario === u && user.senha === p
+      );
+
+      if (autorizado) {
         localStorage.setItem('ac_logged', 'yes');
         document.getElementById('loginPage').classList.add('hidden');
         document.getElementById('appPage').classList.remove('hidden');
