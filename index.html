@@ -427,123 +427,141 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 </style>
 
 
-<style id="visual-misto-premium-produtos">
-/* Visual misto premium dos cards do catálogo */
-.card .icon {
-  position: relative;
-  overflow: hidden;
+<style id="admin-login-integrado-css">
+#adminLoginOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(40,20,30,.55);
+  backdrop-filter: blur(7px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 200000;
+  padding: 18px;
+}
+
+#adminLoginOverlay.open {
+  display: flex;
+}
+
+.admin-login-box {
+  width: min(390px, 100%);
   background:
-    radial-gradient(circle at 30% 20%, rgba(255,255,255,.95), transparent 38%),
-    linear-gradient(135deg, #fff3f7, #ffd9e8);
-  border: 1px solid rgba(241,196,213,.9);
-  box-shadow:
-    inset 0 0 0 1px rgba(255,255,255,.55),
-    0 12px 28px rgba(112,48,75,.10);
+    radial-gradient(circle at top right, rgba(255,141,180,.18), transparent 35%),
+    #fff;
+  border: 1px solid #f1c4d5;
+  border-radius: 28px;
+  padding: 28px;
+  box-shadow: 0 30px 85px rgba(40,20,30,.35);
+  font-family: Arial, Helvetica, sans-serif;
+  animation: adminLoginEntrada .32s ease both;
 }
 
-.card .icon::after {
-  content: "";
-  position: absolute;
-  inset: -35%;
-  background: linear-gradient(110deg, transparent, rgba(255,255,255,.55), transparent);
-  transform: translateX(-85%) rotate(12deg);
-  animation: iconPremiumShine 5s ease-in-out infinite;
-  pointer-events: none;
-}
-
-@keyframes iconPremiumShine {
-  0%, 45% { transform: translateX(-85%) rotate(12deg); }
-  70%, 100% { transform: translateX(85%) rotate(12deg); }
-}
-
-/* Ícones premium feitos em CSS para kits e bolos */
-.premium-icon {
-  width: 34px;
-  height: 34px;
-  display: block;
-  position: relative;
-}
-
-.premium-icon.kit::before {
-  content: "";
-  position: absolute;
-  left: 5px;
-  right: 5px;
-  bottom: 4px;
-  height: 20px;
-  border-radius: 7px 7px 5px 5px;
-  background: linear-gradient(135deg, #d96491, #ff8db4);
-  box-shadow: 0 8px 16px rgba(217,100,145,.25);
-}
-
-.premium-icon.kit::after {
-  content: "";
-  position: absolute;
-  left: 2px;
-  right: 2px;
-  top: 7px;
-  height: 9px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #fff5f8, #ffd6e6);
-  border: 2px solid #d96491;
-}
-
-.premium-icon.bolo::before {
-  content: "";
-  position: absolute;
-  left: 4px;
-  right: 4px;
-  bottom: 5px;
-  height: 20px;
-  border-radius: 7px;
-  background:
-    linear-gradient(90deg, rgba(255,255,255,.55) 0 18%, transparent 18% 36%, rgba(255,255,255,.45) 36% 52%, transparent 52%),
-    linear-gradient(135deg, #d96491, #ff8db4);
-  box-shadow: 0 8px 16px rgba(217,100,145,.24);
-}
-
-.premium-icon.bolo::after {
-  content: "";
-  position: absolute;
-  top: 3px;
-  left: 14px;
-  width: 6px;
-  height: 12px;
-  border-radius: 999px;
-  background: linear-gradient(180deg, #ffd166, #ff8db4);
-  box-shadow: 0 11px 0 6px #fff4f8;
-}
-
-/* Fotos reais para doces/salgados, com fallback se a foto não existir */
-.card .product-photo {
-  width: 56px;
-  height: 56px;
-  border-radius: 18px;
-  background:
-    radial-gradient(circle at 30% 20%, rgba(255,255,255,.95), transparent 38%),
-    linear-gradient(135deg, #fff3f7, #ffd9e8);
-  border: 1px solid rgba(241,196,213,.9);
+.admin-login-logo {
+  width: 82px;
+  height: 82px;
+  margin: 0 auto 14px;
+  border-radius: 24px;
+  background: #fff3f7;
+  border: 1px solid #f1c4d5;
   display: grid;
   place-items: center;
   overflow: hidden;
-  box-shadow:
-    inset 0 0 0 1px rgba(255,255,255,.55),
-    0 12px 28px rgba(112,48,75,.10);
+  box-shadow: 0 14px 30px rgba(112,48,75,.12);
 }
 
-.card .product-photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: none;
+.admin-login-logo img {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
 }
 
-.card .product-photo img.ok {
-  display: block;
-}
-
-.card .product-photo span {
+.admin-login-box h2 {
+  margin: 0;
+  text-align: center;
+  color: #8d2b58;
   font-size: 24px;
+}
+
+.admin-login-box p {
+  margin: 8px 0 18px;
+  text-align: center;
+  color: #805d70;
+  font-size: 14px;
+}
+
+.admin-login-box label {
+  display: block;
+  margin: 12px 0 6px;
+  color: #8d2b58;
+  font-weight: 900;
+  font-size: 13px;
+}
+
+.admin-login-box input {
+  width: 100%;
+  height: 50px;
+  border-radius: 16px;
+  border: 1px solid #f1c4d5;
+  padding: 0 14px;
+  font-size: 15px;
+  outline: none;
+}
+
+.admin-login-box input:focus {
+  border-color: #d96491;
+  box-shadow: 0 0 0 4px rgba(217,100,145,.12);
+}
+
+.admin-login-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.admin-login-actions button {
+  flex: 1;
+  height: 50px;
+  border: none;
+  border-radius: 999px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.admin-login-actions .admin-enter {
+  background: linear-gradient(135deg,#d96491,#ff8db4);
+  color: #fff;
+  box-shadow: 0 14px 28px rgba(217,100,145,.24);
+}
+
+.admin-login-actions .admin-cancel {
+  background: #fff3f7;
+  color: #8d2b58;
+  border: 1px solid #f1c4d5;
+}
+
+.admin-login-error {
+  display: none;
+  margin-top: 12px;
+  background: #fff0f0;
+  color: #a33;
+  border: 1px solid #ffc7c7;
+  border-radius: 14px;
+  padding: 10px;
+  font-weight: 900;
+  text-align: center;
+  font-size: 13px;
+}
+
+@keyframes adminLoginEntrada {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 </style>
 
@@ -649,7 +667,7 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
   </div>
 </div>
 
-<footer>Andreza Cakes • Recife/PE • <a href="https://www.instagram.com/Andrezaa_cakes" target="_blank" style="color:var(--vinho);font-weight:900">@ANDREZAA_CAKES</a><br><a href="/admin/" style="font-size:12px;color:#aaa;text-decoration:none">Área administrativa</a></footer>
+<footer>Andreza Cakes • Recife/PE • <a href="https://www.instagram.com/Andrezaa_cakes" target="_blank" style="color:var(--vinho);font-weight:900">@ANDREZAA_CAKES</a><br><a href="javascript:void(0)" onclick="abrirAdmin()"  style="font-size:12px;color:#aaa;text-decoration:none">Área administrativa</a></footer>
 
 <script>
 const supabaseClient = window.supabase ? window.supabase.createClient("https://zybwkqjkwpdusnxjgnfu.supabase.co","sb_publishable_9Fe8WMnzl0geZvxGqCkjAg_PyeJC-mf") : null;
@@ -826,126 +844,85 @@ function arrastavel(el,clickFn){
 fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrastavel(musicBtn,tocarMusica);
 </script>
 
-<script id="fix-bolo-melado-sem-red-velvet-modal">
+<div id="adminLoginOverlay">
+  <div class="admin-login-box">
+    <div class="admin-login-logo">
+      <img src="logo-andreza-cakes.png" alt="Andreza Cakes">
+    </div>
+
+    <h2>Área Administrativa</h2>
+    <p>Entre com seu usuário e senha para acessar o painel.</p>
+
+    <label>Usuário</label>
+    <input type="text" id="adminUser" placeholder="Digite o usuário" autocomplete="username">
+
+    <label>Senha</label>
+    <input type="password" id="adminPass" placeholder="Digite a senha" autocomplete="current-password">
+
+    <div class="admin-login-actions">
+      <button type="button" class="admin-cancel" onclick="fecharLoginAdmin()">Cancelar</button>
+      <button type="button" class="admin-enter" onclick="fazerLoginAdmin()">Entrar</button>
+    </div>
+
+    <div class="admin-login-error" id="adminLoginError">Usuário ou senha inválidos.</div>
+  </div>
+</div>
+
+<script id="admin-login-integrado-js">
 (function(){
-  const originalOpenCustom = window.openCustom;
+  const ADMIN_USER = "admin";
+  const ADMIN_PASS = "Andreza2026@";
+  const ADMIN_DESTINO = "admin/";
 
-  window.openCustom = function(id, idx = null){
-    originalOpenCustom(id, idx);
-
-    const produto = produtos.find(p => p.id === id);
-    if(!produto) return;
-
-    const massaSelect = document.getElementById("customMassa");
-    const modalPrice = document.getElementById("modalPrice");
-
-    if(produto.nome === "Bolo melado"){
-      massaSelect.innerHTML = `
-        <option>Branca</option>
-        <option>Chocolate</option>
-      `;
-
-      if(idx !== null && cart[idx] && cart[idx].massa && !["Branca","Chocolate"].includes(cart[idx].massa)){
-        cart[idx].massa = "Branca";
-      }
-
-      massaSelect.value = (idx !== null && cart[idx] && ["Branca","Chocolate"].includes(cart[idx].massa)) ? cart[idx].massa : "Branca";
-
-      // preço do bolo melado sem acréscimo de Red Velvet
-      const kg = Number(document.getElementById("customKg").value || 1);
-      modalPrice.textContent = money(produto.preco * kg);
-    } else {
-      massaSelect.innerHTML = `
-        <option>Branca</option>
-        <option>Chocolate</option>
-        <option>Red Velvet (+R$10/kg)</option>
-      `;
-
-      if(idx !== null && cart[idx] && cart[idx].massa){
-        massaSelect.value = cart[idx].massa;
-      }
-    }
-  };
-
-  const originalUpdateModalPrice = window.updateModalPrice;
-  window.updateModalPrice = function(){
-    if(selected && selected.nome === "Bolo melado"){
-      const kg = Number(document.getElementById("customKg").value || 1);
-      document.getElementById("modalPrice").textContent = money(selected.preco * kg);
-      return;
-    }
-    originalUpdateModalPrice();
-  };
-})();
-</script>
-
-
-<script id="visual-misto-premium-produtos-js">
-(function(){
-  const fotoProdutos = {
-    "Coxinha": ["assets/produtos/coxinha.jpg", "🥟"],
-    "Bolinho de queijo": ["assets/produtos/bolinho-de-queijo.jpg", "🧀"],
-    "Risole de carne": ["assets/produtos/risole-de-carne.jpg", "🥟"],
-    "Risole de calabresa": ["assets/produtos/risole-de-calabresa.jpg", "🥟"],
-    "Risole misto": ["assets/produtos/risole-misto.jpg", "🥟"],
-    "Empada": ["assets/produtos/empada.jpg", "🥧"],
-    "Pastel frito": ["assets/produtos/pastel-frito.jpg", "🥟"],
-    "Pastel de forno": ["assets/produtos/pastel-de-forno.jpg", "🥟"],
-    "Enroladinho": ["assets/produtos/enroladinho.jpg", "🌭"],
-    "Queijadinha": ["assets/produtos/queijadinha.jpg", "🧁"],
-    "Tortinha doce": ["assets/produtos/tortinha-doce.jpg", "🥧"],
-    "Surpresa de uva": ["assets/produtos/surpresa-de-uva.jpg", "🍇"],
-    "Bicho de pé": ["assets/produtos/bicho-de-pe.jpg", "🍓"],
-    "Brigadeiro": ["assets/produtos/brigadeiro.jpg", "🍫"],
-    "Ouriço": ["assets/produtos/ourico.jpg", "🍬"],
-    "Bem casado": ["assets/produtos/bem-casado.jpg", "🎁"],
-    "Beijinho": ["assets/produtos/beijinho.jpg", "🥥"]
-  };
-
-  window.cardIconHTML = function(p){
-    if(p.cat === "Kits festa"){
-      return '<div class="icon"><span class="premium-icon kit"></span></div>';
-    }
-    if(p.cat === "Bolos"){
-      return '<div class="icon"><span class="premium-icon bolo"></span></div>';
-    }
-    if(p.cat === "Salgados" || p.cat === "Doces"){
-      const data = fotoProdutos[p.nome] || ["assets/produtos/produto.jpg", p.cat === "Doces" ? "🍬" : "🥟"];
-      return `<div class="product-photo">
-        <img src="${data[0]}" alt="${p.nome}" onload="this.classList.add('ok')" onerror="this.style.display='none'">
-        <span>${data[1]}</span>
-      </div>`;
-    }
-    return `<div class="icon">${p.emoji || "🧁"}</div>`;
-  };
-
-  const oldRenderProducts = window.renderProducts;
-  window.renderProducts = function(){
-    const area = document.getElementById("produtos");
-    if(!area || !Array.isArray(window.produtos || produtos)) {
-      if(typeof oldRenderProducts === "function") oldRenderProducts();
+  window.abrirAdmin = function(){
+    if(localStorage.getItem("andrezaAdminLogado") === "true"){
+      window.location.href = ADMIN_DESTINO;
       return;
     }
 
-    const lista = produtos.filter(p => current === "Todos" || p.cat === current);
-    area.innerHTML = lista.map(p => `
-      <div class="card" data-cat="${p.cat}">
-        ${cardIconHTML(p)}
-        <h3>${p.nome}</h3>
-        ${p.desc ? `<p>${p.desc}</p>` : ""}
-        <div class="price">${p.preco === .8 ? "R$ 0,80 / unidade" : money(p.preco) + (p.bolo ? " / kg" : "")}</div>
-        <button class="btn" onclick="openCustom(${p.id})">Adicionar</button>
-      </div>
-    `).join("");
+    const overlay = document.getElementById("adminLoginOverlay");
+    if(overlay){
+      overlay.classList.add("open");
+      setTimeout(function(){
+        const campo = document.getElementById("adminUser");
+        if(campo) campo.focus();
+      }, 80);
+    }
   };
 
-  document.addEventListener("DOMContentLoaded", function(){
-    if(typeof window.renderProducts === "function") window.renderProducts();
+  window.fecharLoginAdmin = function(){
+    const overlay = document.getElementById("adminLoginOverlay");
+    const erro = document.getElementById("adminLoginError");
+    if(overlay) overlay.classList.remove("open");
+    if(erro) erro.style.display = "none";
+  };
+
+  window.fazerLoginAdmin = function(){
+    const usuario = document.getElementById("adminUser").value.trim();
+    const senha = document.getElementById("adminPass").value;
+    const erro = document.getElementById("adminLoginError");
+
+    if(usuario === ADMIN_USER && senha === ADMIN_PASS){
+      localStorage.setItem("andrezaAdminLogado", "true");
+      window.location.href = ADMIN_DESTINO;
+      return;
+    }
+
+    if(erro) erro.style.display = "block";
+  };
+
+  window.logoutAdmin = function(){
+    localStorage.removeItem("andrezaAdminLogado");
+    window.location.href = "./";
+  };
+
+  document.addEventListener("keydown", function(e){
+    const overlay = document.getElementById("adminLoginOverlay");
+    if(!overlay || !overlay.classList.contains("open")) return;
+
+    if(e.key === "Escape") fecharLoginAdmin();
+    if(e.key === "Enter") fazerLoginAdmin();
   });
-
-  setTimeout(function(){
-    if(typeof window.renderProducts === "function") window.renderProducts();
-  }, 80);
 })();
 </script>
 
