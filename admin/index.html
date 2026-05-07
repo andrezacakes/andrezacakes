@@ -382,6 +382,151 @@
 }
 </style>
 
+
+<style id="gestao-financeira-inteligente-css">
+.finance-section{
+  background:linear-gradient(135deg,#fff7fb,#ffffff);
+  border:1px solid #f1c4d5;
+  border-radius:30px;
+  padding:24px;
+  box-shadow:0 18px 48px rgba(112,48,75,.10);
+  margin:22px 0;
+}
+
+.finance-head{
+  display:flex;
+  gap:14px;
+  align-items:center;
+  margin-bottom:18px;
+}
+
+.finance-icon{
+  width:58px;
+  height:58px;
+  border-radius:20px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,#d96491,#ff8db4);
+  color:white;
+  font-size:28px;
+  box-shadow:0 12px 28px rgba(217,100,145,.22);
+}
+
+.finance-head h2{
+  margin:0;
+  color:#2c1b24;
+  font-size:28px;
+}
+
+.finance-head p{
+  margin:5px 0 0;
+  color:#805d70;
+  line-height:1.45;
+}
+
+.finance-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+
+.finance-card{
+  background:white;
+  border:1px solid #f1c4d5;
+  border-radius:22px;
+  padding:18px;
+}
+
+.finance-card h3{
+  margin:0 0 12px;
+  color:#8d2b58;
+}
+
+.finance-form{
+  display:grid;
+  gap:12px;
+}
+
+.finance-form label{
+  color:#8d2b58;
+  font-weight:900;
+  font-size:14px;
+}
+
+.finance-form input{
+  width:100%;
+  height:48px;
+  border-radius:14px;
+  border:1px solid #f1c4d5;
+  padding:0 12px;
+  font-size:16px;
+}
+
+.finance-btn{
+  width:100%;
+  height:52px;
+  border:0;
+  border-radius:999px;
+  background:linear-gradient(135deg,#d96491,#ff8db4);
+  color:white;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 12px 26px rgba(217,100,145,.18);
+  margin-top:4px;
+}
+
+.finance-results{
+  display:grid;
+  gap:10px;
+}
+
+.finance-result{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:center;
+  padding:13px 14px;
+  border-radius:17px;
+  background:#fff7fb;
+  border:1px solid #f1c4d5;
+}
+
+.finance-result span{
+  color:#805d70;
+  font-weight:800;
+}
+
+.finance-result strong{
+  color:#8d2b58;
+  font-size:18px;
+  white-space:nowrap;
+}
+
+.finance-tip{
+  margin-top:14px;
+  padding:14px;
+  border-radius:18px;
+  background:#fff3f7;
+  color:#805d70;
+  line-height:1.55;
+  border:1px solid #f1c4d5;
+}
+
+@media(max-width:850px){
+  .finance-grid{
+    grid-template-columns:1fr;
+  }
+
+  .finance-head{
+    align-items:flex-start;
+  }
+
+  .finance-head h2{
+    font-size:24px;
+  }
+}
+</style>
+
 </head>
 <body>
   <section id="loginPage" class="login-page">
@@ -426,7 +571,92 @@
     </aside>
 
     <main>
-      <section id="dashboard" class="section active">
+      
+<section class="finance-section" id="gestaoFinanceira">
+  <div class="finance-head">
+    <div class="finance-icon">💰</div>
+    <div>
+      <h2>Gestão Financeira Inteligente</h2>
+      <p>Divida cada venda entre reposição, custos fixos, reserva emergencial e lucro.</p>
+    </div>
+  </div>
+
+  <div class="finance-grid">
+    <div class="finance-card">
+      <h3>Simular divisão da venda</h3>
+
+      <div class="finance-form">
+        <div>
+          <label>Valor da venda</label>
+          <input id="financeValor" type="number" min="0" step="0.01" value="200">
+        </div>
+
+        <div>
+          <label>Reposição de produtos (%)</label>
+          <input id="financeReposicao" type="number" min="0" max="100" value="45">
+        </div>
+
+        <div>
+          <label>Custos fixos: água, luz, gás etc. (%)</label>
+          <input id="financeCustos" type="number" min="0" max="100" value="15">
+        </div>
+
+        <div>
+          <label>Reserva emergencial (%)</label>
+          <input id="financeReserva" type="number" min="0" max="100" value="10">
+        </div>
+
+        <div>
+          <label>Lucro livre (%)</label>
+          <input id="financeLucro" type="number" min="0" max="100" value="30">
+        </div>
+
+        <button class="finance-btn" onclick="calcularGestaoFinanceira()">Calcular divisão</button>
+      </div>
+
+      <div class="finance-tip">
+        Sugestão inicial: 45% reposição, 15% custos fixos, 10% reserva e 30% lucro. Depois você pode ajustar conforme a realidade da confeitaria.
+      </div>
+    </div>
+
+    <div class="finance-card">
+      <h3>Resultado da divisão</h3>
+
+      <div class="finance-results">
+        <div class="finance-result">
+          <span>Reposição de produtos</span>
+          <strong id="resReposicao">R$ 90,00</strong>
+        </div>
+
+        <div class="finance-result">
+          <span>Custos fixos</span>
+          <strong id="resCustos">R$ 30,00</strong>
+        </div>
+
+        <div class="finance-result">
+          <span>Reserva emergencial</span>
+          <strong id="resReserva">R$ 20,00</strong>
+        </div>
+
+        <div class="finance-result">
+          <span>Lucro livre</span>
+          <strong id="resLucro">R$ 60,00</strong>
+        </div>
+
+        <div class="finance-result">
+          <span>Total distribuído</span>
+          <strong id="resTotal">R$ 200,00</strong>
+        </div>
+      </div>
+
+      <div class="finance-tip" id="financeAviso">
+        Quando vender, separe o dinheiro antes de gastar. Assim você repõe produtos, paga despesas, cria reserva e ainda sabe o lucro real.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="dashboard" class="section active">
         <div class="topbar">
           <div>
             <h2>Painel Geral</h2>
@@ -1121,6 +1351,55 @@
     };
   }
 })();
+</script>
+
+
+<script id="gestao-financeira-inteligente-js">
+function dinheiroBR(v){
+  return Number(v || 0).toLocaleString('pt-BR', {style:'currency', currency:'BRL'});
+}
+
+function calcularGestaoFinanceira(){
+  const valor = Number(document.getElementById('financeValor')?.value || 0);
+  const pReposicao = Number(document.getElementById('financeReposicao')?.value || 0);
+  const pCustos = Number(document.getElementById('financeCustos')?.value || 0);
+  const pReserva = Number(document.getElementById('financeReserva')?.value || 0);
+  const pLucro = Number(document.getElementById('financeLucro')?.value || 0);
+
+  const totalPercentual = pReposicao + pCustos + pReserva + pLucro;
+
+  const reposicao = valor * pReposicao / 100;
+  const custos = valor * pCustos / 100;
+  const reserva = valor * pReserva / 100;
+  const lucro = valor * pLucro / 100;
+  const total = reposicao + custos + reserva + lucro;
+
+  document.getElementById('resReposicao').textContent = dinheiroBR(reposicao);
+  document.getElementById('resCustos').textContent = dinheiroBR(custos);
+  document.getElementById('resReserva').textContent = dinheiroBR(reserva);
+  document.getElementById('resLucro').textContent = dinheiroBR(lucro);
+  document.getElementById('resTotal').textContent = dinheiroBR(total);
+
+  const aviso = document.getElementById('financeAviso');
+
+  if(totalPercentual !== 100){
+    aviso.innerHTML = '⚠️ Atenção: os percentuais somam <strong>' + totalPercentual + '%</strong>. O ideal é somar 100% para dividir a venda certinho.';
+    aviso.style.background = '#fff1f1';
+  }else{
+    aviso.innerHTML = '✅ Divisão equilibrada. Agora fica claro quanto é para repor, pagar despesas, guardar e quanto sobra de lucro.';
+    aviso.style.background = '#fff3f7';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  if(document.getElementById('financeValor')){
+    calcularGestaoFinanceira();
+    ['financeValor','financeReposicao','financeCustos','financeReserva','financeLucro'].forEach(id=>{
+      const el = document.getElementById(id);
+      if(el) el.addEventListener('input', calcularGestaoFinanceira);
+    });
+  }
+});
 </script>
 
 </body>
