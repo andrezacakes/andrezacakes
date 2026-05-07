@@ -1419,153 +1419,83 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 </style>
 
 
-<style id="fix-modal-kit-selects-and-lists">
-.kit-extra-list{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:16px 0;}
-.kit-extra-card{border:1px solid #f1c4d5;background:#fff7fb;border-radius:18px;padding:14px;}
-.kit-extra-card h4{margin:0 0 10px;color:#8d2b58;}
-.kit-extra-progress{font-weight:900;color:#8d2b58;margin-bottom:10px;}
-.kit-extra-row{display:grid;grid-template-columns:1fr 86px;gap:10px;align-items:center;margin:8px 0;}
-.kit-extra-row span{font-weight:700;color:#4a2b3b;}
-.kit-extra-row input{height:40px!important;border-radius:12px!important;border:1px solid #f1c4d5!important;padding:0 10px!important;font-size:16px!important;background:#fff!important;}
-@media(max-width:850px){.kit-extra-list{grid-template-columns:1fr;}}
-</style>
 
-
-<style id="kit-modal-organizado-final">
-/* Organiza somente a lista extra de salgados/doces do Kit Chantininho */
-#kitExtraList.kit-extra-list{
-  width: 100% !important;
-  max-width: 100% !important;
-  box-sizing: border-box !important;
-  display: grid !important;
-  grid-template-columns: repeat(2, minmax(320px, 1fr)) !important;
-  gap: 18px !important;
-  margin: 18px 0 14px !important;
-  align-items: start !important;
-}
-
-#kitExtraList .kit-extra-card{
-  width: 100% !important;
-  min-width: 0 !important;
-  box-sizing: border-box !important;
-  border: 1px solid #f1c4d5 !important;
-  background: #fff7fb !important;
-  border-radius: 20px !important;
-  padding: 16px !important;
-}
-
-#kitExtraList .kit-extra-card h4{
-  margin: 0 0 10px !important;
-  color: #8d2b58 !important;
-  font-size: 16px !important;
-}
-
-#kitExtraList .kit-extra-progress{
-  margin-bottom: 12px !important;
-  color: #8d2b58 !important;
-  font-weight: 900 !important;
-  padding: 10px 12px !important;
-  border-radius: 14px !important;
-  background: #fff !important;
-  border: 1px solid #f1c4d5 !important;
-}
-
-#kitExtraList .kit-extra-row{
-  display: grid !important;
-  grid-template-columns: minmax(0, 1fr) 88px !important;
-  gap: 10px !important;
-  align-items: center !important;
-  margin: 9px 0 !important;
-}
-
-#kitExtraList .kit-extra-row span{
-  font-size: 14px !important;
-  line-height: 1.2 !important;
-  color: #4a2b3b !important;
-  font-weight: 800 !important;
-  min-width: 0 !important;
-}
-
-#kitExtraList .kit-extra-row input{
-  width: 88px !important;
-  max-width: 88px !important;
-  height: 42px !important;
-  border-radius: 13px !important;
-  border: 1px solid #f1c4d5 !important;
-  padding: 0 10px !important;
-  font-size: 16px !important;
-  background: #fff !important;
-  box-sizing: border-box !important;
-}
-
-/* Evita que o modal crie espaço vazio lateral */
-#customModal .box,
-.modal.open .box{
-  box-sizing: border-box !important;
-}
-
-/* Celular: uma coluna para não quebrar */
-@media(max-width: 850px){
-  #kitExtraList.kit-extra-list{
-    grid-template-columns: 1fr !important;
-    gap: 14px !important;
-  }
-
-  #kitExtraList .kit-extra-row{
-    grid-template-columns: minmax(0, 1fr) 76px !important;
-  }
-
-  #kitExtraList .kit-extra-row input{
-    width: 76px !important;
-    max-width: 76px !important;
-  }
-}
-</style>
-
-
-<style id="kit-grid-fix-final">
-#kitExtraList.kit-extra-list{
-  display:flex !important;
-  gap:18px !important;
-  align-items:flex-start !important;
-  justify-content:space-between !important;
-  flex-wrap:nowrap !important;
-}
-
-#kitExtraList .kit-extra-card{
-  flex:1 1 0 !important;
-  width:calc(50% - 9px) !important;
-  max-width:calc(50% - 9px) !important;
-  min-width:0 !important;
-}
-
-#kitExtraList .kit-extra-card *{
+<style id="kit-modal-listas-no-lugar-certo">
+.kit-perfect-wrap{
+  width:100% !important;
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  gap:16px !important;
+  margin:16px 0 !important;
   box-sizing:border-box !important;
 }
 
-#kitExtraList .kit-extra-row{
-  display:flex !important;
+.kit-perfect-card{
+  width:100% !important;
+  min-width:0 !important;
+  box-sizing:border-box !important;
+  border:1px solid #f1c4d5 !important;
+  background:#fff7fb !important;
+  border-radius:18px !important;
+  padding:14px !important;
+}
+
+.kit-perfect-card h4{
+  margin:0 0 10px !important;
+  color:#8d2b58 !important;
+  font-size:16px !important;
+}
+
+.kit-perfect-progress{
+  width:100% !important;
+  box-sizing:border-box !important;
+  padding:10px 12px !important;
+  border-radius:14px !important;
+  background:#fff !important;
+  border:1px solid #f1c4d5 !important;
+  color:#8d2b58 !important;
+  font-weight:900 !important;
+  margin-bottom:12px !important;
+}
+
+.kit-perfect-row{
+  width:100% !important;
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) 86px !important;
+  gap:10px !important;
   align-items:center !important;
-  justify-content:space-between !important;
-  gap:12px !important;
+  margin:8px 0 !important;
+  box-sizing:border-box !important;
 }
 
-#kitExtraList .kit-extra-row span{
-  flex:1 !important;
+.kit-perfect-row span{
+  min-width:0 !important;
+  color:#4a2b3b !important;
+  font-weight:800 !important;
+  font-size:14px !important;
+  line-height:1.2 !important;
 }
 
-#kitExtraList .kit-extra-row input{
-  flex:0 0 86px !important;
+.kit-perfect-row input{
+  width:86px !important;
+  height:40px !important;
+  box-sizing:border-box !important;
+  border:1px solid #f1c4d5 !important;
+  border-radius:12px !important;
+  padding:0 10px !important;
+  font-size:16px !important;
+  background:#fff !important;
 }
 
+/* força a área a usar a largura toda do modal, não só a primeira coluna */
+#kitPerfectWrap{
+  grid-column:1 / -1 !important;
+}
+
+/* celular: uma coluna */
 @media(max-width:850px){
-  #kitExtraList.kit-extra-list{
-    flex-direction:column !important;
-  }
-
-  #kitExtraList .kit-extra-card{
-    width:100% !important;
-    max-width:100% !important;
+  .kit-perfect-wrap{
+    grid-template-columns:1fr !important;
   }
 }
 </style>
@@ -2453,19 +2383,20 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
 </script>
 
 
-<script id="fix-modal-kit-selects-and-lists-js">
+
+<script id="kit-modal-listas-no-lugar-certo-js">
 (function(){
   const recheios = ["Chocolate","Prestígio","Doce de leite","Brigadeiro","Ninho","Morango","Abacaxi","Ameixa"];
   const salgados = ["Coxinha","Bolinho de queijo","Risole de carne","Risole de calabresa","Risole misto","Empada","Pastel frito","Pastel de forno","Enroladinho"];
   const doces = ["Queijadinha","Tortinha doce","Surpresa de uva","Bicho de pé","Brigadeiro","Ouriço","Bem casado","Beijinho"];
 
   function modalBox(){
-    return document.querySelector("#customModal .box") || document.querySelector(".modal.open .box") || document.querySelector(".box");
+    return document.querySelector("#customModal .box") || document.querySelector(".modal.open .box");
   }
 
   function titleText(){
-    const title = document.querySelector("#customModal h2, #customModal h3, .modal.open h2, .modal.open h3");
-    return title ? title.textContent.toLowerCase() : "";
+    const t = document.querySelector("#customModal h2,#customModal h3,.modal.open h2,.modal.open h3");
+    return t ? t.textContent.toLowerCase() : "";
   }
 
   function isKit(){
@@ -2482,23 +2413,23 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
   }
 
   function fillRecheio(){
-    const selects = Array.from(document.querySelectorAll("select"));
-    const recheioSelects = selects.filter(sel => {
-      const parentText = (sel.parentElement ? sel.parentElement.textContent : "").toLowerCase();
-      const idName = ((sel.id || "") + " " + (sel.name || "")).toLowerCase();
-      return parentText.includes("recheio") || idName.includes("recheio");
-    });
+    if(!isKit()) return;
 
-    recheioSelects.forEach(sel => {
-      if(sel.options.length <= 1 || !sel.value){
-        sel.innerHTML = recheios.map(r => '<option value="'+r+'">'+r+'</option>').join("");
+    document.querySelectorAll("select").forEach(sel=>{
+      const area = (sel.parentElement ? sel.parentElement.textContent : "").toLowerCase();
+      const idname = ((sel.id || "") + " " + (sel.name || "")).toLowerCase();
+
+      if(area.includes("recheio") || idname.includes("recheio")){
+        if(sel.options.length <= 1 || !sel.value){
+          sel.innerHTML = recheios.map(r=>'<option value="'+r+'">'+r+'</option>').join("");
+        }
       }
     });
   }
 
   function sum(type){
-    return Array.from(document.querySelectorAll('.kit-extra-input[data-type="'+type+'"]'))
-      .reduce((a,i)=>a + Number(i.value || 0), 0);
+    return Array.from(document.querySelectorAll('.kit-perfect-input[data-type="'+type+'"]'))
+      .reduce((s,i)=>s + Number(i.value || 0), 0);
   }
 
   function update(){
@@ -2506,12 +2437,13 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
     const totalS = sum("salgado");
     const totalD = sum("doce");
 
-    const ps = document.querySelector('[data-kit-extra-progress="salgado"]');
-    const pd = document.querySelector('[data-kit-extra-progress="doce"]');
+    const ps = document.querySelector('[data-perfect-progress="salgado"]');
+    const pd = document.querySelector('[data-perfect-progress="doce"]');
+
     if(ps) ps.textContent = totalS + "/" + lim.s + " salgados";
     if(pd) pd.textContent = totalD + "/" + lim.d + " doces";
 
-    document.querySelectorAll(".kit-extra-input").forEach(inp => {
+    document.querySelectorAll(".kit-perfect-input").forEach(inp=>{
       const type = inp.dataset.type;
       const limit = type === "salgado" ? lim.s : lim.d;
       const total = type === "salgado" ? totalS : totalD;
@@ -2521,49 +2453,69 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
   }
 
   function bind(){
-    document.querySelectorAll(".kit-extra-input").forEach(inp => {
+    document.querySelectorAll(".kit-perfect-input").forEach(inp=>{
       if(inp.dataset.bound === "yes") return;
       inp.dataset.bound = "yes";
+
       inp.addEventListener("input", function(){
         const lim = limits();
         const type = this.dataset.type;
         const limit = type === "salgado" ? lim.s : lim.d;
+
         let val = Math.max(0, Math.floor(Number(this.value || 0)));
-        const other = Array.from(document.querySelectorAll('.kit-extra-input[data-type="'+type+'"]'))
+        const other = Array.from(document.querySelectorAll('.kit-perfect-input[data-type="'+type+'"]'))
           .filter(i=>i!==this)
-          .reduce((a,i)=>a + Number(i.value || 0), 0);
+          .reduce((s,i)=>s + Number(i.value || 0), 0);
+
         const allowed = Math.max(0, limit - other);
         if(val > allowed) val = allowed;
+
         this.value = val;
         update();
       });
     });
   }
 
-  function addLists(){
+  function makeCard(title, type, items, limit){
+    return (
+      '<div class="kit-perfect-card">' +
+        '<h4>'+title+'</h4>' +
+        '<div class="kit-perfect-progress" data-perfect-progress="'+type+'">0/'+limit+' '+(type === "salgado" ? "salgados" : "doces")+'</div>' +
+        items.map(nome =>
+          '<label class="kit-perfect-row">' +
+            '<span>'+nome+'</span>' +
+            '<input class="kit-perfect-input" data-type="'+type+'" data-name="'+nome+'" type="number" min="0" value="0">' +
+          '</label>'
+        ).join("") +
+      '</div>'
+    );
+  }
+
+  function insertLists(){
+    if(!isKit()) return;
     const b = modalBox();
-    if(!b || document.getElementById("kitExtraList")) return;
+    if(!b || document.getElementById("kitPerfectWrap")) return;
+
+    // remove listas antigas duplicadas, se existirem
+    document.querySelectorAll("#kitExtraList,.kit-extra-list").forEach(el=>el.remove());
 
     const lim = limits();
-    const salgHtml = salgados.map(nome =>
-      '<label class="kit-extra-row"><span>'+nome+'</span><input class="kit-extra-input" data-type="salgado" data-name="'+nome+'" type="number" min="0" value="0"></label>'
-    ).join("");
-
-    const doceHtml = doces.map(nome =>
-      '<label class="kit-extra-row"><span>'+nome+'</span><input class="kit-extra-input" data-type="doce" data-name="'+nome+'" type="number" min="0" value="0"></label>'
-    ).join("");
-
-    const block =
-      '<div id="kitExtraList" class="kit-extra-list">' +
-        '<div class="kit-extra-card"><h4>Salgados do kit</h4><div class="kit-extra-progress" data-kit-extra-progress="salgado">0/'+lim.s+' salgados</div>'+salgHtml+'</div>' +
-        '<div class="kit-extra-card"><h4>Doces do kit</h4><div class="kit-extra-progress" data-kit-extra-progress="doce">0/'+lim.d+' doces</div>'+doceHtml+'</div>' +
+    const wrap =
+      '<div id="kitPerfectWrap" class="kit-perfect-wrap">' +
+        makeCard("Salgados do kit","salgado",salgados,lim.s) +
+        makeCard("Doces do kit","doce",doces,lim.d) +
       '</div>';
 
-    const obsLabel = Array.from(b.querySelectorAll("label")).find(l => (l.textContent || "").toLowerCase().includes("observação"));
-    if(obsLabel && obsLabel.closest("div")){
-      obsLabel.closest("div").insertAdjacentHTML("beforebegin", block);
+    // inserir LOGO depois dos dois quadros resumidos de Salgados/Doces e antes da observação
+    const labels = Array.from(b.querySelectorAll("label,h4,h3,div,span,strong"));
+    const obs = labels.find(el => (el.textContent || "").toLowerCase().includes("observação"));
+
+    if(obs && obs.closest("div")){
+      obs.closest("div").insertAdjacentHTML("beforebegin", wrap);
     }else{
-      b.insertAdjacentHTML("beforeend", block);
+      const price = Array.from(b.querySelectorAll("*")).find(el => (el.textContent || "").trim().startsWith("R$"));
+      if(price) price.insertAdjacentHTML("beforebegin", wrap);
+      else b.insertAdjacentHTML("beforeend", wrap);
     }
 
     bind();
@@ -2573,26 +2525,26 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
   function apply(){
     if(!isKit()) return;
     fillRecheio();
-    addLists();
+    insertLists();
   }
 
   const oldOpenCustom = window.openCustom;
   if(typeof oldOpenCustom === "function"){
     window.openCustom = function(){
-      const result = oldOpenCustom.apply(this, arguments);
+      const r = oldOpenCustom.apply(this, arguments);
       setTimeout(apply, 120);
-      setTimeout(apply, 400);
-      return result;
+      setTimeout(apply, 420);
+      return r;
     };
   }
 
   document.addEventListener("click", function(){
-    setTimeout(apply, 180);
+    setTimeout(apply, 160);
   }, true);
 
   setInterval(function(){
-    if(document.querySelector("#customModal.open, .modal.open")) apply();
-  }, 800);
+    if(document.querySelector("#customModal.open,.modal.open")) apply();
+  }, 900);
 })();
 </script>
 
