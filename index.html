@@ -870,6 +870,21 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 }
 </style>
 
+
+<style id="fix-limite-kit-sem-tirar-do-outro-css">
+.kit-limit-shake{
+  animation: kitLimitShake .22s ease-in-out 2;
+  border-color: #ef4444 !important;
+  background: #fff0f0 !important;
+}
+
+@keyframes kitLimitShake{
+  0%,100%{ transform: translateX(0); }
+  25%{ transform: translateX(-3px); }
+  75%{ transform: translateX(3px); }
+}
+</style>
+
 </head>
 
 <body>
@@ -1373,6 +1388,128 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
   document.addEventListener("DOMContentLoaded", syncMobileSafeCartCount);
   window.addEventListener("load", syncMobileSafeCartCount);
   setInterval(syncMobileSafeCartCount, 600);
+})();
+</script>
+
+
+<script id="fix-limite-kit-sem-tirar-do-outro">
+(function(){
+  window.__lastKitValues = window.__lastKitValues || {};
+
+  window.getKitLimit = function(type){
+    if(!selected || !selected.kit) return 0;
+    return type === "salgado" ? Number(selected.limSalg || 0) : Number(selected.limDoces || 0);
+  };
+
+  window.sumKitInputs = function(type){
+    return [...document.querySelectorAll(`input[data-type="${type}"]`)]
+      .reduce((s,i)=>s + Number(i.value || 0), 0);
+  };
+
+  window.updateKitVisualLimit = function(type){
+    if(!selected || !selected.kit) return;
+
+    const limit = getKitLimit(type);
+    const total = sumKitInputs(type);
+    const isSalgado = type === "salgado";
+
+    const progress = isSalgado ? document.getElementById("salgadoProgress") : document.getElementById("doceProgress");
+    const bar = isSalgado ? document.getElementById("barSalgado") : document.getElementById("barDoce");
+    const fill = isSalgado ? document.getElementById("fillSalgado") : document.getElementById("fillDoce");
+
+    if(progress){
+      progress.textContent = `${total}/${limit} ${isSalgado ? "salgados" : "doces"}`;
+      progress.className = "progress " + (total === limit ? "ok" : total > limit ? "warn" : "");
+    }
+
+    if(bar){
+      bar.className = "kit-bar " + (total === limit ? "ok" : total > limit ? "warn" : "");
+    }
+
+    if(fill){
+      fill.style.width = Math.min(100, limit ? (total / limit) * 100 : 0) + "%";
+    }
+
+    document.querySelectorAll(`input[data-type="${type}"]`).forEach(inp=>{
+      const val = Number(inp.value || 0);
+      if(total >= limit && val === 0){
+        inp.disabled = true;
+      }else{
+        inp.disabled = false;
+      }
+    });
+  };
+
+  window.fixKitInputLimit = function(input){
+    if(!selected || !selected.kit || !input) return;
+
+    const type = input.dataset.type;
+    if(!type) return;
+
+    const limit = getKitLimit(type);
+    let value = Math.max(0, Math.floor(Number(input.value || 0)));
+
+    input.value = value;
+
+    const inputs = [...document.querySelectorAll(`input[data-type="${type}"]`)];
+    const otherTotal = inputs
+      .filter(i => i !== input)
+      .reduce((s,i)=>s + Number(i.value || 0), 0);
+
+    const maxAllowedForThis = Math.max(0, limit - otherTotal);
+
+    if(value > maxAllowedForThis){
+      input.value = maxAllowedForThis;
+      input.classList.add("kit-limit-shake");
+      setTimeout(()=>input.classList.remove("kit-limit-shake"), 260);
+    }
+
+    updateKitVisualLimit(type);
+  };
+
+  // Substitui a validação antiga por uma que não rouba quantidade dos outros campos.
+  window.validateKitInputs = function(){
+    if(!selected || !selected.kit) return true;
+
+    updateKitVisualLimit("salgado");
+    updateKitVisualLimit("doce");
+
+    const s = sumKitInputs("salgado");
+    const d = sumKitInputs("doce");
+
+    return s === Number(selected.limSalg || 0) && d === Number(selected.limDoces || 0);
+  };
+
+  // Conecta os inputs do kit com a trava correta.
+  function bindKitInputs(){
+    document.querySelectorAll('input[data-type="salgado"], input[data-type="doce"]').forEach(inp=>{
+      if(inp.dataset.kitLimitBound === "yes") return;
+      inp.dataset.kitLimitBound = "yes";
+
+      inp.addEventListener("input", function(){
+        fixKitInputLimit(this);
+      });
+
+      inp.addEventListener("change", function(){
+        fixKitInputLimit(this);
+      });
+    });
+  }
+
+  const oldOpenCustom = window.openCustom;
+  if(typeof oldOpenCustom === "function"){
+    window.openCustom = function(){
+      const result = oldOpenCustom.apply(this, arguments);
+      setTimeout(function(){
+        bindKitInputs();
+        validateKitInputs();
+      }, 80);
+      return result;
+    };
+  }
+
+  document.addEventListener("DOMContentLoaded", bindKitInputs);
+  setInterval(bindKitInputs, 900);
 })();
 </script>
 
