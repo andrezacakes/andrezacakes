@@ -1151,13 +1151,13 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 
 
 <style id="ovos-colher-premium">
-.card[data-cat="Ovos de colher"] .icon,
-.card[data-cat="Ovos de colher"] .product-photo{
+.card[data-cat="🥚 Ovos"] .icon,
+.card[data-cat="🥚 Ovos"] .product-photo{
   background: linear-gradient(135deg,#fff4f8,#ffe4ef) !important;
   border: 1px solid #f1c4d5 !important;
 }
 
-.card[data-cat="Ovos de colher"] h3{
+.card[data-cat="🥚 Ovos"] h3{
   color:#8d2b58;
 }
 </style>
@@ -1165,63 +1165,27 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 
 <style id="ovos-premium-organizado">
 button[onclick*="Cestas café da manhã"],
-button[onclick*="Ovos de colher"]{
+button[onclick*="🥚 Ovos"]{
   background: #fff !important;
   border: 1px solid #f1c4d5 !important;
 }
 
-.card[data-cat="Ovos de colher"]{
+.card[data-cat="🥚 Ovos"]{
   border:1px solid #f3d6e2 !important;
   box-shadow:0 8px 24px rgba(217,100,145,.08) !important;
 }
 
-.card[data-cat="Ovos de colher"] .desc{
+.card[data-cat="🥚 Ovos"] .desc{
   line-height:1.7 !important;
 }
 
-.card[data-cat="Ovos de colher"] h3{
+.card[data-cat="🥚 Ovos"] h3{
   color:#8d2b58 !important;
 }
 </style>
 
 
-<style id="botoes-categorias-novas-estaveis">
-.filters{
-  flex-wrap: wrap !important;
-  gap: 12px !important;
-}
 
-.filters button{
-  appearance: none !important;
-  -webkit-appearance: none !important;
-}
-
-.filters button[onclick*="Cestas"],
-.filters button[onclick*="Ovos"]{
-  border-radius: 999px !important;
-  border: 1px solid #f1c4d5 !important;
-  background: #fff !important;
-  color: #8d2b58 !important;
-  font-weight: 900 !important;
-  padding: 12px 18px !important;
-  box-shadow: none !important;
-}
-
-.filters button.active[onclick*="Cestas"],
-.filters button.active[onclick*="Ovos"]{
-  background: linear-gradient(135deg,#d96491,#ff8db4) !important;
-  color: #fff !important;
-  border-color: transparent !important;
-}
-
-@media(max-width:850px){
-  .filters button[onclick*="Cestas"],
-  .filters button[onclick*="Ovos"]{
-    padding: 10px 14px !important;
-    font-size: 13px !important;
-  }
-}
-</style>
 
 
 <style id="ovos-de-colher-form-correto">
@@ -1244,6 +1208,51 @@ button[onclick*="Ovos de colher"]{
   background:white;
 }
 @media(max-width:700px){.ovo-grid{grid-template-columns:1fr;}}
+</style>
+
+
+<style id="categorias-premium-fix">
+.filters{
+ display:flex !important;
+ flex-wrap:wrap !important;
+ gap:14px !important;
+ align-items:center !important;
+}
+
+.filters button{
+ border:none !important;
+ border-radius:999px !important;
+ padding:14px 22px !important;
+ background:#fff !important;
+ color:#8d2b58 !important;
+ font-weight:800 !important;
+ font-size:16px !important;
+ box-shadow:0 6px 18px rgba(217,100,145,.12) !important;
+ border:2px solid #f5d1df !important;
+ transition:none !important;
+ min-height:56px !important;
+}
+
+.filters button.active{
+ background:linear-gradient(135deg,#d96491,#ff8db4) !important;
+ color:#fff !important;
+ border-color:transparent !important;
+}
+
+.filters button:hover{
+ transform:none !important;
+}
+
+@media(max-width:700px){
+ .filters{
+   gap:10px !important;
+ }
+ .filters button{
+   padding:12px 18px !important;
+   font-size:15px !important;
+   min-height:52px !important;
+ }
+}
 </style>
 
 </head>
@@ -1272,7 +1281,7 @@ button[onclick*="Ovos de colher"]{
       <div>Bolos</div>
       <div>Doces e salgados</div>
       <div>Cestas café da manhã</div>
-      <div>Ovos de colher</div>
+      <div>🥚 Ovos</div>
     </div>
     <div class="premium-note">✨ Um toque especial em cada encomenda</div>
   </div>
@@ -1286,7 +1295,7 @@ button[onclick*="Ovos de colher"]{
     <button class="tab" onclick="filterCat('Bolos',this)">Bolos</button>
     <button class="tab" onclick="filterCat('Salgados',this)">Salgados</button>
     <button class="tab" onclick="filterCat('Doces',this)">Doces</button>
-    <button class="tab" onclick="filterCat('Personalizados',this)">Personalizados</button><button onclick="filterCat(\'Cestas café da manhã\')">Cestas personalizadas</button><button onclick="filterCat(\'Ovos de colher\')">Ovos de colher</button>
+    <button class="tab" onclick="filterCat('Personalizados',this)">Personalizados</button><button onclick="filterCat(\'Cestas café da manhã\')">☕ Cestas</button><button onclick="filterCat(\'🥚 Ovos\')">🥚 Ovos</button>
   </div>
   <div class="grid" id="produtos"></div>
 </section>
@@ -1439,8 +1448,8 @@ const produtos=[
   {id:35, nome:"Cesta café da manhã personalizada", cat:"Cestas café da manhã", emoji:"☕", desc:"Cesta montada sob encomenda. Valor a combinar pelo WhatsApp.", preco:0}
 
 ,
-  {id:907, nome:"Ovo de colher simples", cat:"Ovos de colher", emoji:"🥚", ovo:true, tipoOvo:"simples", desc:"Escolha o tamanho e o sabor no pedido.", preco:25},
-  {id:908, nome:"Ovo de colher gourmet", cat:"Ovos de colher", emoji:"🍫", ovo:true, tipoOvo:"gourmet", desc:"Escolha o tamanho e o sabor no pedido.", preco:30}
+  {id:907, nome:"Ovo de colher simples", cat:"🥚 Ovos", emoji:"🥚", ovo:true, tipoOvo:"simples", desc:"Escolha o tamanho e o sabor no pedido.", preco:25},
+  {id:908, nome:"Ovo de colher gourmet", cat:"🥚 Ovos", emoji:"🍫", ovo:true, tipoOvo:"gourmet", desc:"Escolha o tamanho e o sabor no pedido.", preco:30}
 ];
 
 let cart=[], current="Todos", selected=null, editing=null, playlist=["assets/audio/musica1.mp3","assets/audio/musica2.mp3","assets/audio/musica3.mp3"], music=0;
@@ -2072,6 +2081,44 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
       return r;
     };
   }
+})();
+</script>
+
+
+<script id="fix-filtros-final-premium">
+(function(){
+
+ function texto(btn){
+   return (btn.textContent || '').toLowerCase().trim();
+ }
+
+ window.filterCat = function(cat){
+   window.current = cat;
+
+   document.querySelectorAll('.filters button').forEach(btn=>{
+     btn.classList.remove('active');
+
+     const t = texto(btn);
+
+     if(
+       (cat === 'Todos' && t.includes('todos')) ||
+       (cat === 'Kits festa' && t.includes('kits')) ||
+       (cat === 'Bolos' && t.includes('bolos')) ||
+       (cat === 'Salgados' && t.includes('salgados')) ||
+       (cat === 'Doces' && t.includes('doces')) ||
+       (cat === 'Personalizados' && t.includes('personalizados')) ||
+       (cat === 'Cestas café da manhã' && t.includes('cestas')) ||
+       (cat === 'Ovos de colher' && t.includes('ovos'))
+     ){
+       btn.classList.add('active');
+     }
+   });
+
+   if(typeof renderProducts === 'function'){
+     renderProducts();
+   }
+ }
+
 })();
 </script>
 
