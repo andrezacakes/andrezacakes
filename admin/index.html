@@ -1,197 +1,45 @@
-
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Gestão Inteligente - Andreza Cakes</title>
-
+<link rel="icon" type="image/png" href="../favicon-app-style.png" />
 <style>
-body{
-    font-family: Arial, sans-serif;
-    background:#fdeef5;
-    margin:0;
-    padding:30px;
-    color:#4a2b3b;
-}
-
-.container{
-    max-width:1100px;
-    margin:auto;
-}
-
-.topo{
-    text-align:center;
-    margin-bottom:30px;
-}
-
-.topo h1{
-    font-size:42px;
-    margin-bottom:10px;
-}
-
-.topo p{
-    font-size:18px;
-    color:#7a5a68;
-}
-
-.cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:20px;
-    margin-top:30px;
-}
-
-.card{
-    background:white;
-    border-radius:25px;
-    padding:25px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.08);
-}
-
-.card h2{
-    margin-top:0;
-    color:#c04f82;
-}
-
-.valor{
-    font-size:32px;
-    font-weight:bold;
-    margin-top:15px;
-}
-
-.info{
-    margin-top:15px;
-    color:#7a5a68;
-    line-height:1.6;
-}
-
-.demo{
-    margin-top:40px;
-    background:white;
-    padding:30px;
-    border-radius:25px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.08);
-}
-
-.demo h2{
-    margin-top:0;
-    color:#c04f82;
-}
-
-.lista{
-    margin-top:20px;
-    display:grid;
-    gap:15px;
-}
-
-.item{
-    background:#fff5fa;
-    border-radius:18px;
-    padding:18px;
-}
-
-.item strong{
-    color:#c04f82;
-}
-
-.footer{
-    margin-top:40px;
-    text-align:center;
-    color:#7a5a68;
-}
-
-@media(max-width:768px){
-    .topo h1{
-        font-size:32px;
-    }
-}
+:root{--rosa:#d96491;--rosa2:#ff8db4;--vinho:#8d2b58;--claro:#fff3f7;--borda:#f1c4d5;--texto:#2c1b24;--muted:#805d70;--sombra:0 22px 55px rgba(112,48,75,.16)}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(135deg,#fff7fb,#ffe3ee);color:var(--texto)}
+header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--borda)}
+.nav{max-width:1180px;margin:auto;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{font-weight:900;font-size:18px}.brand small{display:block;font-size:12px;color:var(--muted);font-weight:700}.menu{display:flex;gap:10px;flex-wrap:wrap}.menu a,.btn{border:0;border-radius:999px;padding:10px 15px;font-weight:900;text-decoration:none;cursor:pointer;background:linear-gradient(135deg,var(--rosa),var(--rosa2));color:#fff;box-shadow:0 12px 25px rgba(217,100,145,.22)}.menu a.secondary{background:#fff;color:var(--vinho);border:1px solid var(--borda);box-shadow:none}
+main{max-width:1180px;margin:auto;padding:30px 18px 50px}.hero{text-align:center;margin:10px 0 26px}.hero h1{font-size:clamp(32px,5vw,50px);margin:0 0 10px}.hero p{color:var(--muted);margin:0;font-size:17px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.card{background:rgba(255,255,255,.92);border:1px solid var(--borda);border-radius:26px;padding:20px;box-shadow:var(--sombra)}.card h3{margin:0 0 14px;color:var(--vinho);font-size:20px}.big{font-size:30px;font-weight:900;margin:0 0 10px}.muted{color:var(--muted);line-height:1.45}.section{margin-top:24px}.section-title{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 0 14px}.section-title h2{font-size:26px;margin:0;color:#4b4050}.panel{background:rgba(255,255,255,.9);border:1px solid var(--borda);border-radius:28px;padding:22px;box-shadow:var(--sombra)}
+.formgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}label{display:block;font-size:13px;font-weight:900;color:var(--vinho);margin-bottom:6px}input,select,textarea{width:100%;border:1px solid var(--borda);border-radius:15px;padding:12px;background:#fff;font-size:15px}textarea{min-height:75px}.full{grid-column:1/-1}.two{grid-column:span 2}.table{width:100%;border-collapse:separate;border-spacing:0 10px}.table th{text-align:left;color:var(--vinho);font-size:13px;padding:0 10px}.table td{background:#fff;border-top:1px solid var(--borda);border-bottom:1px solid var(--borda);padding:12px 10px}.table td:first-child{border-left:1px solid var(--borda);border-radius:16px 0 0 16px}.table td:last-child{border-right:1px solid var(--borda);border-radius:0 16px 16px 0}.pill{display:inline-block;border-radius:999px;background:#fff3f7;border:1px solid var(--borda);padding:7px 10px;color:var(--vinho);font-weight:900}.mini-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.note{background:#fff7fb;border:1px dashed var(--borda);border-radius:20px;padding:16px;color:var(--muted);line-height:1.5}footer{text-align:center;color:var(--muted);padding:30px 18px;border-top:1px solid var(--borda)}
+@media(max-width:900px){.grid,.formgrid,.mini-grid{grid-template-columns:1fr}.two{grid-column:1/-1}.table{font-size:13px}.nav{align-items:flex-start;flex-direction:column}.menu a,.btn{font-size:13px;padding:9px 12px}}
 </style>
 </head>
-
 <body>
-
-<div class="container">
-
-<div class="topo">
-<h1>💰 Gestão Financeira Inteligente</h1>
-<p>Painel automático para separar lucro, reposição, despesas e reserva emergencial.</p>
-</div>
-
-<div class="cards">
-
-<div class="card">
-<h2>💵 Faturamento</h2>
-<div class="valor">R$ 1.250</div>
-<div class="info">
-Total vendido hoje no site.
-</div>
-</div>
-
-<div class="card">
-<h2>📦 Reposição</h2>
-<div class="valor">R$ 437</div>
-<div class="info">
-35% separado automaticamente para ingredientes e estoque.
-</div>
-</div>
-
-<div class="card">
-<h2>⚡ Despesas</h2>
-<div class="valor">R$ 187</div>
-<div class="info">
-Água, luz, gás e custos gerais.
-</div>
-</div>
-
-<div class="card">
-<h2>🛟 Reserva</h2>
-<div class="valor">R$ 125</div>
-<div class="info">
-Dinheiro guardado automaticamente para emergências.
-</div>
-</div>
-
-<div class="card">
-<h2>💖 Lucro Livre</h2>
-<div class="valor">R$ 500</div>
-<div class="info">
-Valor restante livre para a Andreza Cakes.
-</div>
-</div>
-
-</div>
-
-<div class="demo">
-
-<h2>🧠 Como funcionará automático</h2>
-
-<div class="lista">
-
-<div class="item">
-<strong>Pedido recebido:</strong><br>
-Kit Festa • R$ 200
-</div>
-
-<div class="item">
-<strong>O sistema divide automaticamente:</strong><br>
-35% reposição • 15% despesas • 10% reserva • 40% lucro
-</div>
-
-<div class="item">
-<strong>Resultado automático:</strong><br>
-Lucro: R$ 80 • Reposição: R$ 70 • Despesas: R$ 30 • Reserva: R$ 20
-</div>
-
-</div>
-
-</div>
-
-<div class="footer">
-Andreza Cakes • Sistema Financeiro Inteligente 💖
-</div>
-
-</div>
-
-</body>
-</html>
+<header><div class="nav"><div class="brand">Andreza Cakes <small>Área administrativa completa</small></div><div class="menu"><a class="secondary" href="../index.html">Voltar ao site</a><a href="#financeiro">Financeiro</a><a href="#pedidos">Pedidos</a><a href="#produtos">Produtos</a></div></div></header>
+<main>
+<section class="hero"><h1>💰 Gestão Financeira Inteligente</h1><p>Painel completo: pedidos, divisão automática, produtos, estoque, despesas e reserva.</p></section>
+<section id="financeiro" class="grid">
+<div class="card"><h3>💵 Faturamento</h3><p class="big" id="fat">R$ 1.250</p><p class="muted">Total vendido hoje no site.</p></div>
+<div class="card"><h3>📦 Reposição</h3><p class="big" id="rep">R$ 437</p><p class="muted">35% separado automaticamente para ingredientes e estoque.</p></div>
+<div class="card"><h3>⚡ Despesas</h3><p class="big" id="desp">R$ 187</p><p class="muted">Água, luz, gás e custos gerais.</p></div>
+<div class="card"><h3>☐ Reserva</h3><p class="big" id="res">R$ 125</p><p class="muted">Dinheiro guardado automaticamente para emergências.</p></div>
+<div class="card"><h3>💖 Lucro Livre</h3><p class="big" id="lucro">R$ 500</p><p class="muted">Valor restante livre para Andreza Cakes.</p></div>
+</section>
+<section class="section"><div class="panel"><div class="section-title"><h2>🧠 Como funcionará automático</h2></div><div class="mini-grid"><div class="note"><b>Pedido recebido:</b><br>Exemplo: Kit Festa - R$ 200</div><div class="note"><b>O sistema divide automaticamente:</b><br>35% reposição • 15% despesas • 10% reserva • 40% lucro</div><div class="note"><b>Resultado automático:</b><br>Lucro: R$ 80 • Reposição: R$ 70 • Despesas: R$ 30 • Reserva: R$ 20</div></div></div></section>
+<section id="pedidos" class="section"><div class="section-title"><h2>🧾 Pedidos recebidos</h2><button class="btn" onclick="addPedido()">Adicionar pedido teste</button></div><div class="panel"><table class="table"><thead><tr><th>Cliente</th><th>Produto</th><th>Valor</th><th>Status</th><th>Divisão</th></tr></thead><tbody id="pedidosBody"></tbody></table></div></section>
+<section id="produtos" class="section"><div class="section-title"><h2>🎂 Cadastrar / organizar produtos</h2></div><div class="panel"><div class="formgrid"><div class="two"><label>Nome do produto</label><input id="pNome" placeholder="Ex: Kit Chantininho 1kg"></div><div><label>Categoria</label><select id="pCat"><option>Kits festa</option><option>Bolos</option><option>Salgados</option><option>Doces</option><option>Personalizados</option></select></div><div><label>Preço</label><input id="pPreco" type="number" value="140"></div><div class="full"><label>Observação</label><textarea id="pObs" placeholder="Ex: bolo + salgados + doces, regras do kit, sabores..."></textarea></div><div class="full"><button class="btn" onclick="addProduto()">Salvar produto</button></div></div><table class="table"><thead><tr><th>Produto</th><th>Categoria</th><th>Preço</th><th>Observação</th></tr></thead><tbody id="prodBody"></tbody></table></div></section>
+<section class="section"><div class="section-title"><h2>📦 Estoque e ingredientes</h2></div><div class="panel"><div class="mini-grid"><div class="note"><b>Ingredientes principais</b><br>Leite condensado, creme de leite, chocolate, farinha, ovos, açúcar.</div><div class="note"><b>Aviso inteligente</b><br>Quando a reposição acumular valor, separar compra de ingredientes e embalagens.</div><div class="note"><b>Controle manual por enquanto</b><br>Depois pode virar sistema com login e banco de dados.</div></div></div></section>
+</main><footer>Andreza Cakes • Sistema Financeiro Inteligente 💖</footer>
+<script>
+const money=v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+let pedidos=JSON.parse(localStorage.getItem('acPedidos')||'[{"cliente":"Pedido do site","produto":"Kit Festa","valor":200,"status":"Recebido"},{"cliente":"Maria","produto":"Bolo 1kg","valor":90,"status":"Em produção"}]');
+let produtos=JSON.parse(localStorage.getItem('acProdutos')||'[{"nome":"Kit Chantininho 1kg","cat":"Kits festa","preco":140,"obs":"Bolo 1kg + 40 salgados + 30 doces"},{"nome":"Bolo à parte","cat":"Bolos","preco":90,"obs":"Preço por kg"}]');
+function calc(v){return {rep:v*.35,desp:v*.15,res:v*.10,lucro:v*.40}}
+function renderPedidos(){pedidosBody.innerHTML=pedidos.map(p=>{let c=calc(p.valor);return `<tr><td>${p.cliente}</td><td>${p.produto}</td><td>${money(p.valor)}</td><td><span class="pill">${p.status}</span></td><td>Rep. ${money(c.rep)} • Desp. ${money(c.desp)} • Res. ${money(c.res)} • Lucro ${money(c.lucro)}</td></tr>`}).join('');let total=pedidos.reduce((s,p)=>s+p.valor,0),c=calc(total);fat.textContent=money(total);rep.textContent=money(c.rep);desp.textContent=money(c.desp);res.textContent=money(c.res);lucro.textContent=money(c.lucro);localStorage.setItem('acPedidos',JSON.stringify(pedidos))}
+function renderProdutos(){prodBody.innerHTML=produtos.map(p=>`<tr><td>${p.nome}</td><td>${p.cat}</td><td>${money(Number(p.preco||0))}</td><td>${p.obs||''}</td></tr>`).join('');localStorage.setItem('acProdutos',JSON.stringify(produtos))}
+function addPedido(){pedidos.push({cliente:'Novo cliente',produto:'Kit Festa',valor:200,status:'Recebido'});renderPedidos()}
+function addProduto(){produtos.push({nome:pNome.value||'Produto',cat:pCat.value,preco:Number(pPreco.value||0),obs:pObs.value});pNome.value='';pObs.value='';renderProdutos()}
+renderPedidos();renderProdutos();
+</script>
+</body></html>
