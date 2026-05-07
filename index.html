@@ -1184,6 +1184,66 @@ button[onclick*="Ovos de colher"]{
 }
 </style>
 
+
+<style id="ovos-de-colher-form-correto">
+@media(max-width:850px){
+  .filters, .tabs, .categorias{
+    display:flex !important;
+    flex-wrap:wrap !important;
+    justify-content:center !important;
+    gap:10px !important;
+  }
+
+  .filters button,
+  .tabs button,
+  .categorias button{
+    padding:10px 14px !important;
+    font-size:13px !important;
+    border-radius:999px !important;
+  }
+}
+
+.ovo-options{
+  display:none;
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px solid #f1c4d5;
+}
+
+.ovo-options.show{
+  display:grid;
+  gap:12px;
+}
+
+.ovo-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.ovo-options label{
+  font-weight:900;
+  color:#8d2b58;
+  font-size:14px;
+}
+
+.ovo-options select{
+  width:100%;
+  height:48px;
+  border-radius:14px;
+  border:1px solid #f1c4d5;
+  padding:0 12px;
+  font-size:16px;
+  background:white;
+}
+
+@media(max-width:700px){
+  .ovo-grid{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+
 </head>
 
 <body id="topo">
@@ -1224,7 +1284,7 @@ button[onclick*="Ovos de colher"]{
     <button class="tab" onclick="filterCat('Bolos',this)">Bolos</button>
     <button class="tab" onclick="filterCat('Salgados',this)">Salgados</button>
     <button class="tab" onclick="filterCat('Doces',this)">Doces</button>
-    <button class="tab" onclick="filterCat('Personalizados',this)">Personalizados</button>
+    <button class="tab" onclick="filterCat('Personalizados',this)">Personalizados</button><button onclick=\"filterCat('Cestas café da manhã')\">Cestas personalizadas</button><button onclick=\"filterCat('Ovos de colher')\">Ovos de colher</button>
   </div>
   <div class="grid" id="produtos"></div>
 </section>
@@ -1377,9 +1437,8 @@ const produtos=[
   {id:35, nome:"Cesta café da manhã personalizada", cat:"Cestas café da manhã", emoji:"☕", desc:"Cesta montada sob encomenda. Valor a combinar pelo WhatsApp.", preco:0}
 
 ,
-  {id:907, nome:"Ovo de colher simples", cat:"Ovos de colher", emoji:"🥚", desc:"150g: R$25 • 250g: R$35 • 500g: R$45 • Sabores: Brigadeiro, Chocolate branco, Bem casado, Maracujá, Napolitano, Prestígio, Sensação, Doce de leite, Paçoca e Limão.", preco:25},
-
-  {id:908, nome:"Ovo de colher gourmet", cat:"Ovos de colher", emoji:"🍫", desc:"150g: R$30 • 250g: R$40 • 500g: R$55 • Sabores: Ninho c/ Nutella, Oreo, Brawner, Red Velvet, Ferrero Rocher e Sonho de Valsa.", preco:30}
+  {id:907, nome:"Ovo de colher simples", cat:"Ovos de colher", emoji:"🥚", ovo:true, tipoOvo:"simples", desc:"Escolha o tamanho e o sabor no pedido.", preco:25},
+  {id:908, nome:"Ovo de colher gourmet", cat:"Ovos de colher", emoji:"🍫", ovo:true, tipoOvo:"gourmet", desc:"Escolha o tamanho e o sabor no pedido.", preco:30}
 ];
 
 let cart=[], current="Todos", selected=null, editing=null, playlist=["assets/audio/musica1.mp3","assets/audio/musica2.mp3","assets/audio/musica3.mp3"], music=0;
@@ -1856,6 +1915,184 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
       const r = oldCloseCart.apply(this, arguments);
       restoreY();
       return r;
+    };
+  }
+})();
+</script>
+
+
+<script id="ovos-de-colher-form-correto-js">
+(function(){
+  const ovoData = {
+    simples: {
+      tamanhos: [
+        {label:"150g", preco:25},
+        {label:"250g", preco:35},
+        {label:"500g", preco:45}
+      ],
+      sabores: ["Brigadeiro","Chocolate branco","Bem casado","Maracujá","Napolitano","Prestígio","Sensação","Doce de leite","Paçoca","Limão"]
+    },
+    gourmet: {
+      tamanhos: [
+        {label:"150g", preco:30},
+        {label:"250g", preco:40},
+        {label:"500g", preco:55}
+      ],
+      sabores: ["Ninho c/ Nutella","Oreo","Brawner","Red Velvet","Ferrero Rocher","Sonho de Valsa"]
+    }
+  };
+
+  function moneyBR(v){
+    return Number(v || 0).toLocaleString("pt-BR", {style:"currency", currency:"BRL"});
+  }
+
+  function ensureOvoFields(){
+    const box = document.querySelector("#customModal .box") || document.querySelector(".modal.open .box") || document.querySelector(".box");
+    if(!box || document.getElementById("ovoOptions")) return;
+
+    const price = document.getElementById("modalPrice");
+    const html = `
+      <div class="ovo-options" id="ovoOptions">
+        <div class="ovo-grid">
+          <div>
+            <label>Tamanho do ovo</label>
+            <select id="ovoTamanho"></select>
+          </div>
+          <div>
+            <label>Sabor</label>
+            <select id="ovoSabor"></select>
+          </div>
+        </div>
+      </div>
+    `;
+
+    if(price){
+      price.insertAdjacentHTML("beforebegin", html);
+    }else{
+      box.insertAdjacentHTML("beforeend", html);
+    }
+
+    document.getElementById("ovoTamanho").addEventListener("change", updateOvoPrice);
+    document.getElementById("ovoSabor").addEventListener("change", updateOvoPrice);
+  }
+
+  function updateOvoPrice(){
+    if(!window.selected || !selected.ovo) return;
+
+    const tamanho = document.getElementById("ovoTamanho");
+    const qty = document.getElementById("customQty");
+    const price = document.getElementById("modalPrice");
+
+    const preco = Number(tamanho?.selectedOptions?.[0]?.dataset?.preco || selected.preco || 0);
+    const quantidade = Number(qty?.value || 1);
+
+    selected.preco = preco;
+
+    if(price){
+      price.textContent = moneyBR(preco * quantidade);
+    }
+  }
+
+  function setupOvoModal(idx=null){
+    ensureOvoFields();
+
+    const ovoBox = document.getElementById("ovoOptions");
+    if(!ovoBox) return;
+
+    if(!window.selected || !selected.ovo){
+      ovoBox.classList.remove("show");
+      return;
+    }
+
+    const data = ovoData[selected.tipoOvo || "simples"];
+    const tamanho = document.getElementById("ovoTamanho");
+    const sabor = document.getElementById("ovoSabor");
+
+    tamanho.innerHTML = data.tamanhos.map(t => `<option data-preco="${t.preco}" value="${t.label}">${t.label} - ${moneyBR(t.preco)}</option>`).join("");
+    sabor.innerHTML = data.sabores.map(s => `<option value="${s}">${s}</option>`).join("");
+
+    if(idx !== null && window.cart && cart[idx]){
+      if(cart[idx].tamanhoOvo) tamanho.value = cart[idx].tamanhoOvo;
+      if(cart[idx].saborOvo) sabor.value = cart[idx].saborOvo;
+    }
+
+    ovoBox.classList.add("show");
+    updateOvoPrice();
+  }
+
+  const oldOpenCustom = window.openCustom;
+  if(typeof oldOpenCustom === "function"){
+    window.openCustom = function(id, idx=null){
+      const result = oldOpenCustom.apply(this, arguments);
+      setTimeout(function(){
+        setupOvoModal(idx);
+      }, 80);
+      return result;
+    };
+  }
+
+  const oldUpdateModalPrice = window.updateModalPrice;
+  if(typeof oldUpdateModalPrice === "function"){
+    window.updateModalPrice = function(){
+      if(window.selected && selected.ovo){
+        updateOvoPrice();
+        return;
+      }
+      return oldUpdateModalPrice.apply(this, arguments);
+    };
+  }
+
+  const oldSaveCustom = window.saveCustom;
+  if(typeof oldSaveCustom === "function"){
+    window.saveCustom = function(){
+      if(window.selected && selected.ovo){
+        const tamanho = document.getElementById("ovoTamanho");
+        const sabor = document.getElementById("ovoSabor");
+        const preco = Number(tamanho?.selectedOptions?.[0]?.dataset?.preco || selected.preco || 0);
+
+        selected.preco = preco;
+        selected.tamanhoOvo = tamanho ? tamanho.value : "";
+        selected.saborOvo = sabor ? sabor.value : "";
+      }
+
+      const result = oldSaveCustom.apply(this, arguments);
+
+      // Depois que salvar, acrescenta os detalhes no item mais recente se necessário.
+      if(window.cart && cart.length && selected && selected.ovo){
+        const item = cart[cart.length - 1];
+        if(item && item.nome === selected.nome){
+          item.tamanhoOvo = selected.tamanhoOvo;
+          item.saborOvo = selected.saborOvo;
+          item.preco = selected.preco;
+          item.descExtra = `Tamanho: ${selected.tamanhoOvo} • Sabor: ${selected.saborOvo}`;
+        }
+        if(typeof renderCart === "function") renderCart();
+      }
+
+      return result;
+    };
+  }
+
+  // Patch renderCart to show egg details if renderCart uses item fields after saving.
+  const oldRenderCart = window.renderCart;
+  if(typeof oldRenderCart === "function"){
+    window.renderCart = function(){
+      const result = oldRenderCart.apply(this, arguments);
+
+      try{
+        document.querySelectorAll(".cart-item, .pedido-item, .item-cart").forEach((el, idx)=>{
+          const item = cart && cart[idx];
+          if(item && item.ovo && item.tamanhoOvo && !el.textContent.includes("Tamanho:")){
+            const info = document.createElement("div");
+            info.style.color = "#805d70";
+            info.style.marginTop = "4px";
+            info.textContent = `Tamanho: ${item.tamanhoOvo} • Sabor: ${item.saborOvo}`;
+            el.appendChild(info);
+          }
+        });
+      }catch(e){}
+
+      return result;
     };
   }
 })();
