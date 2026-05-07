@@ -597,6 +597,71 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 }
 </style>
 
+
+<style id="mobile-floating-buttons-premium">
+@media (max-width: 850px){
+
+  #cartBtn,
+  #musicBtn{
+    position: fixed !important;
+    right: 14px !important;
+    left: auto !important;
+
+    width: 52px !important;
+    height: 52px !important;
+
+    border-radius: 18px !important;
+
+    background: rgba(255,255,255,.86) !important;
+    backdrop-filter: blur(14px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(14px) saturate(180%) !important;
+
+    border: 1px solid rgba(255,255,255,.55) !important;
+
+    box-shadow:
+      0 10px 30px rgba(112,48,75,.16),
+      inset 0 1px 0 rgba(255,255,255,.6) !important;
+
+    z-index: 999999 !important;
+
+    opacity: .90 !important;
+    visibility: visible !important;
+
+    transition:
+      transform .22s ease,
+      opacity .22s ease !important;
+  }
+
+  #cartBtn:active,
+  #musicBtn:active{
+    transform: scale(.96) !important;
+    opacity: 1 !important;
+  }
+
+  #cartBtn{
+    bottom: 82px !important;
+  }
+
+  #musicBtn{
+    bottom: 18px !important;
+  }
+
+  #cartBtn svg,
+  #musicBtn svg,
+  #cartBtn i,
+  #musicBtn i{
+    transform: scale(.88) !important;
+  }
+
+  body.modal-open-mobile #cartBtn,
+  body.modal-open-mobile #musicBtn{
+    position: fixed !important;
+    visibility: visible !important;
+    opacity: .90 !important;
+  }
+}
+</style>
+
 </head>
 
 <body>
