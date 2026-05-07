@@ -1084,6 +1084,31 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 }
 </style>
 
+
+<style id="novas-categorias-premium">
+.hero-card .mini{
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  gap:12px !important;
+}
+
+.hero-card .mini div{
+  min-height:56px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:12px 10px;
+  line-height:1.3;
+}
+
+@media(max-width:850px){
+  .hero-card .mini{
+    grid-template-columns:1fr 1fr !important;
+  }
+}
+</style>
+
 </head>
 
 <body id="topo">
@@ -1109,8 +1134,10 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
       <div>Personalizados</div>
       <div>Bolos</div>
       <div>Doces e salgados</div>
+      <div>Cestas café da manhã</div>
+      <div>Ovos de colher</div>
     </div>
-    <div class="premium-note">Feito sob encomenda com amor em Recife 💖</div>
+    <div class="premium-note">✨ Um toque especial em cada encomenda</div>
   </div>
 </section>
 
