@@ -719,6 +719,157 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 }
 </style>
 
+
+<style id="mobile-header-premium-final">
+@media (max-width: 850px){
+
+  header{
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 99999 !important;
+    background: rgba(255,255,255,.96) !important;
+    backdrop-filter: blur(14px) saturate(170%) !important;
+    -webkit-backdrop-filter: blur(14px) saturate(170%) !important;
+    border-bottom: 1px solid rgba(241,196,213,.9) !important;
+  }
+
+  .nav{
+    padding: 10px 12px !important;
+    display: grid !important;
+    grid-template-columns: 1fr auto !important;
+    gap: 8px 10px !important;
+    align-items: center !important;
+  }
+
+  .brand{
+    min-width: 0 !important;
+    gap: 8px !important;
+  }
+
+  .brand img{
+    width: 46px !important;
+    height: 46px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .brand > div{
+    font-size: 18px !important;
+    line-height: 1.05 !important;
+    max-width: 135px !important;
+  }
+
+  .brand small{
+    font-size: 12px !important;
+    line-height: 1.15 !important;
+    margin-top: 4px !important;
+  }
+
+  .menu{
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 7px !important;
+    justify-items: end !important;
+    align-items: center !important;
+  }
+
+  .menu .btn{
+    min-height: 34px !important;
+    padding: 8px 13px !important;
+    border-radius: 999px !important;
+    font-size: 13px !important;
+    line-height: 1 !important;
+    box-shadow: 0 8px 18px rgba(217,100,145,.18) !important;
+    white-space: nowrap !important;
+  }
+
+  .menu .btn:not(.mobile-safe-action){
+    padding: 9px 16px !important;
+    font-size: 13px !important;
+    font-weight: 900 !important;
+  }
+
+  .mobile-safe-action{
+    min-width: 112px !important;
+    justify-content: center !important;
+    gap: 5px !important;
+    background: rgba(217,100,145,.92) !important;
+    color: #fff !important;
+    border: 1px solid rgba(255,255,255,.4) !important;
+  }
+
+  #mobileSafeCartBtn{
+    position: relative !important;
+    padding-right: 22px !important;
+  }
+
+  #mobileSafeCartBtn::before{
+    content: "🛒" !important;
+    margin-right: 4px !important;
+    font-size: 15px !important;
+  }
+
+  #mobileSafeMusicBtn::before{
+    content: "🎵" !important;
+    margin-right: 4px !important;
+    font-size: 15px !important;
+  }
+
+  #mobileSafeCartCount{
+    position: absolute !important;
+    top: -7px !important;
+    right: -7px !important;
+    min-width: 21px !important;
+    height: 21px !important;
+    padding: 0 5px !important;
+    border-radius: 999px !important;
+
+    background: #fff !important;
+    color: #8d2b58 !important;
+    border: 2px solid #d96491 !important;
+
+    display: grid !important;
+    place-items: center !important;
+
+    font-size: 11px !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+
+    box-shadow: 0 5px 12px rgba(112,48,75,.18) !important;
+    z-index: 10 !important;
+  }
+
+  /* Evita que o topo fique alto demais */
+  .menu #mobileSafeMusicBtn{
+    background: rgba(255,243,247,.96) !important;
+    color: #8d2b58 !important;
+    border: 1px solid #f1c4d5 !important;
+    box-shadow: 0 6px 14px rgba(112,48,75,.10) !important;
+  }
+}
+
+@media (max-width: 420px){
+  .brand img{
+    width: 42px !important;
+    height: 42px !important;
+  }
+
+  .brand > div{
+    font-size: 16px !important;
+    max-width: 118px !important;
+  }
+
+  .brand small{
+    font-size: 11px !important;
+  }
+
+  .menu .btn{
+    min-width: 100px !important;
+    padding: 8px 11px !important;
+    font-size: 12px !important;
+  }
+}
+</style>
+
 </head>
 
 <body>
