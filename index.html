@@ -1163,28 +1163,6 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 </style>
 
 
-<style id="ovos-premium-organizado">
-button[onclick*="Cestas café da manhã"],
-button[onclick*="Ovos de colher"]{
-  background: #fff !important;
-  border: 1px solid #f1c4d5 !important;
-}
-
-.card[data-cat="Ovos de colher"]{
-  border:1px solid #f3d6e2 !important;
-  box-shadow:0 8px 24px rgba(217,100,145,.08) !important;
-}
-
-.card[data-cat="Ovos de colher"] .desc{
-  line-height:1.7 !important;
-}
-
-.card[data-cat="Ovos de colher"] h3{
-  color:#8d2b58 !important;
-}
-</style>
-
-
 <style id="ovos-de-colher-form-correto">
 @media(max-width:850px){
   .filters, .tabs, .categorias{
@@ -1244,6 +1222,60 @@ button[onclick*="Ovos de colher"]{
 }
 </style>
 
+
+<style id="fix-botoes-categorias-novas-padrao">
+.filters button,
+.tabs button,
+.categorias button{
+  appearance: none !important;
+  -webkit-appearance: none !important;
+}
+
+.filters button[onclick*="Cestas"],
+.filters button[onclick*="Ovos"],
+.tabs button[onclick*="Cestas"],
+.tabs button[onclick*="Ovos"],
+.categorias button[onclick*="Cestas"],
+.categorias button[onclick*="Ovos"]{
+  background: #fff !important;
+  color: #8d2b58 !important;
+  border: 1px solid #f1c4d5 !important;
+  border-radius: 999px !important;
+  box-shadow: none !important;
+  font-weight: 900 !important;
+  padding: 12px 18px !important;
+}
+
+.filters button.active[onclick*="Cestas"],
+.filters button.active[onclick*="Ovos"],
+.tabs button.active[onclick*="Cestas"],
+.tabs button.active[onclick*="Ovos"],
+.categorias button.active[onclick*="Cestas"],
+.categorias button.active[onclick*="Ovos"]{
+  background: linear-gradient(135deg,#d96491,#ff8db4) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+}
+
+@media(max-width:850px){
+  .filters,
+  .tabs,
+  .categorias{
+    display:flex !important;
+    flex-wrap:wrap !important;
+    justify-content:center !important;
+    gap:10px !important;
+  }
+
+  .filters button,
+  .tabs button,
+  .categorias button{
+    font-size:13px !important;
+    padding:10px 14px !important;
+  }
+}
+</style>
+
 </head>
 
 <body id="topo">
@@ -1284,7 +1316,7 @@ button[onclick*="Ovos de colher"]{
     <button class="tab" onclick="filterCat('Bolos',this)">Bolos</button>
     <button class="tab" onclick="filterCat('Salgados',this)">Salgados</button>
     <button class="tab" onclick="filterCat('Doces',this)">Doces</button>
-    <button class="tab" onclick="filterCat('Personalizados',this)">Personalizados</button><button onclick=\"filterCat('Cestas café da manhã')\">Cestas personalizadas</button><button onclick=\"filterCat('Ovos de colher')\">Ovos de colher</button>
+    <button class="tab" onclick="filterCat('Personalizados',this)">Personalizados</button>
   </div>
   <div class="grid" id="produtos"></div>
 </section>
@@ -2095,6 +2127,35 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
       return result;
     };
   }
+})();
+</script>
+
+
+<script id="fix-filtros-categorias-novas-js">
+(function(){
+  window.filterCat = function(cat){
+    window.current = cat;
+
+    document.querySelectorAll('.filters button, .tabs button, .categorias button').forEach(btn=>{
+      const txt = (btn.textContent || '').trim().toLowerCase();
+      const wanted = String(cat || '').toLowerCase();
+      const match =
+        txt === wanted ||
+        (wanted === 'cestas café da manhã' && txt.includes('cestas')) ||
+        (wanted === 'ovos de colher' && txt.includes('ovos'));
+
+      btn.classList.toggle('active', match);
+    });
+
+    if(typeof renderProducts === "function"){
+      renderProducts();
+    }
+
+    const catalogo = document.getElementById("catalogo");
+    if(catalogo && window.innerWidth <= 850){
+      setTimeout(()=>catalogo.scrollIntoView({behavior:"auto", block:"start"}), 30);
+    }
+  };
 })();
 </script>
 
