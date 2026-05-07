@@ -2548,5 +2548,58 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
 })();
 </script>
 
+
+<script id="reorder-kit-sections-final">
+(function(){
+  function reorder(){
+    const modal = document.querySelector("#customModal .box, .modal.open .box");
+    if(!modal) return;
+
+    const title = (modal.textContent || "").toLowerCase();
+    if(!title.includes("kit chantininho")) return;
+
+    const wrap = document.getElementById("kitPerfectWrap");
+    if(!wrap) return;
+
+    const summaryCards = Array.from(modal.querySelectorAll("div")).filter(el=>{
+      const t = (el.textContent || "").toLowerCase();
+      return t.includes("/40 salgados") && t.includes("/30 doces") && !el.closest("#kitPerfectWrap");
+    });
+
+    if(summaryCards.length > 0){
+      const parent = summaryCards[0].parentElement;
+
+      // Move lista grande pra cima
+      parent.insertBefore(wrap, summaryCards[0]);
+
+      // Move os cards resumo pra baixo
+      parent.appendChild(summaryCards[0]);
+      if(summaryCards[1]) parent.appendChild(summaryCards[1]);
+    }
+  }
+
+  setInterval(reorder, 800);
+})();
+</script>
+
+
+<script id="fix-bolo-aparte-sem-kit">
+(function(){
+  function limparBoloAparte(){
+    const modal = document.querySelector("#customModal .box, .modal.open .box");
+    if(!modal) return;
+
+    const txt = (modal.textContent || "").toLowerCase();
+
+    if(txt.includes("bolo à parte")){
+      document.querySelectorAll("#kitPerfectWrap,.kit-perfect-wrap,.kit-extra-list,#kitExtraList")
+        .forEach(el => el.remove());
+    }
+  }
+
+  setInterval(limparBoloAparte, 500);
+})();
+</script>
+
 </body>
 </html>
