@@ -1116,6 +1116,235 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 }
 </style>
 
+
+<style id="especiais-andreza-css">
+#especiais-andreza{
+  max-width:1180px;
+  margin: 16px auto 30px;
+  padding: 0 20px;
+}
+
+.especiais-head{
+  text-align:center;
+  margin-bottom:22px;
+}
+
+.especiais-head .tag{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:9px 16px;
+  border-radius:999px;
+  background:#fff3f7;
+  border:1px solid #f1c4d5;
+  color:#8d2b58;
+  font-weight:900;
+  font-size:14px;
+  margin-bottom:10px;
+}
+
+.especiais-head h2{
+  margin:0;
+  color:#2c1b24;
+  font-size:clamp(30px,4vw,48px);
+}
+
+.especiais-head p{
+  margin:10px auto 0;
+  max-width:680px;
+  color:#805d70;
+  line-height:1.6;
+}
+
+.especiais-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:18px;
+}
+
+.especial-card{
+  background:rgba(255,255,255,.94);
+  border:1px solid #f1c4d5;
+  border-radius:28px;
+  padding:22px;
+  box-shadow:0 18px 42px rgba(112,48,75,.10);
+}
+
+.especial-icon{
+  width:58px;
+  height:58px;
+  border-radius:20px;
+  display:grid;
+  place-items:center;
+  background:#fff3f7;
+  border:1px solid #f1c4d5;
+  font-size:28px;
+  margin-bottom:14px;
+}
+
+.especial-card h3{
+  margin:0 0 8px;
+  color:#2c1b24;
+  font-size:24px;
+}
+
+.especial-card p{
+  margin:0 0 14px;
+  color:#805d70;
+  line-height:1.55;
+}
+
+.especial-precos{
+  display:grid;
+  gap:8px;
+  margin:14px 0;
+}
+
+.especial-precos div{
+  background:#fff7fb;
+  border:1px solid #f1c4d5;
+  border-radius:16px;
+  padding:10px 12px;
+  color:#8d2b58;
+  font-weight:900;
+}
+
+.especial-sabores{
+  color:#805d70;
+  font-size:14px;
+  line-height:1.55;
+  margin-top:10px;
+}
+
+.especial-btn{
+  width:100%;
+  margin-top:16px;
+  border:0;
+  border-radius:999px;
+  padding:14px 18px;
+  background:linear-gradient(135deg,#d96491,#ff8db4);
+  color:#fff;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 12px 24px rgba(217,100,145,.18);
+}
+
+.especial-btn.whats{
+  background:linear-gradient(135deg,#25D366,#18b957);
+}
+
+/* modal exclusivo dos especiais */
+#especialModal{
+  position:fixed;
+  inset:0;
+  background:rgba(40,20,30,.55);
+  backdrop-filter:blur(7px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:200000;
+  padding:18px;
+}
+
+#especialModal.open{
+  display:flex;
+}
+
+.especial-modal-box{
+  width:min(520px,100%);
+  background:#fff;
+  border:1px solid #f1c4d5;
+  border-radius:28px;
+  padding:24px;
+  box-shadow:0 30px 85px rgba(40,20,30,.32);
+}
+
+.especial-modal-box h3{
+  margin:0 0 14px;
+  color:#8d2b58;
+  font-size:26px;
+}
+
+.especial-form{
+  display:grid;
+  gap:12px;
+}
+
+.especial-form label{
+  color:#8d2b58;
+  font-weight:900;
+  font-size:14px;
+}
+
+.especial-form select,
+.especial-form input{
+  width:100%;
+  height:48px;
+  border-radius:14px;
+  border:1px solid #f1c4d5;
+  padding:0 12px;
+  font-size:16px;
+}
+
+.especial-total{
+  margin:10px 0 0;
+  font-size:26px;
+  color:#8d2b58;
+  font-weight:900;
+}
+
+.especial-modal-actions{
+  display:flex;
+  gap:10px;
+  margin-top:18px;
+}
+
+.especial-modal-actions button{
+  flex:1;
+  height:50px;
+  border:0;
+  border-radius:999px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.especial-cancel{
+  background:#fff3f7;
+  color:#8d2b58;
+  border:1px solid #f1c4d5 !important;
+}
+
+.especial-save{
+  background:linear-gradient(135deg,#d96491,#ff8db4);
+  color:#fff;
+}
+
+@media(max-width:850px){
+  #especiais-andreza{
+    padding:0 16px;
+  }
+
+  .especiais-grid{
+    grid-template-columns:1fr;
+  }
+
+  .especial-card{
+    padding:20px;
+  }
+
+  #especialModal{
+    align-items:flex-start;
+    overflow-y:auto;
+    padding-top:20px;
+  }
+
+  .especial-modal-box{
+    max-height:calc(100vh - 40px);
+    overflow-y:auto;
+  }
+}
+</style>
+
 </head>
 
 <body id="topo">
@@ -1224,6 +1453,91 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 </div>
 
 
+
+
+<section id="especiais-andreza">
+  <div class="especiais-head">
+    <div class="tag">✨ Especiais da Andreza Cakes</div>
+    <h2>Ovos de colher e cestas personalizadas</h2>
+    <p>Produtos especiais feitos sob encomenda, com sabores selecionados e preparo conforme disponibilidade.</p>
+  </div>
+
+  <div class="especiais-grid">
+    <div class="especial-card">
+      <div class="especial-icon">🥚</div>
+      <h3>Ovo de colher simples</h3>
+      <p>Escolha o tamanho e o sabor no pedido.</p>
+      <div class="especial-precos">
+        <div>150g • R$ 25,00</div>
+        <div>250g • R$ 35,00</div>
+        <div>500g • R$ 45,00</div>
+      </div>
+      <div class="especial-sabores">
+        <strong>Sabores:</strong> Brigadeiro, Chocolate branco, Bem casado, Maracujá, Napolitano, Prestígio, Sensação, Doce de leite, Paçoca e Limão.
+      </div>
+      <button class="especial-btn" onclick="abrirEspecial('simples')">Adicionar ovo simples</button>
+    </div>
+
+    <div class="especial-card">
+      <div class="especial-icon">🍫</div>
+      <h3>Ovo de colher gourmet</h3>
+      <p>Sabores especiais para uma experiência mais premium.</p>
+      <div class="especial-precos">
+        <div>150g • R$ 30,00</div>
+        <div>250g • R$ 40,00</div>
+        <div>500g • R$ 55,00</div>
+      </div>
+      <div class="especial-sabores">
+        <strong>Sabores:</strong> Ninho c/ Nutella, Oreo, Brawner, Red Velvet, Ferrero Rocher e Sonho de Valsa.
+      </div>
+      <button class="especial-btn" onclick="abrirEspecial('gourmet')">Adicionar ovo gourmet</button>
+    </div>
+
+    <div class="especial-card">
+      <div class="especial-icon">☕</div>
+      <h3>Cesta personalizada</h3>
+      <p>Cestas montadas sob encomenda para café da manhã, presentes e datas especiais.</p>
+      <div class="especial-precos">
+        <div>Valor conforme itens escolhidos</div>
+        <div>Montagem sob disponibilidade</div>
+      </div>
+      <div class="especial-sabores">
+        Personalização combinada pelo WhatsApp de acordo com a ocasião, itens desejados e disponibilidade.
+      </div>
+      <button class="especial-btn whats" onclick="abrirWhatsCesta()">Consultar pelo WhatsApp</button>
+    </div>
+  </div>
+</section>
+
+<div id="especialModal">
+  <div class="especial-modal-box">
+    <h3 id="especialTitulo">Adicionar especial</h3>
+
+    <div class="especial-form">
+      <div>
+        <label>Tamanho</label>
+        <select id="especialTamanho" onchange="atualizarEspecialTotal()"></select>
+      </div>
+
+      <div>
+        <label>Sabor</label>
+        <select id="especialSabor"></select>
+      </div>
+
+      <div>
+        <label>Quantidade</label>
+        <input id="especialQtd" type="number" min="1" value="1" oninput="atualizarEspecialTotal()">
+      </div>
+
+      <div class="especial-total" id="especialTotal">R$ 0,00</div>
+    </div>
+
+    <div class="especial-modal-actions">
+      <button class="especial-cancel" onclick="fecharEspecial()">Cancelar</button>
+      <button class="especial-save" onclick="salvarEspecialCarrinho()">Salvar no carrinho</button>
+    </div>
+  </div>
+</div>
 
 <section class="horario-premium" id="horario-atendimento">
   <div class="horario-card">
@@ -1792,6 +2106,105 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
       return r;
     };
   }
+})();
+</script>
+
+
+<script id="especiais-andreza-js">
+(function(){
+  const dados = {
+    simples:{
+      nome:"Ovo de colher simples",
+      tamanhos:[
+        {label:"150g", preco:25},
+        {label:"250g", preco:35},
+        {label:"500g", preco:45}
+      ],
+      sabores:["Brigadeiro","Chocolate branco","Bem casado","Maracujá","Napolitano","Prestígio","Sensação","Doce de leite","Paçoca","Limão"]
+    },
+    gourmet:{
+      nome:"Ovo de colher gourmet",
+      tamanhos:[
+        {label:"150g", preco:30},
+        {label:"250g", preco:40},
+        {label:"500g", preco:55}
+      ],
+      sabores:["Ninho c/ Nutella","Oreo","Brawner","Red Velvet","Ferrero Rocher","Sonho de Valsa"]
+    }
+  };
+
+  let especialAtual = null;
+
+  function money(v){
+    return Number(v || 0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+  }
+
+  window.abrirEspecial = function(tipo){
+    especialAtual = dados[tipo];
+    if(!especialAtual) return;
+
+    document.getElementById("especialTitulo").textContent = "Adicionar " + especialAtual.nome;
+
+    const tamanho = document.getElementById("especialTamanho");
+    const sabor = document.getElementById("especialSabor");
+    const qtd = document.getElementById("especialQtd");
+
+    tamanho.innerHTML = especialAtual.tamanhos.map(t => `<option value="${t.label}" data-preco="${t.preco}">${t.label} - ${money(t.preco)}</option>`).join("");
+    sabor.innerHTML = especialAtual.sabores.map(s => `<option value="${s}">${s}</option>`).join("");
+    qtd.value = 1;
+
+    atualizarEspecialTotal();
+    document.getElementById("especialModal").classList.add("open");
+  };
+
+  window.fecharEspecial = function(){
+    document.getElementById("especialModal").classList.remove("open");
+  };
+
+  window.atualizarEspecialTotal = function(){
+    const tamanho = document.getElementById("especialTamanho");
+    const qtd = Number(document.getElementById("especialQtd").value || 1);
+    const preco = Number(tamanho.selectedOptions[0]?.dataset.preco || 0);
+    document.getElementById("especialTotal").textContent = money(preco * qtd);
+  };
+
+  window.salvarEspecialCarrinho = function(){
+    if(!especialAtual) return;
+
+    const tamanho = document.getElementById("especialTamanho");
+    const sabor = document.getElementById("especialSabor");
+    const qtd = Number(document.getElementById("especialQtd").value || 1);
+    const preco = Number(tamanho.selectedOptions[0]?.dataset.preco || 0);
+
+    if(!window.cart) window.cart = [];
+
+    cart.push({
+      id: Date.now(),
+      nome: especialAtual.nome,
+      qtd: qtd,
+      preco: preco,
+      tamanhoOvo: tamanho.value,
+      saborOvo: sabor.value,
+      desc: `Tamanho: ${tamanho.value} | Sabor: ${sabor.value}`,
+      especial: true
+    });
+
+    if(typeof renderCart === "function") renderCart();
+    if(typeof updateCartCount === "function") updateCartCount();
+
+    const count = document.getElementById("cartCount");
+    if(count) count.textContent = cart.reduce((s,i)=>s + Number(i.qtd || 1), 0);
+
+    const mobileCount = document.getElementById("mobileSafeCartCount");
+    if(mobileCount) mobileCount.textContent = cart.reduce((s,i)=>s + Number(i.qtd || 1), 0);
+
+    fecharEspecial();
+  };
+
+  window.abrirWhatsCesta = function(){
+    const msg = encodeURIComponent("Olá! Gostaria de consultar uma cesta personalizada da Andreza Cakes.");
+    window.open("https://wa.me/5581984225298?text=" + msg, "_blank");
+  };
 })();
 </script>
 
