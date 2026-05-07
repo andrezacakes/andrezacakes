@@ -1522,6 +1522,54 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 }
 </style>
 
+
+<style id="kit-grid-fix-final">
+#kitExtraList.kit-extra-list{
+  display:flex !important;
+  gap:18px !important;
+  align-items:flex-start !important;
+  justify-content:space-between !important;
+  flex-wrap:nowrap !important;
+}
+
+#kitExtraList .kit-extra-card{
+  flex:1 1 0 !important;
+  width:calc(50% - 9px) !important;
+  max-width:calc(50% - 9px) !important;
+  min-width:0 !important;
+}
+
+#kitExtraList .kit-extra-card *{
+  box-sizing:border-box !important;
+}
+
+#kitExtraList .kit-extra-row{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:12px !important;
+}
+
+#kitExtraList .kit-extra-row span{
+  flex:1 !important;
+}
+
+#kitExtraList .kit-extra-row input{
+  flex:0 0 86px !important;
+}
+
+@media(max-width:850px){
+  #kitExtraList.kit-extra-list{
+    flex-direction:column !important;
+  }
+
+  #kitExtraList .kit-extra-card{
+    width:100% !important;
+    max-width:100% !important;
+  }
+}
+</style>
+
 </head>
 
 <body id="topo">
