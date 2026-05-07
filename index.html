@@ -946,6 +946,107 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 }
 </style>
 
+
+<style id="horario-premium-andreza">
+.horario-premium{
+  max-width:1180px;
+  margin: 10px auto 24px;
+  padding: 0 20px;
+}
+
+.horario-card{
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top right, rgba(255,141,180,.18), transparent 34%),
+    rgba(255,255,255,.92);
+  border: 1px solid #f1c4d5;
+  border-radius: 30px;
+  box-shadow: 0 22px 55px rgba(112,48,75,.14);
+  padding: 26px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.horario-icon{
+  width: 62px;
+  height: 62px;
+  border-radius: 22px;
+  background: linear-gradient(135deg,#d96491,#ff8db4);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  box-shadow: 0 14px 30px rgba(217,100,145,.25);
+}
+
+.horario-content h2{
+  margin: 0 0 8px;
+  color: #8d2b58;
+  font-size: clamp(24px,3vw,34px);
+}
+
+.horario-content .sub{
+  margin: 0 0 18px;
+  color: #805d70;
+  line-height: 1.5;
+}
+
+.horario-grid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 12px;
+}
+
+.horario-item{
+  background: #fff7fb;
+  border: 1px solid #f1c4d5;
+  border-radius: 20px;
+  padding: 15px;
+}
+
+.horario-item strong{
+  display:block;
+  color:#8d2b58;
+  margin-bottom: 6px;
+  font-size: 15px;
+}
+
+.horario-item span{
+  color:#2c1b24;
+  font-weight: 900;
+}
+
+.horario-item small{
+  display:block;
+  margin-top: 6px;
+  color:#805d70;
+  font-weight: 700;
+}
+
+.horario-fechado{
+  background: #fff1f3;
+}
+
+@media(max-width:850px){
+  .horario-card{
+    grid-template-columns: 1fr;
+    padding: 22px;
+  }
+
+  .horario-icon{
+    width: 56px;
+    height: 56px;
+  }
+
+  .horario-grid{
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
 </head>
 
 <body>
@@ -1047,6 +1148,43 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
     <button class="btn" style="margin-top:15px;background:#fff;color:var(--vinho);border:1px solid var(--borda)" onclick="clearCart()">Limpar pedido</button>
   </div>
 </div>
+
+
+<section class="horario-premium" id="horario-atendimento">
+  <div class="horario-card">
+    <div class="horario-icon">🕒</div>
+    <div class="horario-content">
+      <h2>Atendemos por encomenda</h2>
+      <p class="sub">Pedidos, produção e entregas programadas com carinho para cada ocasião.</p>
+
+      <div class="horario-grid">
+        <div class="horario-item horario-fechado">
+          <strong>Segunda-feira</strong>
+          <span>Fechado</span>
+          <small>Dia de folga</small>
+        </div>
+
+        <div class="horario-item">
+          <strong>Terça a sábado</strong>
+          <span>09h às 19h</span>
+          <small>Intervalo: 12h às 13h</small>
+        </div>
+
+        <div class="horario-item">
+          <strong>Domingo</strong>
+          <span>09h às 14h</span>
+          <small>Atendimento e entregas programadas</small>
+        </div>
+
+        <div class="horario-item">
+          <strong>WhatsApp</strong>
+          <span>Resposta conforme disponibilidade</span>
+          <small>Faça seu pedido com antecedência 💖</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <footer>Andreza Cakes • Recife/PE • <a href="https://www.instagram.com/Andrezaa_cakes" target="_blank" style="color:var(--vinho);font-weight:900">@ANDREZAA_CAKES</a><br></footer>
 
