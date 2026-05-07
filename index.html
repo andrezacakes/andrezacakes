@@ -2650,3 +2650,42 @@ setInterval(() => {
   }
 }, 500);
 </script>
+
+<script id="ajuste-kit-final">
+setInterval(() => {
+  const modal = document.querySelector('.modal.open, #customModal');
+  if(!modal) return;
+
+  const titulo = (modal.textContent || '').toLowerCase();
+
+  if(titulo.includes('kit chantininho')){
+
+    // remove bloco duplicado inferior
+    const blocos = [...modal.querySelectorAll('div')].filter(el => 
+      el.textContent.includes('0/40 salgados') || 
+      el.textContent.includes('0/30 doces')
+    );
+
+    if(blocos.length > 2){
+      blocos.slice(2).forEach(el=>{
+        const pai = el.closest('div');
+        if(pai) pai.remove();
+      });
+    }
+
+    // mover botão salvar para baixo
+    const btn = [...modal.querySelectorAll('button')].find(b => 
+      b.textContent.toLowerCase().includes('salvar no carrinho')
+    );
+
+    const preco = [...modal.querySelectorAll('*')].find(el =>
+      el.textContent.includes('R$ 140,00')
+    );
+
+    if(btn && preco && preco.parentNode){
+      preco.parentNode.appendChild(btn);
+      btn.style.marginTop = '16px';
+    }
+  }
+}, 500);
+</script>
