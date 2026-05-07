@@ -1430,6 +1430,98 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 @media(max-width:850px){.kit-extra-list{grid-template-columns:1fr;}}
 </style>
 
+
+<style id="kit-modal-organizado-final">
+/* Organiza somente a lista extra de salgados/doces do Kit Chantininho */
+#kitExtraList.kit-extra-list{
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(320px, 1fr)) !important;
+  gap: 18px !important;
+  margin: 18px 0 14px !important;
+  align-items: start !important;
+}
+
+#kitExtraList .kit-extra-card{
+  width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  border: 1px solid #f1c4d5 !important;
+  background: #fff7fb !important;
+  border-radius: 20px !important;
+  padding: 16px !important;
+}
+
+#kitExtraList .kit-extra-card h4{
+  margin: 0 0 10px !important;
+  color: #8d2b58 !important;
+  font-size: 16px !important;
+}
+
+#kitExtraList .kit-extra-progress{
+  margin-bottom: 12px !important;
+  color: #8d2b58 !important;
+  font-weight: 900 !important;
+  padding: 10px 12px !important;
+  border-radius: 14px !important;
+  background: #fff !important;
+  border: 1px solid #f1c4d5 !important;
+}
+
+#kitExtraList .kit-extra-row{
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) 88px !important;
+  gap: 10px !important;
+  align-items: center !important;
+  margin: 9px 0 !important;
+}
+
+#kitExtraList .kit-extra-row span{
+  font-size: 14px !important;
+  line-height: 1.2 !important;
+  color: #4a2b3b !important;
+  font-weight: 800 !important;
+  min-width: 0 !important;
+}
+
+#kitExtraList .kit-extra-row input{
+  width: 88px !important;
+  max-width: 88px !important;
+  height: 42px !important;
+  border-radius: 13px !important;
+  border: 1px solid #f1c4d5 !important;
+  padding: 0 10px !important;
+  font-size: 16px !important;
+  background: #fff !important;
+  box-sizing: border-box !important;
+}
+
+/* Evita que o modal crie espaço vazio lateral */
+#customModal .box,
+.modal.open .box{
+  box-sizing: border-box !important;
+}
+
+/* Celular: uma coluna para não quebrar */
+@media(max-width: 850px){
+  #kitExtraList.kit-extra-list{
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  #kitExtraList .kit-extra-row{
+    grid-template-columns: minmax(0, 1fr) 76px !important;
+  }
+
+  #kitExtraList .kit-extra-row input{
+    width: 76px !important;
+    max-width: 76px !important;
+  }
+}
+</style>
+
 </head>
 
 <body id="topo">
