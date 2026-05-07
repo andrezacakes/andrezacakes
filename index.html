@@ -681,6 +681,44 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 }
 </style>
 
+
+<style id="contador-visivel-fix">
+@media (max-width:850px){
+  #mobileSafeCartBtn{
+    position: relative !important;
+    overflow: visible !important;
+    padding-right: 28px !important;
+  }
+
+  #mobileSafeCartCount{
+    position: absolute !important;
+    top: -10px !important;
+    right: -10px !important;
+    min-width: 24px !important;
+    height: 24px !important;
+    padding: 0 6px !important;
+    border-radius: 999px !important;
+
+    background: #ffffff !important;
+    color: #c2185b !important;
+
+    border: 2px solid #f06292 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    font-size: 12px !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+
+    z-index: 999999999 !important;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,.18) !important;
+  }
+}
+</style>
+
 </head>
 
 <body>
