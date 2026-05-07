@@ -1345,6 +1345,33 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 }
 </style>
 
+
+<style id="especiais-cards-clean">
+.especial-card{
+  display:flex;
+  flex-direction:column;
+}
+
+.especial-card p{
+  min-height:72px;
+}
+
+.especial-sabores{
+  min-height:78px;
+}
+
+.especial-btn{
+  margin-top:auto !important;
+}
+
+@media(max-width:850px){
+  .especial-card p,
+  .especial-sabores{
+    min-height:auto;
+  }
+}
+</style>
+
 </head>
 
 <body id="topo">
@@ -1466,30 +1493,14 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
     <div class="especial-card">
       <div class="especial-icon">🥚</div>
       <h3>Ovo de colher simples</h3>
-      <p>Escolha o tamanho e o sabor no pedido.</p>
-      <div class="especial-precos">
-        <div>150g • R$ 25,00</div>
-        <div>250g • R$ 35,00</div>
-        <div>500g • R$ 45,00</div>
-      </div>
-      <div class="especial-sabores">
-        <strong>Sabores:</strong> Brigadeiro, Chocolate branco, Bem casado, Maracujá, Napolitano, Prestígio, Sensação, Doce de leite, Paçoca e Limão.
-      </div>
+      <p>Escolha o tamanho, sabor e quantidade no pedido. Clique em adicionar para personalizar.</p>
       <button class="especial-btn" onclick="abrirEspecial('simples')">Adicionar ovo simples</button>
     </div>
 
     <div class="especial-card">
       <div class="especial-icon">🍫</div>
       <h3>Ovo de colher gourmet</h3>
-      <p>Sabores especiais para uma experiência mais premium.</p>
-      <div class="especial-precos">
-        <div>150g • R$ 30,00</div>
-        <div>250g • R$ 40,00</div>
-        <div>500g • R$ 55,00</div>
-      </div>
-      <div class="especial-sabores">
-        <strong>Sabores:</strong> Ninho c/ Nutella, Oreo, Brawner, Red Velvet, Ferrero Rocher e Sonho de Valsa.
-      </div>
+      <p>Escolha o tamanho, sabor e quantidade no pedido. Clique em adicionar para personalizar.</p>
       <button class="especial-btn" onclick="abrirEspecial('gourmet')">Adicionar ovo gourmet</button>
     </div>
 
@@ -1497,10 +1508,6 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
       <div class="especial-icon">☕</div>
       <h3>Cesta personalizada</h3>
       <p>Cestas montadas sob encomenda para café da manhã, presentes e datas especiais.</p>
-      <div class="especial-precos">
-        <div>Valor conforme itens escolhidos</div>
-        <div>Montagem sob disponibilidade</div>
-      </div>
       <div class="especial-sabores">
         Personalização combinada pelo WhatsApp de acordo com a ocasião, itens desejados e disponibilidade.
       </div>
