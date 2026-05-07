@@ -1163,48 +1163,77 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 </style>
 
 
-<style id="ovos-de-colher-form-correto">
-@media(max-width:850px){
-  .filters, .tabs, .categorias{
-    display:flex !important;
-    flex-wrap:wrap !important;
-    justify-content:center !important;
-    gap:10px !important;
-  }
-
-  .filters button,
-  .tabs button,
-  .categorias button{
-    padding:10px 14px !important;
-    font-size:13px !important;
-    border-radius:999px !important;
-  }
+<style id="ovos-premium-organizado">
+button[onclick*="Cestas café da manhã"],
+button[onclick*="Ovos de colher"]{
+  background: #fff !important;
+  border: 1px solid #f1c4d5 !important;
 }
 
+.card[data-cat="Ovos de colher"]{
+  border:1px solid #f3d6e2 !important;
+  box-shadow:0 8px 24px rgba(217,100,145,.08) !important;
+}
+
+.card[data-cat="Ovos de colher"] .desc{
+  line-height:1.7 !important;
+}
+
+.card[data-cat="Ovos de colher"] h3{
+  color:#8d2b58 !important;
+}
+</style>
+
+
+<style id="botoes-categorias-novas-estaveis">
+.filters{
+  flex-wrap: wrap !important;
+  gap: 12px !important;
+}
+
+.filters button{
+  appearance: none !important;
+  -webkit-appearance: none !important;
+}
+
+.filters button[onclick*="Cestas"],
+.filters button[onclick*="Ovos"]{
+  border-radius: 999px !important;
+  border: 1px solid #f1c4d5 !important;
+  background: #fff !important;
+  color: #8d2b58 !important;
+  font-weight: 900 !important;
+  padding: 12px 18px !important;
+  box-shadow: none !important;
+}
+
+.filters button.active[onclick*="Cestas"],
+.filters button.active[onclick*="Ovos"]{
+  background: linear-gradient(135deg,#d96491,#ff8db4) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+}
+
+@media(max-width:850px){
+  .filters button[onclick*="Cestas"],
+  .filters button[onclick*="Ovos"]{
+    padding: 10px 14px !important;
+    font-size: 13px !important;
+  }
+}
+</style>
+
+
+<style id="ovos-de-colher-form-correto">
 .ovo-options{
   display:none;
   margin-top:14px;
   padding-top:14px;
   border-top:1px solid #f1c4d5;
 }
-
-.ovo-options.show{
-  display:grid;
-  gap:12px;
-}
-
-.ovo-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
-
-.ovo-options label{
-  font-weight:900;
-  color:#8d2b58;
-  font-size:14px;
-}
-
+.ovo-options.show{display:grid;gap:12px;}
+.ovo-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.ovo-options label{font-weight:900;color:#8d2b58;font-size:14px;}
 .ovo-options select{
   width:100%;
   height:48px;
@@ -1214,66 +1243,7 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
   font-size:16px;
   background:white;
 }
-
-@media(max-width:700px){
-  .ovo-grid{
-    grid-template-columns:1fr;
-  }
-}
-</style>
-
-
-<style id="fix-botoes-categorias-novas-padrao">
-.filters button,
-.tabs button,
-.categorias button{
-  appearance: none !important;
-  -webkit-appearance: none !important;
-}
-
-.filters button[onclick*="Cestas"],
-.filters button[onclick*="Ovos"],
-.tabs button[onclick*="Cestas"],
-.tabs button[onclick*="Ovos"],
-.categorias button[onclick*="Cestas"],
-.categorias button[onclick*="Ovos"]{
-  background: #fff !important;
-  color: #8d2b58 !important;
-  border: 1px solid #f1c4d5 !important;
-  border-radius: 999px !important;
-  box-shadow: none !important;
-  font-weight: 900 !important;
-  padding: 12px 18px !important;
-}
-
-.filters button.active[onclick*="Cestas"],
-.filters button.active[onclick*="Ovos"],
-.tabs button.active[onclick*="Cestas"],
-.tabs button.active[onclick*="Ovos"],
-.categorias button.active[onclick*="Cestas"],
-.categorias button.active[onclick*="Ovos"]{
-  background: linear-gradient(135deg,#d96491,#ff8db4) !important;
-  color: #fff !important;
-  border-color: transparent !important;
-}
-
-@media(max-width:850px){
-  .filters,
-  .tabs,
-  .categorias{
-    display:flex !important;
-    flex-wrap:wrap !important;
-    justify-content:center !important;
-    gap:10px !important;
-  }
-
-  .filters button,
-  .tabs button,
-  .categorias button{
-    font-size:13px !important;
-    padding:10px 14px !important;
-  }
-}
+@media(max-width:700px){.ovo-grid{grid-template-columns:1fr;}}
 </style>
 
 </head>
@@ -1316,7 +1286,7 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
     <button class="tab" onclick="filterCat('Bolos',this)">Bolos</button>
     <button class="tab" onclick="filterCat('Salgados',this)">Salgados</button>
     <button class="tab" onclick="filterCat('Doces',this)">Doces</button>
-    <button class="tab" onclick="filterCat('Personalizados',this)">Personalizados</button>
+    <button class="tab" onclick="filterCat('Personalizados',this)">Personalizados</button><button onclick="filterCat(\'Cestas café da manhã\')">Cestas personalizadas</button><button onclick="filterCat(\'Ovos de colher\')">Ovos de colher</button>
   </div>
   <div class="grid" id="produtos"></div>
 </section>
@@ -1488,12 +1458,27 @@ function renderProducts(){
     </div>
   `).join("");
 }
-function filterCat(cat,btn){current=cat;document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderProducts();}
-function fillSelects(){
-  customRecheio.innerHTML=recheios.map(r=>`<option>${r}</option>`).join("");
-  salgadosRows.innerHTML=salgados.map(s=>`<div class="choice-row"><span>${s}</span><input type="number" min="0" value="0" data-type="salgado" data-name="${s}" oninput="validateKitInputs()"></div>`).join("");
-  docesRows.innerHTML=doces.map(d=>`<div class="choice-row"><span>${d}</span><input type="number" min="0" value="0" data-type="doce" data-name="${d}" oninput="validateKitInputs()"></div>`).join("");
+
+function filterCat(cat){
+  current = cat;
+  document.querySelectorAll('.filters button').forEach(btn => btn.classList.remove('active'));
+
+  document.querySelectorAll('.filters button').forEach(btn => {
+    const txt = (btn.textContent || '').trim().toLowerCase();
+    const alvo = String(cat || '').trim().toLowerCase();
+
+    if(
+      txt === alvo ||
+      (alvo === 'cestas café da manhã' && txt.includes('cestas')) ||
+      (alvo === 'ovos de colher' && txt.includes('ovos'))
+    ){
+      btn.classList.add('active');
+    }
+  });
+
+  renderProducts();
 }
+
 function openCustom(id,idx=null){
   selected=produtos.find(p=>p.id===id);editing=idx;
   customTitle.textContent=(idx===null?"Adicionar ":"Editar ")+selected.nome;
@@ -1953,6 +1938,7 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
 </script>
 
 
+
 <script id="ovos-de-colher-form-correto-js">
 (function(){
   const ovoData = {
@@ -1974,8 +1960,8 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
     }
   };
 
-  function moneyBR(v){
-    return Number(v || 0).toLocaleString("pt-BR", {style:"currency", currency:"BRL"});
+  function dinheiro(v){
+    return Number(v || 0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
   }
 
   function ensureOvoFields(){
@@ -1983,7 +1969,7 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
     if(!box || document.getElementById("ovoOptions")) return;
 
     const price = document.getElementById("modalPrice");
-    const html = `
+    const campos = `
       <div class="ovo-options" id="ovoOptions">
         <div class="ovo-grid">
           <div>
@@ -1998,41 +1984,32 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
       </div>
     `;
 
-    if(price){
-      price.insertAdjacentHTML("beforebegin", html);
-    }else{
-      box.insertAdjacentHTML("beforeend", html);
-    }
+    if(price) price.insertAdjacentHTML("beforebegin", campos);
+    else box.insertAdjacentHTML("beforeend", campos);
 
     document.getElementById("ovoTamanho").addEventListener("change", updateOvoPrice);
-    document.getElementById("ovoSabor").addEventListener("change", updateOvoPrice);
   }
 
   function updateOvoPrice(){
     if(!window.selected || !selected.ovo) return;
-
     const tamanho = document.getElementById("ovoTamanho");
     const qty = document.getElementById("customQty");
     const price = document.getElementById("modalPrice");
 
     const preco = Number(tamanho?.selectedOptions?.[0]?.dataset?.preco || selected.preco || 0);
     const quantidade = Number(qty?.value || 1);
-
     selected.preco = preco;
 
-    if(price){
-      price.textContent = moneyBR(preco * quantidade);
-    }
+    if(price) price.textContent = dinheiro(preco * quantidade);
   }
 
-  function setupOvoModal(idx=null){
+  function setupOvoModal(){
     ensureOvoFields();
-
-    const ovoBox = document.getElementById("ovoOptions");
-    if(!ovoBox) return;
+    const area = document.getElementById("ovoOptions");
+    if(!area) return;
 
     if(!window.selected || !selected.ovo){
-      ovoBox.classList.remove("show");
+      area.classList.remove("show");
       return;
     }
 
@@ -2040,26 +2017,19 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
     const tamanho = document.getElementById("ovoTamanho");
     const sabor = document.getElementById("ovoSabor");
 
-    tamanho.innerHTML = data.tamanhos.map(t => `<option data-preco="${t.preco}" value="${t.label}">${t.label} - ${moneyBR(t.preco)}</option>`).join("");
-    sabor.innerHTML = data.sabores.map(s => `<option value="${s}">${s}</option>`).join("");
+    tamanho.innerHTML = data.tamanhos.map(t=>`<option value="${t.label}" data-preco="${t.preco}">${t.label} - ${dinheiro(t.preco)}</option>`).join("");
+    sabor.innerHTML = data.sabores.map(s=>`<option value="${s}">${s}</option>`).join("");
 
-    if(idx !== null && window.cart && cart[idx]){
-      if(cart[idx].tamanhoOvo) tamanho.value = cart[idx].tamanhoOvo;
-      if(cart[idx].saborOvo) sabor.value = cart[idx].saborOvo;
-    }
-
-    ovoBox.classList.add("show");
+    area.classList.add("show");
     updateOvoPrice();
   }
 
   const oldOpenCustom = window.openCustom;
   if(typeof oldOpenCustom === "function"){
-    window.openCustom = function(id, idx=null){
-      const result = oldOpenCustom.apply(this, arguments);
-      setTimeout(function(){
-        setupOvoModal(idx);
-      }, 80);
-      return result;
+    window.openCustom = function(){
+      const r = oldOpenCustom.apply(this, arguments);
+      setTimeout(setupOvoModal, 80);
+      return r;
     };
   }
 
@@ -2080,82 +2050,28 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
       if(window.selected && selected.ovo){
         const tamanho = document.getElementById("ovoTamanho");
         const sabor = document.getElementById("ovoSabor");
-        const preco = Number(tamanho?.selectedOptions?.[0]?.dataset?.preco || selected.preco || 0);
-
-        selected.preco = preco;
         selected.tamanhoOvo = tamanho ? tamanho.value : "";
         selected.saborOvo = sabor ? sabor.value : "";
+        selected.preco = Number(tamanho?.selectedOptions?.[0]?.dataset?.preco || selected.preco || 0);
       }
 
-      const result = oldSaveCustom.apply(this, arguments);
+      const r = oldSaveCustom.apply(this, arguments);
 
-      // Depois que salvar, acrescenta os detalhes no item mais recente se necessário.
-      if(window.cart && cart.length && selected && selected.ovo){
+      if(window.cart && cart.length && window.selected && selected.ovo){
         const item = cart[cart.length - 1];
         if(item && item.nome === selected.nome){
+          item.ovo = true;
           item.tamanhoOvo = selected.tamanhoOvo;
           item.saborOvo = selected.saborOvo;
           item.preco = selected.preco;
-          item.descExtra = `Tamanho: ${selected.tamanhoOvo} • Sabor: ${selected.saborOvo}`;
+          item.details = `Tamanho: ${selected.tamanhoOvo} • Sabor: ${selected.saborOvo}`;
         }
         if(typeof renderCart === "function") renderCart();
       }
 
-      return result;
+      return r;
     };
   }
-
-  // Patch renderCart to show egg details if renderCart uses item fields after saving.
-  const oldRenderCart = window.renderCart;
-  if(typeof oldRenderCart === "function"){
-    window.renderCart = function(){
-      const result = oldRenderCart.apply(this, arguments);
-
-      try{
-        document.querySelectorAll(".cart-item, .pedido-item, .item-cart").forEach((el, idx)=>{
-          const item = cart && cart[idx];
-          if(item && item.ovo && item.tamanhoOvo && !el.textContent.includes("Tamanho:")){
-            const info = document.createElement("div");
-            info.style.color = "#805d70";
-            info.style.marginTop = "4px";
-            info.textContent = `Tamanho: ${item.tamanhoOvo} • Sabor: ${item.saborOvo}`;
-            el.appendChild(info);
-          }
-        });
-      }catch(e){}
-
-      return result;
-    };
-  }
-})();
-</script>
-
-
-<script id="fix-filtros-categorias-novas-js">
-(function(){
-  window.filterCat = function(cat){
-    window.current = cat;
-
-    document.querySelectorAll('.filters button, .tabs button, .categorias button').forEach(btn=>{
-      const txt = (btn.textContent || '').trim().toLowerCase();
-      const wanted = String(cat || '').toLowerCase();
-      const match =
-        txt === wanted ||
-        (wanted === 'cestas café da manhã' && txt.includes('cestas')) ||
-        (wanted === 'ovos de colher' && txt.includes('ovos'));
-
-      btn.classList.toggle('active', match);
-    });
-
-    if(typeof renderProducts === "function"){
-      renderProducts();
-    }
-
-    const catalogo = document.getElementById("catalogo");
-    if(catalogo && window.innerWidth <= 850){
-      setTimeout(()=>catalogo.scrollIntoView({behavior:"auto", block:"start"}), 30);
-    }
-  };
 })();
 </script>
 
