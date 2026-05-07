@@ -1684,7 +1684,32 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
         <strong style="color:#8d2b58;">— Camila S.</strong>
       </div>
 
-    </div>
+    
+<div style="text-align:center;margin-top:28px;">
+  <button onclick="enviarFeedbackAndreza()" style="
+    border:0;
+    border-radius:999px;
+    padding:16px 28px;
+    background:linear-gradient(135deg,#25D366,#18b957);
+    color:#fff;
+    font-weight:900;
+    font-size:16px;
+    cursor:pointer;
+    box-shadow:0 14px 30px rgba(24,185,87,.22);
+  ">
+    💬 Enviar avaliação pelo WhatsApp
+  </button>
+
+  <p style="
+    margin-top:14px;
+    color:#805d70;
+    font-size:15px;
+    line-height:1.6;
+  ">
+    Sua opinião é muito importante para nós 💖
+  </p>
+</div>
+
 
   </div>
 </section>
@@ -2316,6 +2341,24 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
     window.open("https://wa.me/5581984225298?text=" + msg, "_blank");
   };
 })();
+</script>
+
+
+<script id="feedback-whatsapp-andreza">
+function enviarFeedbackAndreza(){
+  const msg = encodeURIComponent(
+`Olá Andreza Cakes 💖
+
+Gostaria de deixar minha avaliação:
+
+⭐ Nota:
+📝 Comentário:
+
+Obrigado pelo atendimento!`
+  );
+
+  window.open("https://wa.me/5581984225298?text=" + msg, "_blank");
+}
 </script>
 
 </body>
