@@ -601,72 +601,55 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 
 
 
-<style id="mobile-buttons-clone-final">
-@media (max-width: 850px){
 
-  /* Esconde os botões antigos no celular para parar a briga com o código de arrastar */
+<style id="mobile-sem-botoes-flutuantes">
+/* SOLUÇÃO DEFINITIVA: no celular, sem botões flutuantes para não piscar */
+.mobile-safe-action{
+  display: none !important;
+}
+
+@media (max-width: 850px){
   #cartBtn,
-  #musicBtn{
+  #musicBtn,
+  #mobileCartBtn,
+  #mobileMusicBtn,
+  .float-btn{
     display: none !important;
     visibility: hidden !important;
     opacity: 0 !important;
     pointer-events: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
   }
 
-  #mobileCartBtn,
-  #mobileMusicBtn{
-    position: fixed !important;
-    right: 14px !important;
-    left: auto !important;
-    width: 50px !important;
-    height: 50px !important;
-    border-radius: 17px !important;
-    border: 1px solid rgba(241,196,213,.9) !important;
-    background: rgba(255,255,255,.94) !important;
-    color: #8d2b58 !important;
-    box-shadow: 0 10px 26px rgba(112,48,75,.18) !important;
-    z-index: 2147483647 !important;
-    display: grid !important;
-    place-items: center !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    font-size: 23px !important;
-    line-height: 1 !important;
-    opacity: .96 !important;
-    visibility: visible !important;
-    touch-action: manipulation !important;
-    user-select: none !important;
+  .menu{
+    display: flex !important;
+    gap: 8px !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    flex-wrap: wrap !important;
   }
 
-  #mobileCartBtn{
-    bottom: 82px !important;
-  }
-
-  #mobileMusicBtn{
-    bottom: 18px !important;
-  }
-
-  #mobileCartCount{
-    position: absolute !important;
-    top: -7px !important;
-    right: -7px !important;
-    min-width: 22px !important;
-    height: 22px !important;
+  .mobile-safe-action{
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 38px !important;
+    padding: 9px 12px !important;
     border-radius: 999px !important;
-    background: #fff !important;
-    color: #8d2b58 !important;
-    border: 1px solid #f1c4d5 !important;
-    font-size: 12px !important;
-    font-weight: 900 !important;
-    display: grid !important;
-    place-items: center !important;
+    font-size: 13px !important;
+    line-height: 1 !important;
+    box-shadow: 0 8px 18px rgba(217,100,145,.18) !important;
+    white-space: nowrap !important;
   }
-}
 
-@media (min-width: 851px){
-  #mobileCartBtn,
-  #mobileMusicBtn{
-    display: none !important;
+  #mobileSafeCartBtn::before{
+    content: "🛒 ";
+  }
+
+  #mobileSafeMusicBtn::before{
+    content: "🎵 ";
   }
 }
 </style>
@@ -677,7 +660,7 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 <header>
   <div class="nav">
     <div class="brand"><img src="logo-andreza-cakes.png" alt="Andreza Cakes"><div>Andreza Cakes<small>Confeitaria artesanal</small></div></div>
-    <div class="menu"><button class="btn" onclick="document.getElementById('catalogo').scrollIntoView({behavior:'smooth'})">Ver produtos</button></div>
+    <div class="menu"><button class="btn" onclick="document.getElementById('catalogo').scrollIntoView({behavior:'smooth'})">Ver produtos</button><button class="btn mobile-safe-action" id="mobileSafeCartBtn" onclick="openCart()">Carrinho</button><button class="btn mobile-safe-action" id="mobileSafeMusicBtn" onclick="tocarMusica()">Música</button></div>
   </div>
 </header>
 
@@ -1106,65 +1089,47 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
 
 
 
-<script id="mobile-buttons-clone-final-js">
+
+<script id="mobile-remove-floating-buttons-js">
 (function(){
   function isMobile(){
     return window.matchMedia("(max-width: 850px)").matches;
   }
 
-  function ensureMobileButtons(){
+  function removeMobileFloating(){
     if(!isMobile()) return;
 
-    if(!document.getElementById("mobileCartBtn")){
-      const cart = document.createElement("button");
-      cart.id = "mobileCartBtn";
-      cart.type = "button";
-      cart.innerHTML = '🛒<span id="mobileCartCount">0</span>';
-      cart.setAttribute("aria-label", "Abrir carrinho");
-      cart.addEventListener("click", function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        if(typeof openCart === "function") openCart();
-      });
-      document.body.appendChild(cart);
+    ["mobileCartBtn","mobileMusicBtn"].forEach(function(id){
+      const el = document.getElementById(id);
+      if(el) el.remove();
+    });
+
+    const cart = document.getElementById("cartBtn");
+    const music = document.getElementById("musicBtn");
+
+    if(cart){
+      cart.style.display = "none";
+      cart.style.visibility = "hidden";
+      cart.style.opacity = "0";
+      cart.style.pointerEvents = "none";
     }
 
-    if(!document.getElementById("mobileMusicBtn")){
-      const music = document.createElement("button");
-      music.id = "mobileMusicBtn";
-      music.type = "button";
-      music.innerHTML = "🎵";
-      music.setAttribute("aria-label", "Tocar música");
-      music.addEventListener("click", function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        if(typeof tocarMusica === "function") tocarMusica();
-      });
-      document.body.appendChild(music);
-    }
-
-    syncMobileCartCount();
-  }
-
-  function syncMobileCartCount(){
-    const oldCount = document.getElementById("cartCount");
-    const newCount = document.getElementById("mobileCartCount");
-    if(oldCount && newCount){
-      newCount.textContent = oldCount.textContent || "0";
+    if(music){
+      music.style.display = "none";
+      music.style.visibility = "hidden";
+      music.style.opacity = "0";
+      music.style.pointerEvents = "none";
     }
   }
 
-  document.addEventListener("DOMContentLoaded", ensureMobileButtons);
-  window.addEventListener("load", ensureMobileButtons);
-  window.addEventListener("resize", ensureMobileButtons);
+  document.addEventListener("DOMContentLoaded", removeMobileFloating);
+  window.addEventListener("load", removeMobileFloating);
+  window.addEventListener("resize", removeMobileFloating);
   window.addEventListener("orientationchange", function(){
-    setTimeout(ensureMobileButtons, 200);
+    setTimeout(removeMobileFloating, 150);
   });
 
-  setInterval(function(){
-    ensureMobileButtons();
-    syncMobileCartCount();
-  }, 600);
+  setInterval(removeMobileFloating, 500);
 })();
 </script>
 
