@@ -599,50 +599,49 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 
 
 
-<style id="mobile-floating-buttons-final-fix">
+
+<style id="mobile-floating-buttons-hard-fix">
 @media (max-width: 850px){
 
   #cartBtn,
   #musicBtn{
     position: fixed !important;
-    right: 14px !important;
     left: auto !important;
-    z-index: 2147483647 !important;
+    top: auto !important;
+    right: 14px !important;
 
-    width: 52px !important;
-    height: 52px !important;
-    min-width: 52px !important;
-    max-width: 52px !important;
-
-    border-radius: 18px !important;
-
-    background: rgba(255,255,255,.90) !important;
-    color: #8d2b58 !important;
-
-    backdrop-filter: blur(14px) saturate(180%) !important;
-    -webkit-backdrop-filter: blur(14px) saturate(180%) !important;
-
-    border: 1px solid rgba(241,196,213,.85) !important;
-
-    box-shadow:
-      0 10px 28px rgba(112,48,75,.16),
-      inset 0 1px 0 rgba(255,255,255,.75) !important;
-
-    opacity: .96 !important;
-    visibility: visible !important;
-    display: grid !important;
-    place-items: center !important;
+    width: 50px !important;
+    height: 50px !important;
+    min-width: 50px !important;
+    max-width: 50px !important;
 
     padding: 0 !important;
     margin: 0 !important;
+
+    display: grid !important;
+    place-items: center !important;
+
+    border-radius: 17px !important;
+    background: rgba(255,255,255,.92) !important;
+    color: #8d2b58 !important;
+    border: 1px solid rgba(241,196,213,.9) !important;
+    box-shadow: 0 10px 26px rgba(112,48,75,.18) !important;
+
+    opacity: .96 !important;
+    visibility: visible !important;
+
+    z-index: 2147483647 !important;
+
+    transform: none !important;
+    animation: none !important;
+    transition: opacity .18s ease, transform .18s ease !important;
 
     font-size: 0 !important;
     line-height: 1 !important;
     overflow: visible !important;
 
-    transform: translateZ(0) !important;
-    will-change: transform !important;
-    animation: none !important;
+    touch-action: manipulation !important;
+    user-select: none !important;
   }
 
   #cartBtn{
@@ -655,13 +654,13 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 
   #cartBtn::before{
     content: "🛒";
-    font-size: 24px;
+    font-size: 23px;
     line-height: 1;
   }
 
   #musicBtn::before{
     content: "🎵";
-    font-size: 24px;
+    font-size: 23px;
     line-height: 1;
   }
 
@@ -672,12 +671,14 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 
   #cartCount{
     display: grid !important;
+    place-items: center !important;
     position: absolute !important;
     top: -7px !important;
     right: -7px !important;
-    min-width: 23px !important;
-    height: 23px !important;
+    min-width: 22px !important;
+    height: 22px !important;
     font-size: 12px !important;
+    border-radius: 999px !important;
     z-index: 2147483647 !important;
   }
 
@@ -686,9 +687,22 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
   body.modal-open #cartBtn,
   body.modal-open #musicBtn{
     position: fixed !important;
-    visibility: visible !important;
+    left: auto !important;
+    top: auto !important;
+    right: 14px !important;
     display: grid !important;
+    visibility: visible !important;
     opacity: .96 !important;
+  }
+
+  body.modal-open-mobile #cartBtn,
+  body.modal-open #cartBtn{
+    bottom: 82px !important;
+  }
+
+  body.modal-open-mobile #musicBtn,
+  body.modal-open #musicBtn{
+    bottom: 18px !important;
   }
 }
 </style>
@@ -1126,13 +1140,14 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
 </script>
 
 
-<script id="mobile-floating-buttons-final-fix-js">
+
+<script id="mobile-floating-buttons-hard-fix-js">
 (function(){
   function isMobile(){
     return window.matchMedia("(max-width: 850px)").matches;
   }
 
-  function fixFloatingButtons(){
+  function forceFixedButtons(){
     if(!isMobile()) return;
 
     const cart = document.getElementById("cartBtn");
@@ -1140,36 +1155,84 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
 
     if(cart){
       cart.style.position = "fixed";
-      cart.style.right = "14px";
       cart.style.left = "auto";
+      cart.style.top = "auto";
+      cart.style.right = "14px";
       cart.style.bottom = "82px";
       cart.style.display = "grid";
       cart.style.visibility = "visible";
       cart.style.opacity = ".96";
       cart.style.zIndex = "2147483647";
+      cart.style.transform = "none";
     }
 
     if(music){
       music.style.position = "fixed";
-      music.style.right = "14px";
       music.style.left = "auto";
+      music.style.top = "auto";
+      music.style.right = "14px";
       music.style.bottom = "18px";
       music.style.display = "grid";
       music.style.visibility = "visible";
       music.style.opacity = ".96";
       music.style.zIndex = "2147483647";
+      music.style.transform = "none";
       music.setAttribute("aria-label", "Música");
     }
   }
 
-  window.addEventListener("scroll", fixFloatingButtons, {passive:true});
-  window.addEventListener("resize", fixFloatingButtons);
+  function protectButtons(){
+    const cart = document.getElementById("cartBtn");
+    const music = document.getElementById("musicBtn");
+
+    [cart, music].forEach(function(btn){
+      if(!btn || btn.dataset.mobileProtected === "yes") return;
+      btn.dataset.mobileProtected = "yes";
+
+      btn.addEventListener("touchmove", function(e){
+        if(isMobile()){
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          forceFixedButtons();
+        }
+      }, {passive:false, capture:true});
+
+      btn.addEventListener("mousemove", function(e){
+        if(isMobile()){
+          e.stopImmediatePropagation();
+          forceFixedButtons();
+        }
+      }, true);
+
+      btn.addEventListener("touchend", function(){
+        setTimeout(forceFixedButtons, 20);
+      }, {passive:true});
+
+      btn.addEventListener("click", function(){
+        setTimeout(forceFixedButtons, 20);
+        setTimeout(forceFixedButtons, 180);
+      }, true);
+    });
+  }
+
+  function boot(){
+    protectButtons();
+    forceFixedButtons();
+  }
+
+  document.addEventListener("DOMContentLoaded", boot);
+  window.addEventListener("load", boot);
+  window.addEventListener("scroll", forceFixedButtons, {passive:true});
+  window.addEventListener("resize", forceFixedButtons);
   window.addEventListener("orientationchange", function(){
-    setTimeout(fixFloatingButtons, 250);
+    setTimeout(forceFixedButtons, 120);
+    setTimeout(forceFixedButtons, 350);
   });
 
-  document.addEventListener("DOMContentLoaded", fixFloatingButtons);
-  setInterval(fixFloatingButtons, 900);
+  setInterval(function(){
+    protectButtons();
+    forceFixedButtons();
+  }, 350);
 })();
 </script>
 
