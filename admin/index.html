@@ -350,6 +350,38 @@
     #printArea { display: none; }
 
   </style>
+
+<style id="fix-mobile-scroll-jump">
+@media (max-width: 850px){
+  html { overflow-anchor: none; }
+
+  body.modal-open-mobile {
+    position: fixed !important;
+    width: 100% !important;
+    overflow: hidden !important;
+    touch-action: none;
+  }
+
+  .modal.open {
+    align-items: flex-start !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding-top: 18px !important;
+    padding-bottom: 18px !important;
+  }
+
+  .modal.open .box {
+    max-height: calc(100vh - 36px) !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+}
+</style>
+
 </head>
 <body>
   <section id="loginPage" class="login-page">
@@ -1055,5 +1087,41 @@
       renderAll();
     }
   </script>
+
+<script id="fix-mobile-scroll-jump-admin-js">
+(function(){
+  let lastScroll = 0;
+
+  function isMobile(){
+    return window.matchMedia("(max-width: 850px)").matches;
+  }
+
+  function rememberScroll(){
+    if(isMobile()){
+      lastScroll = window.scrollY || document.documentElement.scrollTop || 0;
+    }
+  }
+
+  function restoreScroll(){
+    if(isMobile()){
+      setTimeout(function(){ window.scrollTo(0, lastScroll); }, 30);
+    }
+  }
+
+  document.addEventListener("focusin", rememberScroll);
+  document.addEventListener("change", restoreScroll);
+
+  const oldAddOrder = window.addOrder;
+  if(typeof oldAddOrder === "function"){
+    window.addOrder = function(){
+      rememberScroll();
+      const result = oldAddOrder.apply(this, arguments);
+      restoreScroll();
+      return result;
+    };
+  }
+})();
+</script>
+
 </body>
 </html>
