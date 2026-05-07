@@ -1047,12 +1047,49 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 }
 </style>
 
+
+<style id="logo-clicavel-e-horario-premium-fix">
+.brand{
+  text-decoration: none !important;
+  color: var(--texto) !important;
+  cursor: pointer !important;
+}
+
+.brand:hover{
+  opacity: .92;
+}
+
+.horario-extra-premium{
+  margin-top:18px;
+  padding:16px 18px;
+  border-radius:20px;
+  background:linear-gradient(135deg,#fff7fb,#fff0f5);
+  border:1px solid #f1c4d5;
+  color:#8d2b58;
+  font-weight:700;
+  line-height:1.6;
+  text-align:center;
+  box-shadow:0 10px 24px rgba(217,100,145,.10);
+}
+
+.horario-extra-premium span{
+  font-weight:600;
+  color:#805d70;
+}
+
+@media(max-width:850px){
+  .brand:hover{
+    opacity:1;
+  }
+}
+</style>
+
 </head>
 
-<body>
+<body id="topo">
 <header>
   <div class="nav">
-    <div class="brand"><img src="logo-andreza-cakes.png" alt="Andreza Cakes"><div>Andreza Cakes<small>Confeitaria artesanal</small></div></div>
+    <a class="brand" href="#topo" aria-label="Voltar ao início"><img src="logo-andreza-cakes.png" alt="Andreza Cakes"><div>Andreza Cakes<small>Confeitaria artesanal</small></div></a>
     <div class="menu"><button class="btn" onclick="document.getElementById('catalogo').scrollIntoView({behavior:'smooth'})">Ver produtos</button><button class="btn mobile-safe-action" id="mobileSafeCartBtn" onclick="openCart()">Carrinho<span id="mobileSafeCartCount">0</span></button><button class="btn mobile-safe-action" id="mobileSafeMusicBtn" onclick="tocarMusica()">Música</button></div>
   </div>
 </header>
@@ -1063,34 +1100,19 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
     <div class="badge">✨ Encomendas personalizadas em Recife/PE</div>
     <h1>O sabor que faz todo mundo pedir mais.</h1>
     <p>Bolos, kits e doces personalizados feitos com carinho, qualidade e aquele toque especial que encanta em cada detalhe.</p>
-    
-    
   </div>
+
   <div class="hero-card">
     <img src="logo-andreza-cakes.png" alt="Andreza Cakes">
-    <div class="mini"><div>Kits festa</div><div>Personalizados</div><div>Bolos</div><div>Doces e salgados</div></div><div class="premium-note">Feito sob encomenda com amor em Recife 💖
-<div style="
-margin-top:18px;
-padding:16px 18px;
-border-radius:20px;
-background:linear-gradient(135deg,#fff7fb,#fff0f5);
-border:1px solid #f1c4d5;
-color:#8d2b58;
-font-weight:700;
-line-height:1.6;
-text-align:center;
-box-shadow:0 10px 24px rgba(217,100,145,.10);
-">
-✨ Produção artesanal e personalizada<br>
-<span style="font-weight:600;color:#805d70">
-Cada encomenda é preparada com carinho para tornar seu momento ainda mais especial 💖
-</span>
-</div>
-
-</div>
-</div>
+    <div class="mini">
+      <div>Kits festa</div>
+      <div>Personalizados</div>
+      <div>Bolos</div>
+      <div>Doces e salgados</div>
+    </div>
+    <div class="premium-note">Feito sob encomenda com amor em Recife 💖</div>
+  </div>
 </section>
-
 
 <section id="catalogo">
   <div class="title"><h2>Monte seu pedido</h2><p>Escolha seus itens, personalize e finalize direto pelo WhatsApp.</p></div>
@@ -1170,6 +1192,7 @@ Cada encomenda é preparada com carinho para tornar seu momento ainda mais espec
 </div>
 
 
+
 <section class="horario-premium" id="horario-atendimento">
   <div class="horario-card">
     <div class="horario-icon">🕒</div>
@@ -1181,7 +1204,6 @@ Cada encomenda é preparada com carinho para tornar seu momento ainda mais espec
         <div class="horario-item horario-fechado">
           <strong>Segunda-feira</strong>
           <span>Fechado</span>
-          <small></small>
         </div>
 
         <div class="horario-item">
@@ -1197,10 +1219,15 @@ Cada encomenda é preparada com carinho para tornar seu momento ainda mais espec
         </div>
 
         <div class="horario-item">
-          <strong>WhatsApp</strong>
-          <span>Resposta conforme disponibilidade</span>
-          <small>Faça seu pedido com antecedência 💖</small>
+          <strong>Datas comemorativas</strong>
+          <span>Vagas limitadas para datas especiais</span>
+          <small>Garanta sua encomenda com antecedência pelo WhatsApp 💖</small>
         </div>
+      </div>
+
+      <div class="horario-extra-premium">
+        ✨ Produção artesanal e personalizada<br>
+        <span>Cada encomenda é preparada com carinho para tornar seu momento ainda mais especial 💖</span>
       </div>
     </div>
   </div>
