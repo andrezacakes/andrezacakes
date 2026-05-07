@@ -1,7 +1,2407 @@
-<!-- REMOVER ESTA PARTE DO MEIO DO SITE -->
-<!-- Andreza Cakes • Recife/PE • @ANDREZAA_CAKES -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Andreza Cakes</title>
+<link rel="icon" type="image/png" href="favicon-app-style.png">
+<link rel="shortcut icon" type="image/png" href="favicon-app-style.png">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
-<!-- COLE ISSO NO FINAL DO SITE, ANTES DO </body> -->
+<style>
+:root{
+  --rosa:#d96491;
+  --rosa2:#ff8db4;
+  --vinho:#8d2b58;
+  --claro:#fff3f7;
+  --borda:#f1c4d5;
+  --texto:#2c1b24;
+  --muted:#805d70;
+  --sombra:0 22px 55px rgba(112,48,75,.18);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  color:var(--texto);
+  background:linear-gradient(135deg,#fff8f2,#ffe3ee);
+}
+header{
+  position:sticky;top:0;z-index:30;
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--borda);
+}
+.nav{
+  max-width:1180px;margin:auto;padding:14px 20px;
+  display:flex;justify-content:space-between;align-items:center;gap:14px;
+}
+.brand{display:flex;align-items:center;gap:12px;font-weight:900}
+.brand img{width:58px;height:58px;object-fit:contain}
+.brand small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.menu{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.menu a,.btn{
+  border:0;text-decoration:none;cursor:pointer;font-weight:900;border-radius:999px;
+  padding:12px 18px;background:linear-gradient(135deg,var(--rosa),var(--rosa2));
+  color:#fff;box-shadow:0 12px 25px rgba(217,100,145,.24);
+}
+.menu a:not(.btn){background:transparent;color:var(--texto);box-shadow:none;padding:8px}
+.hero{
+  max-width:1180px;margin:auto;padding:58px 20px 30px;
+  display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center;
+}
+.hero h1{font-size:clamp(38px,6vw,68px);line-height:.98;margin:0 0 18px}
+.hero p{font-size:18px;color:var(--muted);line-height:1.6}
+.badge{
+  display:inline-block;padding:8px 14px;border-radius:999px;background:#fff;
+  border:1px solid var(--borda);color:var(--vinho);font-weight:900;margin-bottom:14px;
+}
+.hero-card{
+  background:rgba(255,255,255,.94);border:1px solid var(--borda);border-radius:34px;
+  box-shadow:var(--sombra);padding:28px;text-align:center;
+}
+.hero-card img{width:min(280px,82%)}
+.mini{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px}
+.mini div{background:#fff7fb;border:1px solid var(--borda);border-radius:18px;padding:14px;font-weight:900}
+section{max-width:1180px;margin:auto;padding:38px 20px}
+.title{text-align:center;margin-bottom:24px}
+.title h2{font-size:clamp(30px,4vw,44px);margin:0 0 8px}
+.title p{color:var(--muted);margin:0}
+.tabs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:22px}
+.tab{border:1px solid var(--borda);background:#fff;color:var(--vinho);font-weight:900;border-radius:999px;padding:11px 15px;cursor:pointer}
+.tab.active{background:var(--rosa);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{
+  background:#fff;border:1px solid var(--borda);border-radius:28px;padding:20px;
+  box-shadow:var(--sombra);display:flex;flex-direction:column;gap:10px;transition:.25s;
+}
+.card:hover{transform:translateY(-4px)}
+.icon{width:56px;height:56px;border-radius:18px;background:var(--claro);display:grid;place-items:center;font-size:28px}
+.card h3{margin:0;font-size:22px}.card p{margin:0;color:var(--muted);line-height:1.45}
+.price{font-size:22px;font-weight:900;color:var(--vinho);letter-spacing:-.2px}
+.card button{margin-top:auto}
+.modal{
+  display:none;position:fixed;inset:0;background:rgba(40,20,30,.42);
+  backdrop-filter:blur(6px);z-index:80;align-items:center;justify-content:center;padding:16px;
+}
+.modal.open{display:flex}
+.box{
+  background:#fff;width:min(1000px,100%);max-height:90vh;overflow-y:auto;overflow-x:hidden;
+  border-radius:30px;border:1px solid var(--borda);box-shadow:0 30px 80px rgba(40,20,30,.30);
+  padding:24px 28px 24px 24px;scroll-behavior:smooth;
+  scrollbar-width:thin;scrollbar-color:#d96491 transparent;
+}
+.box::-webkit-scrollbar{width:6px}
+.box::-webkit-scrollbar-track{background:transparent;margin:22px 0}
+.box::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#ff8db4,#d96491);border-radius:999px}
+.box::-webkit-scrollbar-thumb:hover{background:#c94f7f}
+.top{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:12px}
+.close{border:0;background:var(--claro);color:var(--vinho);width:42px;height:42px;border-radius:14px;font-size:24px;font-weight:900;cursor:pointer}
+.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.full{grid-column:1/-1}
+label{font-size:13px;color:var(--vinho);font-weight:900;display:block;margin-bottom:6px}
+input,select,textarea{width:100%;border:1px solid var(--borda);border-radius:15px;padding:12px;background:#fff;font-size:14px}
+textarea{min-height:85px}
+.choice-area{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.choice-card{background:#fff7fb;border:1px solid var(--borda);border-radius:18px;padding:14px}
+.choice-card h4{margin:0 0 8px;color:var(--vinho)}
+.choice-row{display:grid;grid-template-columns:1fr 92px;gap:8px;align-items:center;margin:8px 0;transition:.2s}
+.choice-row input{padding:9px;text-align:center;font-weight:900}
+.choice-row input:disabled{opacity:.35;cursor:not-allowed;background:#f5eef2}
+.progress{
+  background:#fff;border:1px solid var(--borda);border-radius:16px;padding:10px;margin-bottom:8px;
+  font-weight:900;color:var(--vinho);
+}
+.progress.ok{background:#eafff2;color:#207244;border-color:#b6efcb}
+.progress.warn{background:#fff0f0;color:#a33;border-color:#ffc7c7;animation:shakeKit .22s ease-in-out 2}
+@keyframes shakeKit{0%,100%{transform:translateX(0)}25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+.kit-bar{height:10px;background:#f1c4d5;border-radius:999px;overflow:hidden;margin:0 0 12px}
+.kit-bar-fill{height:100%;width:0%;background:linear-gradient(90deg,#ff8db4,#d96491);transition:width .3s ease}
+.kit-bar.ok{background:#b6efcb}.kit-bar.ok .kit-bar-fill{background:#22c55e}
+.kit-bar.warn{background:#ffc7c7}.kit-bar.warn .kit-bar-fill{background:#ef4444}
+.cart-item{
+  display:grid;grid-template-columns:1fr auto;gap:12px;background:linear-gradient(135deg,#fff7fb,#fff);
+  border:1px solid #f4d1df;border-radius:22px;padding:14px;margin:8px 0;
+  box-shadow:0 12px 28px rgba(112,48,75,.10);align-items:center;
+}
+.actions{display:flex;flex-direction:column;gap:8px}
+.actions button{border:1px solid var(--borda);border-radius:999px;padding:9px 12px;font-weight:900;cursor:pointer;background:#fff;color:var(--vinho)}
+.actions .danger{background:#ffe8ec!important;color:#b3304b!important}
+.total{font-size:25px;font-weight:900;color:var(--vinho);background:#fff3f7;border:1px solid var(--borda);padding:10px 14px;border-radius:18px}
+.float-btn{
+  position:fixed;right:18px;z-index:99999;border:0;box-shadow:0 20px 45px rgba(112,48,75,.28);
+  cursor:grab;touch-action:none;user-select:none;font-family:Arial,Helvetica,sans-serif;
+}
+.float-btn:active{cursor:grabbing}
+#cartBtn{bottom:88px;width:64px;height:64px;border-radius:22px;background:linear-gradient(135deg,#d96491,#ff8db4);color:#fff;font-size:28px}
+#musicBtn{bottom:18px;border-radius:999px;background:#fff;color:#8d2b58;border:1px solid #f1c4d5;padding:13px 17px;font-weight:900;font-size:15px}
+#cartCount{
+  position:absolute;top:-8px;right:-8px;background:#fff;color:#8d2b58;border:1px solid #f1c4d5;
+  font-size:12px;font-weight:900;border-radius:999px;min-width:24px;height:24px;display:grid;place-items:center;
+}
+footer{text-align:center;padding:35px 20px;color:var(--muted)}
+@media(max-width:850px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.choice-area{grid-template-columns:1fr}.menu a:not(.btn){display:none}.cart-item{grid-template-columns:1fr}.actions{flex-direction:row;flex-wrap:wrap}}
+</style>
+
+<style id="fix-editar-direto-modal">
+#customModal{
+  z-index: 120000 !important;
+}
+#cartModal{
+  z-index: 90000 !important;
+}
+</style>
+
+
+
+<style id="animacoes-premium-andreza">
+/* Animação suave das logos */
+.brand img,
+.hero-card img {
+  animation: logoFloatAndreza 4.5s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes logoFloatAndreza {
+  0%,100% { transform: translateY(0) scale(1); filter: drop-shadow(0 8px 14px rgba(217,100,145,.10)); }
+  50% { transform: translateY(-6px) scale(1.025); filter: drop-shadow(0 14px 22px rgba(217,100,145,.22)); }
+}
+
+/* Título Monte seu pedido com entrada e brilho */
+#catalogo .title h2 {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  animation: pedidoTitleEntrada .9s ease both;
+}
+
+#catalogo .title h2::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -85%;
+  width: 55%;
+  height: 100%;
+  background: linear-gradient(110deg, transparent, rgba(255,255,255,.75), transparent);
+  transform: skewX(-18deg);
+  animation: pedidoTitleBrilho 3.8s ease-in-out infinite;
+}
+
+@keyframes pedidoTitleEntrada {
+  from { opacity: 0; transform: translateY(18px) scale(.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes pedidoTitleBrilho {
+  0%, 35% { left: -85%; }
+  60%, 100% { left: 135%; }
+}
+
+/* Botão Ver produtos com destaque leve */
+.menu .btn {
+  animation: botaoRespiraAndreza 2.8s ease-in-out infinite;
+}
+
+@keyframes botaoRespiraAndreza {
+  0%,100% { transform: scale(1); box-shadow: 0 12px 25px rgba(217,100,145,.24); }
+  50% { transform: scale(1.035); box-shadow: 0 16px 34px rgba(217,100,145,.34); }
+}
+</style>
+
+
+<style id="entrada-premium-hero">
+/* Entrada premium do texto principal */
+.hero .badge {
+  animation: badgePremium 0.75s ease both;
+}
+
+.hero h1 {
+  position: relative;
+  display: inline-block;
+  animation: heroTitlePremium 1s cubic-bezier(.22,1,.36,1) both;
+}
+
+.hero h1::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -80%;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(110deg, transparent, rgba(255,255,255,.65), transparent);
+  transform: skewX(-18deg);
+  animation: heroTitleGlow 4.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.hero p {
+  animation: heroTextPremium 1s ease .18s both;
+}
+
+@keyframes badgePremium {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes heroTitlePremium {
+  from {
+    opacity: 0;
+    transform: translateY(26px) scale(.96);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes heroTextPremium {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroTitleGlow {
+  0%, 38% {
+    left: -80%;
+  }
+  62%, 100% {
+    left: 130%;
+  }
+}
+</style>
+
+
+<style id="visual-premium-hero-card-andreza">
+/* Visual premium do bloco principal */
+.hero {
+  position: relative;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  width: 310px;
+  height: 310px;
+  right: 70px;
+  top: 34px;
+  background: radial-gradient(circle, rgba(255,141,180,.24), transparent 68%);
+  filter: blur(2px);
+  pointer-events: none;
+}
+
+.hero-card {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.hero-card::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  background:
+    radial-gradient(circle at top left, rgba(255,255,255,.95), transparent 32%),
+    linear-gradient(135deg, rgba(255,255,255,.86), rgba(255,227,238,.55));
+  z-index: -1;
+}
+
+.hero-card::after {
+  content: "";
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  right: -45px;
+  bottom: -45px;
+  background: radial-gradient(circle, rgba(217,100,145,.18), transparent 70%);
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.hero-card img {
+  max-width: 230px;
+  animation: logoPremiumFloat 4.5s ease-in-out infinite;
+  filter: drop-shadow(0 16px 25px rgba(112,48,75,.16));
+}
+
+.hero-card .mini {
+  margin-top: 22px;
+}
+
+.hero-card .mini div {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 58px;
+  background: rgba(255,255,255,.86);
+  border: 1px solid rgba(241,196,213,.95);
+  box-shadow: 0 12px 26px rgba(112,48,75,.08);
+  transition: .25s ease;
+}
+
+.hero-card .mini div:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 34px rgba(112,48,75,.14);
+  border-color: rgba(217,100,145,.55);
+}
+
+.hero-card .mini div:nth-child(1)::before { content: "🎉"; }
+.hero-card .mini div:nth-child(2)::before { content: "🧁"; }
+.hero-card .mini div:nth-child(3)::before { content: "🎂"; }
+.hero-card .mini div:nth-child(4)::before { content: "🍬"; }
+
+.hero-card .mini div::before {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  background: #fff3f7;
+  border-radius: 12px;
+  font-size: 18px;
+  box-shadow: inset 0 0 0 1px rgba(241,196,213,.9);
+}
+
+.hero-card .premium-note {
+  margin: 18px auto 0;
+  width: fit-content;
+  padding: 9px 14px;
+  border-radius: 999px;
+  background: rgba(255,243,247,.92);
+  border: 1px solid rgba(241,196,213,.95);
+  color: #8d2b58;
+  font-weight: 900;
+  font-size: 13px;
+  box-shadow: 0 10px 24px rgba(112,48,75,.08);
+}
+
+.menu .btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.menu .btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -80%;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(110deg, transparent, rgba(255,255,255,.7), transparent);
+  transform: skewX(-18deg);
+  animation: btnPremiumShine 3.2s ease-in-out infinite;
+}
+
+@keyframes logoPremiumFloat {
+  0%,100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-7px) scale(1.025); }
+}
+
+@keyframes btnPremiumShine {
+  0%, 35% { left: -80%; }
+  60%, 100% { left: 135%; }
+}
+
+@media(max-width:850px){
+  .hero-card img {
+    max-width: 190px;
+  }
+  .hero-card .mini {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+
+<style id="admin-login-integrado-css">
+#adminLoginOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(40,20,30,.55);
+  backdrop-filter: blur(7px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 200000;
+  padding: 18px;
+}
+
+#adminLoginOverlay.open {
+  display: flex;
+}
+
+.admin-login-box {
+  width: min(390px, 100%);
+  background:
+    radial-gradient(circle at top right, rgba(255,141,180,.18), transparent 35%),
+    #fff;
+  border: 1px solid #f1c4d5;
+  border-radius: 28px;
+  padding: 28px;
+  box-shadow: 0 30px 85px rgba(40,20,30,.35);
+  font-family: Arial, Helvetica, sans-serif;
+  animation: adminLoginEntrada .32s ease both;
+}
+
+.admin-login-logo {
+  width: 82px;
+  height: 82px;
+  margin: 0 auto 14px;
+  border-radius: 24px;
+  background: #fff3f7;
+  border: 1px solid #f1c4d5;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  box-shadow: 0 14px 30px rgba(112,48,75,.12);
+}
+
+.admin-login-logo img {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+}
+
+.admin-login-box h2 {
+  margin: 0;
+  text-align: center;
+  color: #8d2b58;
+  font-size: 24px;
+}
+
+.admin-login-box p {
+  margin: 8px 0 18px;
+  text-align: center;
+  color: #805d70;
+  font-size: 14px;
+}
+
+.admin-login-box label {
+  display: block;
+  margin: 12px 0 6px;
+  color: #8d2b58;
+  font-weight: 900;
+  font-size: 13px;
+}
+
+.admin-login-box input {
+  width: 100%;
+  height: 50px;
+  border-radius: 16px;
+  border: 1px solid #f1c4d5;
+  padding: 0 14px;
+  font-size: 15px;
+  outline: none;
+}
+
+.admin-login-box input:focus {
+  border-color: #d96491;
+  box-shadow: 0 0 0 4px rgba(217,100,145,.12);
+}
+
+.admin-login-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.admin-login-actions button {
+  flex: 1;
+  height: 50px;
+  border: none;
+  border-radius: 999px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.admin-login-actions .admin-enter {
+  background: linear-gradient(135deg,#d96491,#ff8db4);
+  color: #fff;
+  box-shadow: 0 14px 28px rgba(217,100,145,.24);
+}
+
+.admin-login-actions .admin-cancel {
+  background: #fff3f7;
+  color: #8d2b58;
+  border: 1px solid #f1c4d5;
+}
+
+.admin-login-error {
+  display: none;
+  margin-top: 12px;
+  background: #fff0f0;
+  color: #a33;
+  border: 1px solid #ffc7c7;
+  border-radius: 14px;
+  padding: 10px;
+  font-weight: 900;
+  text-align: center;
+  font-size: 13px;
+}
+
+@keyframes adminLoginEntrada {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+</style>
+
+
+<style id="mobile-sem-botoes-flutuantes">
+/* SOLUÇÃO DEFINITIVA: no celular, sem botões flutuantes para não piscar */
+.mobile-safe-action{
+  display: none !important;
+}
+
+@media (max-width: 850px){
+  #cartBtn,
+  #musicBtn,
+  #mobileCartBtn,
+  #mobileMusicBtn,
+  .float-btn{
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .menu{
+    display: flex !important;
+    gap: 8px !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    flex-wrap: wrap !important;
+  }
+
+  .mobile-safe-action{
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 38px !important;
+    padding: 9px 12px !important;
+    border-radius: 999px !important;
+    font-size: 13px !important;
+    line-height: 1 !important;
+    box-shadow: 0 8px 18px rgba(217,100,145,.18) !important;
+    white-space: nowrap !important;
+  }
+
+  #mobileSafeCartBtn::before{
+    content: "🛒 ";
+  }
+
+  #mobileSafeMusicBtn::before{
+    content: "🎵 ";
+  }
+}
+</style>
+
+
+<style id="mobile-carrinho-contador-topo">
+@media (max-width: 850px){
+  #mobileSafeCartBtn{
+    position: relative !important;
+    padding-right: 22px !important;
+  }
+
+  #mobileSafeCartCount{
+    position: absolute !important;
+    top: -7px !important;
+    right: -7px !important;
+    min-width: 22px !important;
+    height: 22px !important;
+    border-radius: 999px !important;
+    background: #fff !important;
+    color: #8d2b58 !important;
+    border: 1px solid #f1c4d5 !important;
+    display: grid !important;
+    place-items: center !important;
+    font-size: 12px !important;
+    font-weight: 900 !important;
+    box-shadow: 0 6px 14px rgba(112,48,75,.16) !important;
+  }
+}
+</style>
+
+
+<style id="contador-visivel-fix">
+@media (max-width:850px){
+  #mobileSafeCartBtn{
+    position: relative !important;
+    overflow: visible !important;
+    padding-right: 28px !important;
+  }
+
+  #mobileSafeCartCount{
+    position: absolute !important;
+    top: -10px !important;
+    right: -10px !important;
+    min-width: 24px !important;
+    height: 24px !important;
+    padding: 0 6px !important;
+    border-radius: 999px !important;
+
+    background: #ffffff !important;
+    color: #c2185b !important;
+
+    border: 2px solid #f06292 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    font-size: 12px !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+
+    z-index: 999999999 !important;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,.18) !important;
+  }
+}
+</style>
+
+
+<style id="mobile-header-premium-final">
+@media (max-width: 850px){
+
+  header{
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 99999 !important;
+    background: rgba(255,255,255,.96) !important;
+    backdrop-filter: blur(14px) saturate(170%) !important;
+    -webkit-backdrop-filter: blur(14px) saturate(170%) !important;
+    border-bottom: 1px solid rgba(241,196,213,.9) !important;
+  }
+
+  .nav{
+    padding: 10px 12px !important;
+    display: grid !important;
+    grid-template-columns: 1fr auto !important;
+    gap: 8px 10px !important;
+    align-items: center !important;
+  }
+
+  .brand{
+    min-width: 0 !important;
+    gap: 8px !important;
+  }
+
+  .brand img{
+    width: 46px !important;
+    height: 46px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .brand > div{
+    font-size: 18px !important;
+    line-height: 1.05 !important;
+    max-width: 135px !important;
+  }
+
+  .brand small{
+    font-size: 12px !important;
+    line-height: 1.15 !important;
+    margin-top: 4px !important;
+  }
+
+  .menu{
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 7px !important;
+    justify-items: end !important;
+    align-items: center !important;
+  }
+
+  .menu .btn{
+    min-height: 34px !important;
+    padding: 8px 13px !important;
+    border-radius: 999px !important;
+    font-size: 13px !important;
+    line-height: 1 !important;
+    box-shadow: 0 8px 18px rgba(217,100,145,.18) !important;
+    white-space: nowrap !important;
+  }
+
+  .menu .btn:not(.mobile-safe-action){
+    padding: 9px 16px !important;
+    font-size: 13px !important;
+    font-weight: 900 !important;
+  }
+
+  .mobile-safe-action{
+    min-width: 112px !important;
+    justify-content: center !important;
+    gap: 5px !important;
+    background: rgba(217,100,145,.92) !important;
+    color: #fff !important;
+    border: 1px solid rgba(255,255,255,.4) !important;
+  }
+
+  #mobileSafeCartBtn{
+    position: relative !important;
+    padding-right: 22px !important;
+  }
+
+  #mobileSafeCartBtn::before{
+    content: "🛒" !important;
+    margin-right: 4px !important;
+    font-size: 15px !important;
+  }
+
+  #mobileSafeMusicBtn::before{
+    content: "🎵" !important;
+    margin-right: 4px !important;
+    font-size: 15px !important;
+  }
+
+  #mobileSafeCartCount{
+    position: absolute !important;
+    top: -7px !important;
+    right: -7px !important;
+    min-width: 21px !important;
+    height: 21px !important;
+    padding: 0 5px !important;
+    border-radius: 999px !important;
+
+    background: #fff !important;
+    color: #8d2b58 !important;
+    border: 2px solid #d96491 !important;
+
+    display: grid !important;
+    place-items: center !important;
+
+    font-size: 11px !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+
+    box-shadow: 0 5px 12px rgba(112,48,75,.18) !important;
+    z-index: 10 !important;
+  }
+
+  /* Evita que o topo fique alto demais */
+  .menu #mobileSafeMusicBtn{
+    background: rgba(255,243,247,.96) !important;
+    color: #8d2b58 !important;
+    border: 1px solid #f1c4d5 !important;
+    box-shadow: 0 6px 14px rgba(112,48,75,.10) !important;
+  }
+}
+
+@media (max-width: 420px){
+  .brand img{
+    width: 42px !important;
+    height: 42px !important;
+  }
+
+  .brand > div{
+    font-size: 16px !important;
+    max-width: 118px !important;
+  }
+
+  .brand small{
+    font-size: 11px !important;
+  }
+
+  .menu .btn{
+    min-width: 100px !important;
+    padding: 8px 11px !important;
+    font-size: 12px !important;
+  }
+}
+</style>
+
+
+<style id="fix-limite-kit-sem-tirar-do-outro-css">
+.kit-limit-shake{
+  animation: kitLimitShake .22s ease-in-out 2;
+  border-color: #ef4444 !important;
+  background: #fff0f0 !important;
+}
+
+@keyframes kitLimitShake{
+  0%,100%{ transform: translateX(0); }
+  25%{ transform: translateX(-3px); }
+  75%{ transform: translateX(3px); }
+}
+</style>
+
+
+
+<style id="mobile-estabilidade-total">
+@media (max-width: 850px){
+
+  /* Impede a página de ficar balançando lateralmente */
+  html,
+  body{
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    scroll-behavior: auto !important;
+    overscroll-behavior-x: none !important;
+    overflow-anchor: none !important;
+  }
+
+  body{
+    position: relative !important;
+  }
+
+  main,
+  section,
+  header,
+  footer,
+  .hero,
+  .hero-card,
+  .grid,
+  .card,
+  .modal,
+  .box{
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+  }
+
+  /* Remove brilhos/linhas animadas que passam para esquerda/direita no celular */
+  .hero h1::after,
+  #catalogo .title h2::after,
+  .menu .btn::after,
+  .card .icon::after,
+  .hero::before,
+  .hero-card::after{
+    display: none !important;
+    animation: none !important;
+    content: none !important;
+  }
+
+  /* Desliga animações contínuas só no celular */
+  .brand img,
+  .hero-card img,
+  .hero .badge,
+  .hero h1,
+  .hero p,
+  #catalogo .title h2,
+  .menu .btn,
+  .card,
+  .icon,
+  .premium-icon,
+  .product-photo{
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+    filter: none !important;
+  }
+
+  /* Evita zoom/tremida ao focar em campo no celular */
+  input,
+  select,
+  textarea{
+    font-size: 16px !important;
+  }
+
+  /* Modal estável no celular */
+  .modal.open{
+    align-items: flex-start !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding: 14px !important;
+  }
+
+  .modal.open .box{
+    width: 100% !important;
+    max-height: calc(100vh - 28px) !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  /* Cards sem mexer de tamanho ao passar/dar toque */
+  .card:hover,
+  button:hover,
+  .btn:hover{
+    transform: none !important;
+  }
+}
+</style>
+
+
+<style id="horario-premium-andreza">
+.horario-premium{
+  max-width:1180px;
+  margin: 10px auto 24px;
+  padding: 0 20px;
+}
+
+.horario-card{
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top right, rgba(255,141,180,.18), transparent 34%),
+    rgba(255,255,255,.92);
+  border: 1px solid #f1c4d5;
+  border-radius: 30px;
+  box-shadow: 0 22px 55px rgba(112,48,75,.14);
+  padding: 26px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.horario-icon{
+  width: 62px;
+  height: 62px;
+  border-radius: 22px;
+  background: linear-gradient(135deg,#d96491,#ff8db4);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  box-shadow: 0 14px 30px rgba(217,100,145,.25);
+}
+
+.horario-content h2{
+  margin: 0 0 8px;
+  color: #8d2b58;
+  font-size: clamp(24px,3vw,34px);
+}
+
+.horario-content .sub{
+  margin: 0 0 18px;
+  color: #805d70;
+  line-height: 1.5;
+}
+
+.horario-grid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 12px;
+}
+
+.horario-item{
+  background: #fff7fb;
+  border: 1px solid #f1c4d5;
+  border-radius: 20px;
+  padding: 15px;
+}
+
+.horario-item strong{
+  display:block;
+  color:#8d2b58;
+  margin-bottom: 6px;
+  font-size: 15px;
+}
+
+.horario-item span{
+  color:#2c1b24;
+  font-weight: 900;
+}
+
+.horario-item small{
+  display:block;
+  margin-top: 6px;
+  color:#805d70;
+  font-weight: 700;
+}
+
+.horario-fechado{
+  background: #fff1f3;
+}
+
+@media(max-width:850px){
+  .horario-card{
+    grid-template-columns: 1fr;
+    padding: 22px;
+  }
+
+  .horario-icon{
+    width: 56px;
+    height: 56px;
+  }
+
+  .horario-grid{
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+
+<style id="logo-clicavel-e-horario-premium-fix">
+.brand{
+  text-decoration: none !important;
+  color: var(--texto) !important;
+  cursor: pointer !important;
+}
+
+.brand:hover{
+  opacity: .92;
+}
+
+.horario-extra-premium{
+  margin-top:18px;
+  padding:16px 18px;
+  border-radius:20px;
+  background:linear-gradient(135deg,#fff7fb,#fff0f5);
+  border:1px solid #f1c4d5;
+  color:#8d2b58;
+  font-weight:700;
+  line-height:1.6;
+  text-align:center;
+  box-shadow:0 10px 24px rgba(217,100,145,.10);
+}
+
+.horario-extra-premium span{
+  font-weight:600;
+  color:#805d70;
+}
+
+@media(max-width:850px){
+  .brand:hover{
+    opacity:1;
+  }
+}
+</style>
+
+
+<style id="restaurar-filtros-estaveis">
+.filters{
+  display:flex !important;
+  flex-wrap:wrap !important;
+  justify-content:center !important;
+  gap:12px !important;
+}
+
+.filters button{
+  border-radius:999px !important;
+  border:1px solid #f1c4d5 !important;
+  background:#fff !important;
+  color:#8d2b58 !important;
+  font-weight:900 !important;
+  box-shadow:none !important;
+}
+
+.filters button.active{
+  background:linear-gradient(135deg,#d96491,#ff8db4) !important;
+  color:#fff !important;
+  border-color:transparent !important;
+}
+
+@media(max-width:850px){
+  .filters button{
+    font-size:14px !important;
+    padding:10px 15px !important;
+  }
+}
+</style>
+
+
+
+<style id="especiais-andreza-css">
+#especiais-andreza{
+  max-width:1180px;
+  margin: 18px auto 34px;
+  padding: 0 20px;
+}
+
+.especiais-vitrine{
+  position:relative;
+  overflow:hidden;
+  border-radius:34px;
+  border:1px solid #f1c4d5;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(255,141,180,.18), transparent 30%),
+    radial-gradient(circle at 90% 20%, rgba(217,100,145,.13), transparent 34%),
+    linear-gradient(135deg,#fff7fb,#fff);
+  box-shadow:0 24px 60px rgba(112,48,75,.13);
+  padding:30px;
+}
+
+.especiais-head{
+  text-align:center;
+  margin-bottom:24px;
+}
+
+.especiais-head .tag{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:9px 17px;
+  border-radius:999px;
+  background:#fff;
+  border:1px solid #f1c4d5;
+  color:#8d2b58;
+  font-weight:900;
+  font-size:14px;
+  margin-bottom:12px;
+  box-shadow:0 8px 20px rgba(217,100,145,.09);
+}
+
+.especiais-head h2{
+  margin:0;
+  color:#2c1b24;
+  font-size:clamp(30px,4vw,50px);
+  letter-spacing:-.03em;
+}
+
+.especiais-head p{
+  margin:12px auto 0;
+  max-width:660px;
+  color:#805d70;
+  line-height:1.6;
+  font-size:17px;
+}
+
+.especiais-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:18px;
+}
+
+.especial-card{
+  background:rgba(255,255,255,.96);
+  border:1px solid #f1c4d5;
+  border-radius:30px;
+  padding:20px;
+  box-shadow:0 18px 40px rgba(112,48,75,.10);
+  display:flex;
+  flex-direction:column;
+  min-height:330px;
+}
+
+.especial-media{
+  height:118px;
+  border-radius:24px;
+  background:
+    radial-gradient(circle at center, rgba(255,255,255,.72), transparent 60%),
+    linear-gradient(135deg,#fff0f6,#ffe2ee);
+  display:grid;
+  place-items:center;
+  margin-bottom:16px;
+  border:1px solid #f1c4d5;
+  overflow:hidden;
+}
+
+.especial-media span{
+  font-size:58px;
+  filter:drop-shadow(0 8px 12px rgba(112,48,75,.12));
+}
+
+.especial-card h3{
+  margin:0 0 8px;
+  color:#2c1b24;
+  font-size:24px;
+  line-height:1.15;
+}
+
+.especial-card p{
+  margin:0;
+  color:#805d70;
+  line-height:1.55;
+  font-size:15px;
+}
+
+.especial-destaque{
+  margin-top:14px;
+  padding:11px 13px;
+  border-radius:18px;
+  background:#fff7fb;
+  border:1px solid #f1c4d5;
+  color:#8d2b58;
+  font-weight:900;
+  font-size:14px;
+}
+
+.especial-btn{
+  width:100%;
+  margin-top:auto;
+  border:0;
+  border-radius:999px;
+  padding:14px 18px;
+  background:linear-gradient(135deg,#d96491,#ff8db4);
+  color:#fff;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 12px 24px rgba(217,100,145,.20);
+}
+
+.especial-btn.whats{
+  background:linear-gradient(135deg,#25D366,#18b957);
+  box-shadow:0 12px 24px rgba(24,185,87,.18);
+}
+
+/* modal exclusivo dos especiais */
+#especialModal{
+  position:fixed;
+  inset:0;
+  background:rgba(40,20,30,.55);
+  backdrop-filter:blur(7px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:200000;
+  padding:18px;
+}
+
+#especialModal.open{
+  display:flex;
+}
+
+.especial-modal-box{
+  width:min(520px,100%);
+  background:#fff;
+  border:1px solid #f1c4d5;
+  border-radius:28px;
+  padding:24px;
+  box-shadow:0 30px 85px rgba(40,20,30,.32);
+}
+
+.especial-modal-box h3{
+  margin:0 0 14px;
+  color:#8d2b58;
+  font-size:26px;
+}
+
+.especial-form{
+  display:grid;
+  gap:12px;
+}
+
+.especial-form label{
+  color:#8d2b58;
+  font-weight:900;
+  font-size:14px;
+}
+
+.especial-form select,
+.especial-form input{
+  width:100%;
+  height:48px;
+  border-radius:14px;
+  border:1px solid #f1c4d5;
+  padding:0 12px;
+  font-size:16px;
+}
+
+.especial-total{
+  margin:10px 0 0;
+  font-size:26px;
+  color:#8d2b58;
+  font-weight:900;
+}
+
+.especial-modal-actions{
+  display:flex;
+  gap:10px;
+  margin-top:18px;
+}
+
+.especial-modal-actions button{
+  flex:1;
+  height:50px;
+  border:0;
+  border-radius:999px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.especial-cancel{
+  background:#fff3f7;
+  color:#8d2b58;
+  border:1px solid #f1c4d5 !important;
+}
+
+.especial-save{
+  background:linear-gradient(135deg,#d96491,#ff8db4);
+  color:#fff;
+}
+
+@media(min-width:851px){
+  .especial-card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 24px 52px rgba(112,48,75,.14);
+  }
+
+  .especial-card,
+  .especial-btn{
+    transition:.22s ease;
+  }
+}
+
+@media(max-width:850px){
+  #especiais-andreza{
+    padding:0 16px;
+  }
+
+  .especiais-vitrine{
+    padding:22px 16px;
+    border-radius:28px;
+  }
+
+  .especiais-grid{
+    grid-template-columns:1fr;
+  }
+
+  .especial-card{
+    min-height:auto;
+    padding:18px;
+    transform:none !important;
+    transition:none !important;
+    animation:none !important;
+  }
+
+  .especial-media{
+    height:104px;
+  }
+
+  .especial-media span{
+    font-size:50px;
+    filter:none;
+  }
+
+  #especialModal{
+    align-items:flex-start;
+    overflow-y:auto;
+    padding-top:20px;
+  }
+
+  .especial-modal-box{
+    max-height:calc(100vh - 40px);
+    overflow-y:auto;
+  }
+}
+</style>
+
+
+<style id="mobile-feedback-fix">
+@media (max-width: 850px){
+
+  #avaliacoes-clientes{
+    padding-left:16px !important;
+    padding-right:16px !important;
+  }
+
+  #avaliacoes-clientes > div{
+    padding:22px 14px !important;
+    border-radius:28px !important;
+  }
+
+  #avaliacoes-clientes .feedback-grid{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:16px !important;
+    justify-items:center !important;
+  }
+
+  #avaliacoes-clientes .feedback-card{
+    width:100% !important;
+    max-width:320px !important;
+    margin:0 auto !important;
+    box-sizing:border-box !important;
+  }
+
+  #avaliacoes-clientes .feedback-btn-wrap{
+    padding-left:8px !important;
+    padding-right:8px !important;
+  }
+
+  #avaliacoes-clientes .feedback-btn{
+    width:100% !important;
+    max-width:320px !important;
+    margin:auto !important;
+  }
+}
+</style>
+
+</head>
+
+<body id="topo">
+<header>
+  <div class="nav">
+    <a class="brand" href="#topo" aria-label="Voltar ao início"><img src="logo-andreza-cakes.png" alt="Andreza Cakes"><div>Andreza Cakes<small>Confeitaria artesanal</small></div></a>
+    <div class="menu"><button class="btn" onclick="document.getElementById('catalogo').scrollIntoView({behavior:'smooth'})">Ver produtos</button><button class="btn mobile-safe-action" id="mobileSafeCartBtn" onclick="openCart()">Carrinho<span id="mobileSafeCartCount">0</span></button><button class="btn mobile-safe-action" id="mobileSafeMusicBtn" onclick="tocarMusica()">Música</button></div>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div>
+    <div class="badge">✨ Encomendas personalizadas em Recife/PE</div>
+    <h1>O sabor que faz todo mundo pedir mais.</h1>
+    <p>Bolos, kits e doces personalizados feitos com carinho, qualidade e aquele toque especial que encanta em cada detalhe.</p>
+  </div>
+
+  <div class="hero-card">
+    <img src="logo-andreza-cakes.png" alt="Andreza Cakes">
+    <div class="mini">
+      <div>Kits festa</div>
+      <div>Personalizados</div>
+      <div>Bolos</div>
+      <div>Doces e salgados</div>
+    </div>
+    <div class="premium-note">Feito sob encomenda com amor em Recife 💖</div>
+  </div>
+</section>
+
+<section id="catalogo">
+  <div class="title"><h2>Monte seu pedido</h2><p>Escolha seus itens, personalize e finalize direto pelo WhatsApp.</p></div>
+  <div class="tabs">
+    <button class="tab active" onclick="filterCat('Todos',this)">Todos</button>
+    <button class="tab" onclick="filterCat('Kits festa',this)">Kits festa</button>
+    <button class="tab" onclick="filterCat('Bolos',this)">Bolos</button>
+    <button class="tab" onclick="filterCat('Salgados',this)">Salgados</button>
+    <button class="tab" onclick="filterCat('Doces',this)">Doces</button>
+    <button class="tab" onclick="filterCat('Personalizados',this)">Personalizados</button>
+  </div>
+  <div class="grid" id="produtos"></div>
+</section>
+</main>
+
+<button class="float-btn" id="cartBtn" type="button">🛒<span id="cartCount">0</span></button>
+<button class="float-btn" id="musicBtn" type="button">🎵 Música</button>
+<audio id="player"></audio>
+
+<div class="modal" id="customModal">
+  <div class="box">
+    <div class="top"><h2 id="customTitle">Personalizar item</h2><button class="close" onclick="closeCustom()">×</button></div>
+    <div class="formgrid">
+      <div id="qtyBox"><label>Quantidade</label><input id="customQty" type="number" min="1" step="1" value="1" oninput="updateModalPrice()"></div>
+      <div id="kgBox"><label>Kg do bolo</label><input id="customKg" type="number" min="0.5" step="0.5" value="1" oninput="updateModalPrice()"></div>
+      <div id="massaBox"><label>Massa</label><select id="customMassa" onchange="updateModalPrice()"><option>Branca</option><option>Chocolate</option><option>Red Velvet (+R$10/kg)</option></select></div>
+      <div id="recheioBox"><label>Recheio</label><select id="customRecheio"></select></div>
+      <div class="full" id="kitChoices" style="display:none">
+        <div class="choice-area">
+          <div class="choice-card">
+            <h4>Salgados do kit</h4>
+            <div id="salgadoProgress" class="progress">0/0 salgados</div>
+            <div class="kit-bar" id="barSalgado"><div class="kit-bar-fill" id="fillSalgado"></div></div>
+            <div id="salgadosRows"></div>
+          </div>
+          <div class="choice-card">
+            <h4>Doces do kit</h4>
+            <div id="doceProgress" class="progress">0/0 doces</div>
+            <div class="kit-bar" id="barDoce"><div class="kit-bar-fill" id="fillDoce"></div></div>
+            <div id="docesRows"></div>
+          </div>
+        </div>
+      </div>
+      <div class="full" id="itemObsBox" style="display:none"><label>Observação do bolo/kit</label><input id="customObs" placeholder="Ex: frase, cor, acabamento, detalhe do modelo..."></div>
+      <div class="full"><div class="price" id="modalPrice">R$ 0,00</div></div>
+    </div>
+    <button class="btn" style="margin-top:15px;font-size:16px;padding:15px 22px" onclick="saveCustom()">Salvar no carrinho</button>
+  </div>
+</div>
+
+<div class="modal" id="cartModal">
+  <div class="box">
+    <div class="top"><h2>Finalizar pedido</h2><button class="close" onclick="closeCart()">×</button></div>
+    <div class="top"><strong>Seu pedido</strong><div class="total" id="total">R$ 0,00</div></div>
+    <div id="cartList"></div>
+    <hr style="border:0;border-top:1px solid var(--borda);margin:18px 0">
+    <div class="formgrid">
+      <div><label>Nome do cliente *</label><input id="cliente" placeholder="Digite seu nome"></div>
+      <div><label>WhatsApp do cliente</label><input id="telefone" placeholder="(81) 99999-9999"></div>
+      <div><label>Data da festa/entrega *</label><input id="data" type="date"></div>
+      <div><label>Horário desejado *</label><input id="hora" type="time"></div>
+      <div><label>Tema do bolo/festa *</label><input id="tema" placeholder="Ex: Hulk, princesa, futebol..."></div>
+      <div><label>Nome do aniversariante *</label><input id="aniversariante" placeholder="Nome que vai no bolo"></div>
+      <div><label>Idade</label><input id="idade" placeholder="Opcional"></div>
+      <div><label>Recebimento *</label><select id="entrega" onchange="enderecoBox.style.display=this.value==='Entrega a combinar'?'block':'none'"><option value="">Escolha</option><option>Retirada no local</option><option>Entrega a combinar</option></select></div>
+      <div><label>Forma de pagamento *</label><select id="pagamento" onchange="togglePagamento()"><option value="">Escolha</option><option>Pix</option><option>Dinheiro</option><option>Cartão</option></select></div>
+      <div class="full" id="cartaoBox" style="display:none"><label>Tipo de cartão</label><select id="tipoCartao" onchange="parcelasBox.style.display=this.value.includes('Crédito')?'block':'none'"><option value="">Escolha</option><option>Débito (com acréscimo)</option><option>Crédito (com acréscimo)</option></select></div>
+      <div class="full" id="parcelasBox" style="display:none"><label>Parcelamento no crédito</label><select id="parcelasCartao"><option value="">Escolha</option><option>1x</option><option>2x</option><option>3x</option><option>4x</option><option>5x</option><option>6x</option><option>7x</option><option>8x</option><option>9x</option><option>10x</option><option>11x</option><option>12x</option></select></div>
+      <div class="full" id="trocoBox" style="display:none"><label>Troco para quanto?</label><input id="troco" placeholder="Ex: R$ 100,00"></div>
+      <div class="full" id="enderecoBox" style="display:none"><label>Endereço</label><input id="endereco" placeholder="Rua, número, bairro"></div>
+      <div class="full"><label>Foto/modelo de referência</label><input id="foto" type="file" accept="image/*"><small style="color:var(--muted)">O WhatsApp não envia a foto automaticamente. A pessoa pode anexar depois na conversa.</small></div>
+      <div class="full"><label>Observações gerais do pedido</label><textarea id="obsPedido" placeholder="Frase, detalhes, cores, modelo, evitar cebola, etc."></textarea></div>
+    </div>
+    <button class="btn" style="margin-top:15px" onclick="sendOrder()">Enviar pelo WhatsApp</button>
+    <button class="btn" style="margin-top:15px;background:#fff;color:var(--vinho);border:1px solid var(--borda)" onclick="clearCart()">Limpar pedido</button>
+  </div>
+</div>
+
+
+
+
+<div id="especialModal">
+  <div class="especial-modal-box">
+    <h3 id="especialTitulo">Adicionar especial</h3>
+
+    <div class="especial-form">
+      <div>
+        <label>Tamanho</label>
+        <select id="especialTamanho" onchange="atualizarEspecialTotal()"></select>
+      </div>
+
+      <div>
+        <label>Sabor</label>
+        <select id="especialSabor"></select>
+      </div>
+
+      <div>
+        <label>Quantidade</label>
+        <input id="especialQtd" type="number" min="1" value="1" oninput="atualizarEspecialTotal()">
+      </div>
+
+      <div class="especial-total" id="especialTotal">R$ 0,00</div>
+    </div>
+
+    <div class="especial-modal-actions">
+      <button class="especial-cancel" onclick="fecharEspecial()">Cancelar</button>
+      <button class="especial-save" onclick="salvarEspecialCarrinho()">Salvar no carrinho</button>
+    </div>
+  </div>
+</div>
+
+
+<section id="especiais-andreza">
+  <div class="especiais-vitrine">
+    <div class="especiais-head">
+      <div class="tag">✨ Edição especial sob encomenda</div>
+      <h2>Ovos de Colher e Cestas Personalizadas</h2>
+      <p>Uma vitrine especial com opções feitas para presentear, surpreender e deixar cada momento mais gostoso.</p>
+    </div>
+
+    <div class="especiais-grid">
+      <div class="especial-card">
+        <div class="especial-media"><span>🥚</span></div>
+        <h3>Ovo de colher simples</h3>
+        <p>Sabores clássicos, cremosos e preparados sob encomenda.</p>
+        <div class="especial-destaque">Escolha tamanho, sabor e quantidade ao adicionar.</div>
+        <button class="especial-btn" onclick="abrirEspecial('simples')">🥚 Personalizar pedido</button>
+      </div>
+
+      <div class="especial-card">
+        <div class="especial-media"><span>🍫</span></div>
+        <h3>Ovo de colher gourmet</h3>
+        <p>Recheios premium e sabores especiais para uma experiência mais marcante.</p>
+        <div class="especial-destaque">Escolha tamanho, sabor e quantidade ao adicionar.</div>
+        <button class="especial-btn" onclick="abrirEspecial('gourmet')">🍫 Personalizar pedido</button>
+      </div>
+
+      <div class="especial-card">
+        <div class="especial-media"><span>🎁</span></div>
+        <h3>Cesta personalizada</h3>
+        <p>Montagem exclusiva para café da manhã, presentes e datas especiais.</p>
+        <div class="especial-destaque">Personalização conforme ocasião e disponibilidade.</div>
+        <button class="especial-btn whats" onclick="abrirWhatsCesta()">🎁 Consultar pelo WhatsApp</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="especialModal">
+  <div class="especial-modal-box">
+    <h3 id="especialTitulo">Adicionar especial</h3>
+
+    <div class="especial-form">
+      <div>
+        <label>Tamanho</label>
+        <select id="especialTamanho" onchange="atualizarEspecialTotal()"></select>
+      </div>
+
+      <div>
+        <label>Sabor</label>
+        <select id="especialSabor"></select>
+      </div>
+
+      <div>
+        <label>Quantidade</label>
+        <input id="especialQtd" type="number" min="1" value="1" oninput="atualizarEspecialTotal()">
+      </div>
+
+      <div class="especial-total" id="especialTotal">R$ 0,00</div>
+    </div>
+
+    <div class="especial-modal-actions">
+      <button class="especial-cancel" onclick="fecharEspecial()">Cancelar</button>
+      <button class="especial-save" onclick="salvarEspecialCarrinho()">Salvar no carrinho</button>
+    </div>
+  </div>
+</div>
+
+<section class="horario-premium" id="horario-atendimento">
+  <div class="horario-card">
+    <div class="horario-icon">🕒</div>
+    <div class="horario-content">
+      <h2>Atendemos por encomenda</h2>
+      <p class="sub">Pedidos, atendimento e entregas conforme disponibilidade.</p>
+
+      <div class="horario-grid">
+        <div class="horario-item horario-fechado">
+          <strong>Segunda-feira</strong>
+          <span>Fechado</span>
+        </div>
+
+        <div class="horario-item">
+          <strong>Terça à Sábado</strong>
+          <span>09h às 19h</span>
+          <small>Pausa para almoço: 12h às 13h</small>
+        </div>
+
+        <div class="horario-item">
+          <strong>Domingo</strong>
+          <span>09h às 14h</span>
+          
+        </div>
+
+        <div class="horario-item">
+          <strong>Datas comemorativas</strong>
+          <span>Vagas limitadas para datas especiais</span>
+          <small>Garanta sua encomenda com antecedência pelo WhatsApp 💖</small>
+        </div>
+      </div>
+
+      <div class="horario-extra-premium">
+        ✨ Produção artesanal e personalizada<br>
+        <span>Cada encomenda é preparada com carinho para tornar seu momento ainda mais especial 💖</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>Andreza Cakes • Recife/PE • <a href="https://www.instagram.com/Andrezaa_cakes" target="_blank" style="color:var(--vinho);font-weight:900">@ANDREZAA_CAKES</a><br>
+<section id="avaliacoes-clientes" style="max-width:1180px;margin:30px auto;padding:0 20px;">
+  <div style="background:linear-gradient(135deg,#fff7fb,#fff);border:1px solid #f1c4d5;border-radius:34px;padding:34px;box-shadow:0 20px 55px rgba(112,48,75,.12);">
+
+    <div style="text-align:center;margin-bottom:28px;">
+      <div style="display:inline-flex;padding:9px 18px;border-radius:999px;background:#fff;border:1px solid #f1c4d5;color:#8d2b58;font-weight:800;">
+        💖 Clientes apaixonados pela Andreza Cakes
+      </div>
+
+      <h2 style="margin:18px 0 10px;font-size:clamp(28px,4vw,46px);color:#2c1b24;">
+        O que nossos clientes dizem
+      </h2>
+
+      <p style="max-width:720px;margin:auto;color:#805d70;font-size:17px;line-height:1.7;">
+        Cada encomenda é preparada com carinho, atenção aos detalhes e muito amor em cada sabor.
+      </p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;" class="feedback-grid">
+
+      <div style="background:#fff;border:1px solid #f1c4d5;border-radius:26px;padding:22px;box-shadow:0 14px 30px rgba(112,48,75,.08);" class="feedback-card">
+        <div style="font-size:22px;margin-bottom:10px;">⭐⭐⭐⭐⭐</div>
+        <p style="color:#5d4653;line-height:1.7;">
+          “Os ovos de colher vieram perfeitos e super recheados. Tudo muito caprichado!”
+        </p>
+        <strong style="color:#8d2b58;">— Mariana A.</strong>
+      </div>
+
+      <div style="background:#fff;border:1px solid #f1c4d5;border-radius:26px;padding:22px;box-shadow:0 14px 30px rgba(112,48,75,.08);" class="feedback-card">
+        <div style="font-size:22px;margin-bottom:10px;">⭐⭐⭐⭐⭐</div>
+        <p style="color:#5d4653;line-height:1.7;">
+          “Atendimento excelente e os kits ficaram lindos. Todo mundo elogiou.”
+        </p>
+        <strong style="color:#8d2b58;">— Juliana R.</strong>
+      </div>
+
+      <div style="background:#fff;border:1px solid #f1c4d5;border-radius:26px;padding:22px;box-shadow:0 14px 30px rgba(112,48,75,.08);" class="feedback-card">
+        <div style="font-size:22px;margin-bottom:10px;">⭐⭐⭐⭐⭐</div>
+        <p style="color:#5d4653;line-height:1.7;">
+          “Os doces são maravilhosos e a apresentação ficou muito profissional.”
+        </p>
+        <strong style="color:#8d2b58;">— Camila S.</strong>
+      </div>
+
+    
+<div style="text-align:center;margin-top:28px;" class="feedback-btn-wrap">
+  <button onclick="enviarFeedbackAndreza()" class="feedback-btn" style="
+    border:0;
+    border-radius:999px;
+    padding:16px 28px;
+    background:linear-gradient(135deg,#25D366,#18b957);
+    color:#fff;
+    font-weight:900;
+    font-size:16px;
+    cursor:pointer;
+    box-shadow:0 14px 30px rgba(24,185,87,.22);
+  ">
+    💬 Enviar avaliação pelo WhatsApp
+  </button>
+
+  <p style="
+    margin-top:14px;
+    color:#805d70;
+    font-size:15px;
+    line-height:1.6;
+  ">
+    Sua opinião é muito importante para nós 💖
+  </p>
+</div>
+
+
+  </div>
+</section>
+
+</footer>
+
+<script>
+const supabaseClient = window.supabase ? window.supabase.createClient("https://zybwkqjkwpdusnxjgnfu.supabase.co","sb_publishable_9Fe8WMnzl0geZvxGqCkjAg_PyeJC-mf") : null;
+const whatsappNumber="5581984225298";
+const recheios=["Chocolate","Chocolate branco","Bem casado","Prestígio","Sensação","Bicho de pé","Doce de leite","Maracujá","Limão","Napolitano","Oreo","Paçoca"];
+const salgados=["Coxinha","Bolinho de queijo","Risole de carne","Risole de calabresa","Risole misto","Empada","Pastel frito","Pastel de forno","Enroladinho"];
+const doces=["Queijadinha","Tortinha doce","Surpresa de uva","Bicho de pé","Brigadeiro","Ouriço","Bem casado","Beijinho"];
+const produtos=[
+{id:1,cat:"Kits festa",nome:"Kit Chantininho 1kg",emoji:"🎉",desc:"Bolo 1kg + 40 salgados + 30 doces.",preco:140,boloKg:1,limSalg:40,limDoces:30,kit:true},
+{id:2,cat:"Kits festa",nome:"Kit Chantininho 1,5kg",emoji:"🎉",desc:"Bolo 1,5kg + 60 salgados + 40 doces.",preco:200,boloKg:1.5,limSalg:60,limDoces:40,kit:true},
+{id:3,cat:"Kits festa",nome:"Kit Chantininho 2kg",emoji:"🎉",desc:"Bolo 2kg + 80 salgados + 60 doces.",preco:260,boloKg:2,limSalg:80,limDoces:60,kit:true},
+{id:4,cat:"Kits festa",nome:"Kit Chantininho 3kg",emoji:"🎉",desc:"Bolo 3kg + 120 salgados + 90 doces.",preco:380,boloKg:3,limSalg:120,limDoces:90,kit:true},
+{id:5,cat:"Kits festa",nome:"Kit Chantininho 4kg",emoji:"🎉",desc:"Bolo 4kg + 160 salgados + 120 doces.",preco:500,boloKg:4,limSalg:160,limDoces:120,kit:true},
+{id:6,cat:"Bolos",nome:"Bolo à parte",emoji:"🎂",desc:"R$90 por kg. Red Velvet acrescenta R$10/kg.",preco:90,bolo:true},
+{id:7,cat:"Bolos",nome:"Bolo melado",emoji:"🍰",desc:"Preço por kg.",preco:70,bolo:true},
+{id:10,cat:"Salgados",nome:"Coxinha",emoji:"🥟",desc:"",preco:.8},
+{id:11,cat:"Salgados",nome:"Bolinho de queijo",emoji:"🧀",desc:"",preco:.8},
+{id:12,cat:"Salgados",nome:"Risole de carne",emoji:"🥐",desc:"",preco:.8},
+{id:13,cat:"Salgados",nome:"Risole de calabresa",emoji:"🌶️",desc:"",preco:.8},
+{id:14,cat:"Salgados",nome:"Risole misto",emoji:"🥐",desc:"",preco:.8},
+{id:15,cat:"Salgados",nome:"Empada",emoji:"🥧",desc:"",preco:.8},
+{id:16,cat:"Salgados",nome:"Pastel frito",emoji:"🥟",desc:"",preco:.8},
+{id:17,cat:"Salgados",nome:"Pastel de forno",emoji:"🥮",desc:"",preco:.8},
+{id:18,cat:"Salgados",nome:"Enroladinho",emoji:"🌭",desc:"",preco:.8},
+{id:20,cat:"Doces",nome:"Queijadinha",emoji:"🧁",desc:"",preco:.8},
+{id:21,cat:"Doces",nome:"Tortinha doce",emoji:"🥧",desc:"",preco:.8},
+{id:22,cat:"Doces",nome:"Surpresa de uva",emoji:"🍇",desc:"",preco:.8},
+{id:23,cat:"Doces",nome:"Bicho de pé",emoji:"🍓",desc:"",preco:.8},
+{id:24,cat:"Doces",nome:"Brigadeiro",emoji:"🍫",desc:"",preco:.8},
+{id:25,cat:"Doces",nome:"Ouriço",emoji:"🍬",desc:"",preco:.8},
+{id:26,cat:"Doces",nome:"Bem casado",emoji:"🎁",desc:"",preco:.8},
+{id:27,cat:"Doces",nome:"Beijinho",emoji:"🥥",desc:"",preco:.8},
+{id:30,cat:"Personalizados",nome:"Cupcake",emoji:"🧁",desc:"Personalizado.",preco:7},
+{id:31,cat:"Personalizados",nome:"Bolo no palito",emoji:"🍰",desc:"Personalizado.",preco:8},
+{id:32,cat:"Personalizados",nome:"Maçã",emoji:"🍎",desc:"Personalizada.",preco:7},
+{id:33,cat:"Personalizados",nome:"Pirulito",emoji:"🍭",desc:"Personalizado.",preco:6},
+{id:34,cat:"Personalizados",nome:"Trufas",emoji:"🍫",desc:"Personalizada.",preco:5}
+];
+
+let cart=[], current="Todos", selected=null, editing=null, playlist=["assets/audio/musica1.mp3","assets/audio/musica2.mp3","assets/audio/musica3.mp3"], music=0;
+
+function money(v){return Number(v||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"})}
+function renderProducts(){
+  const area=document.getElementById("produtos");
+  area.innerHTML=produtos.filter(p=>current==="Todos"||p.cat===current).map(p=>`
+    <div class="card" data-cat="${p.cat}">
+      <div class="icon">${p.emoji}</div>
+      <h3>${p.nome}</h3>
+      ${p.desc?`<p>${p.desc}</p>`:""}
+      <div class="price">${p.preco===.8?"R$ 0,80 / unidade":money(p.preco)+(p.bolo?" / kg":"")}</div>
+      <button class="btn" onclick="openCustom(${p.id})">Adicionar</button>
+    </div>
+  `).join("");
+}
+
+function filterCat(cat){
+  current = cat;
+  document.querySelectorAll('.filters button').forEach(btn => btn.classList.remove('active'));
+
+  document.querySelectorAll('.filters button').forEach(btn => {
+    const txt = (btn.textContent || '').trim().toLowerCase();
+    const alvo = String(cat || '').trim().toLowerCase();
+
+    if(txt === alvo || (cat === 'Todos' && txt.includes('todos'))){
+      btn.classList.add('active');
+    }
+  });
+
+  renderProducts();
+}
+
+function openCustom(id,idx=null){
+  selected=produtos.find(p=>p.id===id);editing=idx;
+  customTitle.textContent=(idx===null?"Adicionar ":"Editar ")+selected.nome;
+  customQty.value=idx!==null?(cart[idx].qty||1):1;
+  customKg.value=idx!==null?(cart[idx].kg||selected.boloKg||1):(selected.boloKg||1);
+  customMassa.value=idx!==null?(cart[idx].massa||"Branca"):"Branca";
+  customRecheio.value=idx!==null?(cart[idx].recheio||recheios[0]):recheios[0];
+  customObs.value=idx!==null?(cart[idx].obs||""):"";
+  qtyBox.style.display=selected.kit?"none":"block";
+  kgBox.style.display=selected.bolo&&!selected.kit?"block":"none";
+  massaBox.style.display=(selected.bolo||selected.kit)?"block":"none";
+  recheioBox.style.display=(selected.bolo||selected.kit)?"block":"none";
+  kitChoices.style.display=selected.kit?"block":"none";
+  itemObsBox.style.display=(selected.bolo||selected.kit)?"block":"none";
+  document.querySelectorAll("#salgadosRows input,#docesRows input").forEach(i=>{i.value=0;i.disabled=false});
+  if(idx!==null){
+    Object.entries(cart[idx].salgados||{}).forEach(([k,v])=>{let el=[...document.querySelectorAll("#salgadosRows input")].find(i=>i.dataset.name===k);if(el)el.value=v});
+    Object.entries(cart[idx].doces||{}).forEach(([k,v])=>{let el=[...document.querySelectorAll("#docesRows input")].find(i=>i.dataset.name===k);if(el)el.value=v});
+  }
+  customModal.classList.add("open");validateKitInputs();updateModalPrice();
+}
+function closeCustom(){customModal.classList.remove("open")}
+function sumInputs(type){return [...document.querySelectorAll(`input[data-type="${type}"]`)].reduce((s,i)=>s+Number(i.value||0),0)}
+function validateKitInputs(){
+  if(!selected||!selected.kit)return true;
+  let s=sumInputs("salgado"), d=sumInputs("doce");
+  const ps=Math.min(100,(s/selected.limSalg)*100);
+  const pd=Math.min(100,(d/selected.limDoces)*100);
+  fillSalgado.style.width=ps+"%"; fillDoce.style.width=pd+"%";
+  salgadoProgress.textContent=`${s}/${selected.limSalg} salgados`;
+  doceProgress.textContent=`${d}/${selected.limDoces} doces`;
+  salgadoProgress.className="progress "+(s===selected.limSalg?"ok":s>selected.limSalg?"warn":"");
+  doceProgress.className="progress "+(d===selected.limDoces?"ok":d>selected.limDoces?"warn":"");
+  barSalgado.className="kit-bar "+(s===selected.limSalg?"ok":s>selected.limSalg?"warn":"");
+  barDoce.className="kit-bar "+(d===selected.limDoces?"ok":d>selected.limDoces?"warn":"");
+
+  document.querySelectorAll('input[data-type="salgado"]').forEach(inp=>{
+    const val=Number(inp.value||0);
+    if(s>=selected.limSalg && val===0) inp.disabled=true; else inp.disabled=false;
+    if(s>selected.limSalg && val>0){inp.value=Math.max(0,val-(s-selected.limSalg));s=sumInputs("salgado");}
+  });
+  document.querySelectorAll('input[data-type="doce"]').forEach(inp=>{
+    const val=Number(inp.value||0);
+    if(d>=selected.limDoces && val===0) inp.disabled=true; else inp.disabled=false;
+    if(d>selected.limDoces && val>0){inp.value=Math.max(0,val-(d-selected.limDoces));d=sumInputs("doce");}
+  });
+
+  fillSalgado.style.width=Math.min(100,(s/selected.limSalg)*100)+"%";
+  fillDoce.style.width=Math.min(100,(d/selected.limDoces)*100)+"%";
+  return s===selected.limSalg && d===selected.limDoces;
+}
+function objectFromInputs(type){let o={};document.querySelectorAll(`input[data-type="${type}"]`).forEach(i=>{let v=Number(i.value||0);if(v>0)o[i.dataset.name]=v});return o}
+function itemPrice(o){let qty=o.kit?1:Number(o.qty||1);let base=o.bolo&&!o.kit?o.preco*Number(o.kg||1):o.preco*qty;let kg=o.kit?o.boloKg:(o.bolo?Number(o.kg||1):0);if((o.bolo||o.kit)&&o.massa&&o.massa.includes("Red Velvet"))base+=kg*10*qty;return base}
+function updateModalPrice(){if(!selected)return;modalPrice.textContent=money(itemPrice({...selected,qty:Number(customQty.value||1),kg:Number(customKg.value||selected.boloKg||1),massa:customMassa.value}))}
+function saveCustom(){
+  if(selected.kit&&!validateKitInputs()){alert("Complete exatamente a quantidade de salgados e doces do kit.");return}
+  const temBolo=selected.bolo||selected.kit;
+  const obj={...selected,qty:Number(customQty.value||1),kg:Number(customKg.value||selected.boloKg||1),massa:temBolo?customMassa.value:"",recheio:temBolo?customRecheio.value:"",obs:temBolo?customObs.value:"",salgados:selected.kit?objectFromInputs("salgado"):{},doces:selected.kit?objectFromInputs("doce"):{}};
+  if(editing!==null)cart[editing]=obj; else cart.push(obj);
+  editing=null;renderCart();closeCustom();
+}
+function renderCart(){
+  cartCount.textContent=cart.reduce((a,b)=>a+(b.kit?1:Number(b.qty||1)),0);
+  total.textContent=money(cart.reduce((a,b)=>a+itemPrice(b),0));
+  cartList.innerHTML=cart.length?cart.map((i,idx)=>`
+    <div class="cart-item">
+      <div><strong>${i.kit?1:i.qty}x ${i.nome}</strong><br><span style="color:var(--muted)">
+      ${(i.bolo||i.kit)&&i.massa?`Massa: ${i.massa}<br>`:""}
+      ${(i.bolo||i.kit)&&i.recheio?`Recheio: ${i.recheio}<br>`:""}
+      ${Object.keys(i.salgados||{}).length?`Salgados: ${Object.entries(i.salgados).map(([k,v])=>`${k}: ${v}`).join(", ")}<br>`:""}
+      ${Object.keys(i.doces||{}).length?`Doces: ${Object.entries(i.doces).map(([k,v])=>`${k}: ${v}`).join(", ")}<br>`:""}
+      ${(i.bolo||i.kit)&&i.obs?`Obs: ${i.obs}<br>`:""}
+      ${money(itemPrice(i))}</span></div>
+      <div class="actions"><button type="button" onclick="editFromCart(${idx})">Editar</button><button type="button" class="danger" onclick="cart.splice(${idx},1);renderCart()">Remover</button></div>
+    </div>`).join(""):"<p style='color:var(--muted)'>Nenhum item no carrinho.</p>";
+}
+function editFromCart(index){
+  if(!cart[index]) return;
+  cartModal.classList.remove("open");
+  setTimeout(function(){
+    openCustom(cart[index].id, index);
+  }, 80);
+}
+
+function openCart(){cartModal.classList.add("open");renderCart()}
+function closeCart(){cartModal.classList.remove("open")}
+function clearCart(){cart=[];renderCart()}
+function togglePagamento(){trocoBox.style.display=pagamento.value==="Dinheiro"?"block":"none";cartaoBox.style.display=pagamento.value==="Cartão"?"block":"none";if(pagamento.value!=="Cartão"){tipoCartao.value="";parcelasBox.style.display="none";parcelasCartao.value=""}}
+async function sendOrder(){
+  for(let id of ["cliente","data","hora","tema","aniversariante","entrega","pagamento"]){if(!document.getElementById(id).value.trim()){alert("Preencha os campos obrigatórios.");return}}
+  if(pagamento.value==="Cartão"&&!tipoCartao.value){alert("Escolha débito ou crédito.");return}
+  if(pagamento.value==="Cartão"&&tipoCartao.value.includes("Crédito")&&!parcelasCartao.value){alert("Escolha o parcelamento.");return}
+  if(!cart.length){alert("Adicione itens ao pedido.");return}
+  let totalValue=cart.reduce((a,b)=>a+itemPrice(b),0);
+  let msg=`🧁 *Andreza Cakes - Pedido*%0A%0A📌 *DADOS DO CLIENTE*%0A*Cliente:* ${cliente.value}%0A*WhatsApp:* ${telefone.value||"-"}%0A*Data da festa:* ${data.value}%0A*Horário:* ${hora.value}%0A*Tema:* ${tema.value}%0A*Aniversariante:* ${aniversariante.value}%0A*Idade:* ${idade.value||"-"}%0A*Recebimento:* ${entrega.value}%0A*Pagamento:* ${pagamento.value}%0A${pagamento.value==="Cartão"&&tipoCartao.value?`*Tipo de cartão:* ${tipoCartao.value}%0A`:""}${pagamento.value==="Cartão"&&parcelasCartao.value?`*Parcelamento:* ${parcelasCartao.value}%0A`:""}${pagamento.value==="Dinheiro"&&troco.value?`*Troco para:* ${troco.value}%0A`:""}${endereco.value?`*Endereço:* ${endereco.value}%0A`:""}${obsPedido.value?`*Observações:* ${obsPedido.value}%0A`:""}%0A━━━━━━━━━━━━━━━%0A🛒 *ITENS DO PEDIDO*%0A`;
+  cart.forEach(i=>{msg+=`%0A• *${i.kit?1:i.qty}x ${i.nome}*%0A${(i.bolo||i.kit)&&i.massa?`Massa: ${i.massa}%0A`:""}${(i.bolo||i.kit)&&i.recheio?`Recheio: ${i.recheio}%0A`:""}${Object.keys(i.salgados||{}).length?`Salgados: ${Object.entries(i.salgados).map(([k,v])=>`${k}: ${v}`).join(", ")}%0A`:""}${Object.keys(i.doces||{}).length?`Doces: ${Object.entries(i.doces).map(([k,v])=>`${k}: ${v}`).join(", ")}%0A`:""}${(i.bolo||i.kit)&&i.obs?`Obs: ${i.obs}%0A`:""}💰 ${money(itemPrice(i))}%0A`});
+  msg+=`%0A━━━━━━━━━━━━━━━%0A💵 *TOTAL: ${money(totalValue)}*`;
+  window.open(`https://wa.me/${whatsappNumber}?text=${msg}`,"_blank");
+}
+function tocarMusica(){
+  if(!player.src)player.src=playlist[music];
+  if(player.paused){player.play().catch(()=>alert("Confira se existe assets/audio/musica1.mp3"));musicBtn.innerHTML="⏸️ Música"}else{player.pause();musicBtn.innerHTML="🎵 Música"}
+  player.onended=()=>{music=(music+1)%playlist.length;player.src=playlist[music];player.play()}
+}
+function arrastavel(el,clickFn){
+  let down=false,moved=false,sx=0,sy=0,dx=0,dy=0;
+  function p(e){return e.touches?{x:e.touches[0].clientX,y:e.touches[0].clientY}:{x:e.clientX,y:e.clientY}}
+  function start(e){down=true;moved=false;let q=p(e);sx=q.x;sy=q.y;dx=q.x-el.offsetLeft;dy=q.y-el.offsetTop}
+  function move(e){if(!down)return;let q=p(e);if(Math.abs(q.x-sx)>4||Math.abs(q.y-sy)>4)moved=true;if(moved){e.preventDefault();el.style.left=Math.max(0,Math.min(innerWidth-el.offsetWidth,q.x-dx))+"px";el.style.top=Math.max(0,Math.min(innerHeight-el.offsetHeight,q.y-dy))+"px";el.style.right="auto";el.style.bottom="auto"}}
+  function end(){if(!down)return;down=false;if(!moved)clickFn()}
+  el.addEventListener("mousedown",start);document.addEventListener("mousemove",move);document.addEventListener("mouseup",end);
+  el.addEventListener("touchstart",start,{passive:false});document.addEventListener("touchmove",move,{passive:false});document.addEventListener("touchend",end);
+}
+fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrastavel(musicBtn,tocarMusica);
+</script>
+
+<div id="adminLoginOverlay">
+  <div class="admin-login-box">
+    <div class="admin-login-logo">
+      <img src="logo-andreza-cakes.png" alt="Andreza Cakes">
+    </div>
+
+    <h2></h2>
+    <p>Entre com seu usuário e senha para acessar o painel.</p>
+
+    <label>Usuário</label>
+    <input type="text" id="adminUser" placeholder="Digite o usuário" autocomplete="username">
+
+    <label>Senha</label>
+    <input type="password" id="adminPass" placeholder="Digite a senha" autocomplete="current-password">
+
+    <div class="admin-login-actions">
+      <button type="button" class="admin-cancel" onclick="fecharLoginAdmin()">Cancelar</button>
+      <button type="button" class="admin-enter" onclick="fazerLoginAdmin()">Entrar</button>
+    </div>
+
+    <div class="admin-login-error" id="adminLoginError">Usuário ou senha inválidos.</div>
+  </div>
+</div>
+
+<script id="admin-login-integrado-js">
+(function(){
+  const ADMIN_USER = "admin";
+  const ADMIN_PASS = "Andreza2026@";
+  const ADMIN_DESTINO = "admin/";
+
+  window.abrirAdmin = function(){
+    if(localStorage.getItem("andrezaAdminLogado") === "true"){
+      window.location.href = ADMIN_DESTINO;
+      return;
+    }
+
+    const overlay = document.getElementById("adminLoginOverlay");
+    if(overlay){
+      overlay.classList.add("open");
+      setTimeout(function(){
+        const campo = document.getElementById("adminUser");
+        if(campo) campo.focus();
+      }, 80);
+    }
+  };
+
+  window.fecharLoginAdmin = function(){
+    const overlay = document.getElementById("adminLoginOverlay");
+    const erro = document.getElementById("adminLoginError");
+    if(overlay) overlay.classList.remove("open");
+    if(erro) erro.style.display = "none";
+  };
+
+  window.fazerLoginAdmin = function(){
+    const usuario = document.getElementById("adminUser").value.trim();
+    const senha = document.getElementById("adminPass").value;
+    const erro = document.getElementById("adminLoginError");
+
+    if(usuario === ADMIN_USER && senha === ADMIN_PASS){
+      localStorage.setItem("andrezaAdminLogado", "true");
+      window.location.href = ADMIN_DESTINO;
+      return;
+    }
+
+    if(erro) erro.style.display = "block";
+  };
+
+  window.logoutAdmin = function(){
+    localStorage.removeItem("andrezaAdminLogado");
+    window.location.href = "./";
+  };
+
+  document.addEventListener("keydown", function(e){
+    const overlay = document.getElementById("adminLoginOverlay");
+    if(!overlay || !overlay.classList.contains("open")) return;
+
+    if(e.key === "Escape") fecharLoginAdmin();
+    if(e.key === "Enter") fazerLoginAdmin();
+  });
+})();
+</script>
+
+
+<script id="mobile-remove-floating-buttons-js">
+(function(){
+  function isMobile(){
+    return window.matchMedia("(max-width: 850px)").matches;
+  }
+
+  function removeMobileFloating(){
+    if(!isMobile()) return;
+
+    ["mobileCartBtn","mobileMusicBtn"].forEach(function(id){
+      const el = document.getElementById(id);
+      if(el) el.remove();
+    });
+
+    const cart = document.getElementById("cartBtn");
+    const music = document.getElementById("musicBtn");
+
+    if(cart){
+      cart.style.display = "none";
+      cart.style.visibility = "hidden";
+      cart.style.opacity = "0";
+      cart.style.pointerEvents = "none";
+    }
+
+    if(music){
+      music.style.display = "none";
+      music.style.visibility = "hidden";
+      music.style.opacity = "0";
+      music.style.pointerEvents = "none";
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", removeMobileFloating);
+  window.addEventListener("load", removeMobileFloating);
+  window.addEventListener("resize", removeMobileFloating);
+  window.addEventListener("orientationchange", function(){
+    setTimeout(removeMobileFloating, 150);
+  });
+
+  setInterval(removeMobileFloating, 500);
+})();
+</script>
+
+
+<script id="mobile-carrinho-contador-topo-js">
+(function(){
+  function syncMobileSafeCartCount(){
+    const mainCount = document.getElementById("cartCount");
+    const mobileCount = document.getElementById("mobileSafeCartCount");
+
+    if(mainCount && mobileCount){
+      mobileCount.textContent = mainCount.textContent || "0";
+    }
+  }
+
+  const oldRenderCart = window.renderCart;
+  if(typeof oldRenderCart === "function"){
+    window.renderCart = function(){
+      const result = oldRenderCart.apply(this, arguments);
+      syncMobileSafeCartCount();
+      return result;
+    };
+  }
+
+  document.addEventListener("DOMContentLoaded", syncMobileSafeCartCount);
+  window.addEventListener("load", syncMobileSafeCartCount);
+  setInterval(syncMobileSafeCartCount, 600);
+})();
+</script>
+
+
+<script id="fix-limite-kit-sem-tirar-do-outro">
+(function(){
+  window.__lastKitValues = window.__lastKitValues || {};
+
+  window.getKitLimit = function(type){
+    if(!selected || !selected.kit) return 0;
+    return type === "salgado" ? Number(selected.limSalg || 0) : Number(selected.limDoces || 0);
+  };
+
+  window.sumKitInputs = function(type){
+    return [...document.querySelectorAll(`input[data-type="${type}"]`)]
+      .reduce((s,i)=>s + Number(i.value || 0), 0);
+  };
+
+  window.updateKitVisualLimit = function(type){
+    if(!selected || !selected.kit) return;
+
+    const limit = getKitLimit(type);
+    const total = sumKitInputs(type);
+    const isSalgado = type === "salgado";
+
+    const progress = isSalgado ? document.getElementById("salgadoProgress") : document.getElementById("doceProgress");
+    const bar = isSalgado ? document.getElementById("barSalgado") : document.getElementById("barDoce");
+    const fill = isSalgado ? document.getElementById("fillSalgado") : document.getElementById("fillDoce");
+
+    if(progress){
+      progress.textContent = `${total}/${limit} ${isSalgado ? "salgados" : "doces"}`;
+      progress.className = "progress " + (total === limit ? "ok" : total > limit ? "warn" : "");
+    }
+
+    if(bar){
+      bar.className = "kit-bar " + (total === limit ? "ok" : total > limit ? "warn" : "");
+    }
+
+    if(fill){
+      fill.style.width = Math.min(100, limit ? (total / limit) * 100 : 0) + "%";
+    }
+
+    document.querySelectorAll(`input[data-type="${type}"]`).forEach(inp=>{
+      const val = Number(inp.value || 0);
+      if(total >= limit && val === 0){
+        inp.disabled = true;
+      }else{
+        inp.disabled = false;
+      }
+    });
+  };
+
+  window.fixKitInputLimit = function(input){
+    if(!selected || !selected.kit || !input) return;
+
+    const type = input.dataset.type;
+    if(!type) return;
+
+    const limit = getKitLimit(type);
+    let value = Math.max(0, Math.floor(Number(input.value || 0)));
+
+    input.value = value;
+
+    const inputs = [...document.querySelectorAll(`input[data-type="${type}"]`)];
+    const otherTotal = inputs
+      .filter(i => i !== input)
+      .reduce((s,i)=>s + Number(i.value || 0), 0);
+
+    const maxAllowedForThis = Math.max(0, limit - otherTotal);
+
+    if(value > maxAllowedForThis){
+      input.value = maxAllowedForThis;
+      input.classList.add("kit-limit-shake");
+      setTimeout(()=>input.classList.remove("kit-limit-shake"), 260);
+    }
+
+    updateKitVisualLimit(type);
+  };
+
+  // Substitui a validação antiga por uma que não rouba quantidade dos outros campos.
+  window.validateKitInputs = function(){
+    if(!selected || !selected.kit) return true;
+
+    updateKitVisualLimit("salgado");
+    updateKitVisualLimit("doce");
+
+    const s = sumKitInputs("salgado");
+    const d = sumKitInputs("doce");
+
+    return s === Number(selected.limSalg || 0) && d === Number(selected.limDoces || 0);
+  };
+
+  // Conecta os inputs do kit com a trava correta.
+  function bindKitInputs(){
+    document.querySelectorAll('input[data-type="salgado"], input[data-type="doce"]').forEach(inp=>{
+      if(inp.dataset.kitLimitBound === "yes") return;
+      inp.dataset.kitLimitBound = "yes";
+
+      inp.addEventListener("input", function(){
+        fixKitInputLimit(this);
+      });
+
+      inp.addEventListener("change", function(){
+        fixKitInputLimit(this);
+      });
+    });
+  }
+
+  const oldOpenCustom = window.openCustom;
+  if(typeof oldOpenCustom === "function"){
+    window.openCustom = function(){
+      const result = oldOpenCustom.apply(this, arguments);
+      setTimeout(function(){
+        bindKitInputs();
+        validateKitInputs();
+      }, 80);
+      return result;
+    };
+  }
+
+  document.addEventListener("DOMContentLoaded", bindKitInputs);
+  setInterval(bindKitInputs, 900);
+})();
+</script>
+
+
+
+<script id="mobile-estabilidade-total-js">
+(function(){
+  let savedY = 0;
+
+  function isMobile(){
+    return window.matchMedia("(max-width: 850px)").matches;
+  }
+
+  function saveY(){
+    if(!isMobile()) return;
+    savedY = window.scrollY || document.documentElement.scrollTop || 0;
+  }
+
+  function restoreY(){
+    if(!isMobile()) return;
+    setTimeout(function(){
+      window.scrollTo(0, savedY);
+    }, 80);
+  }
+
+  const oldOpenCustom = window.openCustom;
+  if(typeof oldOpenCustom === "function"){
+    window.openCustom = function(){
+      saveY();
+      return oldOpenCustom.apply(this, arguments);
+    };
+  }
+
+  const oldCloseCustom = window.closeCustom;
+  if(typeof oldCloseCustom === "function"){
+    window.closeCustom = function(){
+      const r = oldCloseCustom.apply(this, arguments);
+      restoreY();
+      return r;
+    };
+  }
+
+  const oldSaveCustom = window.saveCustom;
+  if(typeof oldSaveCustom === "function"){
+    window.saveCustom = function(){
+      const r = oldSaveCustom.apply(this, arguments);
+      restoreY();
+      return r;
+    };
+  }
+
+  const oldOpenCart = window.openCart;
+  if(typeof oldOpenCart === "function"){
+    window.openCart = function(){
+      saveY();
+      return oldOpenCart.apply(this, arguments);
+    };
+  }
+
+  const oldCloseCart = window.closeCart;
+  if(typeof oldCloseCart === "function"){
+    window.closeCart = function(){
+      const r = oldCloseCart.apply(this, arguments);
+      restoreY();
+      return r;
+    };
+  }
+})();
+</script>
+
+
+<script id="especiais-andreza-js">
+(function(){
+  const dados = {
+    simples:{
+      nome:"Ovo de colher simples",
+      tamanhos:[
+        {label:"150g", preco:25},
+        {label:"250g", preco:35},
+        {label:"500g", preco:45}
+      ],
+      sabores:["Brigadeiro","Chocolate branco","Bem casado","Maracujá","Napolitano","Prestígio","Sensação","Doce de leite","Paçoca","Limão"]
+    },
+    gourmet:{
+      nome:"Ovo de colher gourmet",
+      tamanhos:[
+        {label:"150g", preco:30},
+        {label:"250g", preco:40},
+        {label:"500g", preco:55}
+      ],
+      sabores:["Ninho c/ Nutella","Oreo","Brawner","Red Velvet","Ferrero Rocher","Sonho de Valsa"]
+    }
+  };
+
+  let especialAtual = null;
+
+  function money(v){
+    return Number(v || 0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+  }
+
+  window.abrirEspecial = function(tipo){
+    especialAtual = dados[tipo];
+    if(!especialAtual) return;
+
+    document.getElementById("especialTitulo").textContent = "Adicionar " + especialAtual.nome;
+
+    const tamanho = document.getElementById("especialTamanho");
+    const sabor = document.getElementById("especialSabor");
+    const qtd = document.getElementById("especialQtd");
+
+    tamanho.innerHTML = especialAtual.tamanhos.map(t => `<option value="${t.label}" data-preco="${t.preco}">${t.label} - ${money(t.preco)}</option>`).join("");
+    sabor.innerHTML = especialAtual.sabores.map(s => `<option value="${s}">${s}</option>`).join("");
+    qtd.value = 1;
+
+    atualizarEspecialTotal();
+    document.getElementById("especialModal").classList.add("open");
+  };
+
+  window.fecharEspecial = function(){
+    document.getElementById("especialModal").classList.remove("open");
+  };
+
+  window.atualizarEspecialTotal = function(){
+    const tamanho = document.getElementById("especialTamanho");
+    const qtd = Number(document.getElementById("especialQtd").value || 1);
+    const preco = Number(tamanho.selectedOptions[0]?.dataset.preco || 0);
+    document.getElementById("especialTotal").textContent = money(preco * qtd);
+  };
+
+  window.salvarEspecialCarrinho = function(){
+    if(!especialAtual) return;
+
+    const tamanho = document.getElementById("especialTamanho");
+    const sabor = document.getElementById("especialSabor");
+    const qtd = Number(document.getElementById("especialQtd").value || 1);
+    const preco = Number(tamanho.selectedOptions[0]?.dataset.preco || 0);
+
+    if(!window.cart) window.cart = [];
+
+    cart.push({
+      id: Date.now(),
+      nome: especialAtual.nome,
+      qtd: qtd,
+      preco: preco,
+      tamanhoOvo: tamanho.value,
+      saborOvo: sabor.value,
+      desc: `Tamanho: ${tamanho.value} | Sabor: ${sabor.value}`,
+      especial: true
+    });
+
+    if(typeof renderCart === "function") renderCart();
+    if(typeof updateCartCount === "function") updateCartCount();
+
+    const count = document.getElementById("cartCount");
+    if(count) count.textContent = cart.reduce((s,i)=>s + Number(i.qtd || 1), 0);
+
+    const mobileCount = document.getElementById("mobileSafeCartCount");
+    if(mobileCount) mobileCount.textContent = cart.reduce((s,i)=>s + Number(i.qtd || 1), 0);
+
+    fecharEspecial();
+  };
+
+  window.abrirWhatsCesta = function(){
+    const msg = encodeURIComponent("Olá! Gostaria de consultar uma cesta personalizada da Andreza Cakes.");
+    window.open("https://wa.me/5581984225298?text=" + msg, "_blank");
+  };
+})();
+</script>
+
+
+<script id="feedback-whatsapp-andreza">
+function enviarFeedbackAndreza(){
+  const msg = encodeURIComponent(
+`Olá Andreza Cakes 💖
+
+Gostaria de deixar minha avaliação:
+
+⭐ Nota:
+📝 Comentário:
+
+Obrigado pelo atendimento!`
+  );
+
+  window.open("https://wa.me/5581984225298?text=" + msg, "_blank");
+}
+</script>
+
 
 <div class="footer-instagram">
   <p>Andreza Cakes • Recife/PE</p>
@@ -29,7 +2429,6 @@
   font-weight:700;
   text-decoration:none;
   font-size:18px;
-  transition:none;
 }
 
 .footer-instagram a:hover{
@@ -37,3 +2436,6 @@
   text-decoration:underline;
 }
 </style>
+
+</body>
+</html>
