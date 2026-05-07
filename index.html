@@ -1117,43 +1117,60 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 </style>
 
 
+
 <style id="especiais-andreza-css">
 #especiais-andreza{
   max-width:1180px;
-  margin: 16px auto 30px;
+  margin: 18px auto 34px;
   padding: 0 20px;
+}
+
+.especiais-vitrine{
+  position:relative;
+  overflow:hidden;
+  border-radius:34px;
+  border:1px solid #f1c4d5;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(255,141,180,.18), transparent 30%),
+    radial-gradient(circle at 90% 20%, rgba(217,100,145,.13), transparent 34%),
+    linear-gradient(135deg,#fff7fb,#fff);
+  box-shadow:0 24px 60px rgba(112,48,75,.13);
+  padding:30px;
 }
 
 .especiais-head{
   text-align:center;
-  margin-bottom:22px;
+  margin-bottom:24px;
 }
 
 .especiais-head .tag{
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  padding:9px 16px;
+  padding:9px 17px;
   border-radius:999px;
-  background:#fff3f7;
+  background:#fff;
   border:1px solid #f1c4d5;
   color:#8d2b58;
   font-weight:900;
   font-size:14px;
-  margin-bottom:10px;
+  margin-bottom:12px;
+  box-shadow:0 8px 20px rgba(217,100,145,.09);
 }
 
 .especiais-head h2{
   margin:0;
   color:#2c1b24;
-  font-size:clamp(30px,4vw,48px);
+  font-size:clamp(30px,4vw,50px);
+  letter-spacing:-.03em;
 }
 
 .especiais-head p{
-  margin:10px auto 0;
-  max-width:680px;
+  margin:12px auto 0;
+  max-width:660px;
   color:#805d70;
   line-height:1.6;
+  font-size:17px;
 }
 
 .especiais-grid{
@@ -1163,62 +1180,62 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 }
 
 .especial-card{
-  background:rgba(255,255,255,.94);
+  background:rgba(255,255,255,.96);
   border:1px solid #f1c4d5;
-  border-radius:28px;
-  padding:22px;
-  box-shadow:0 18px 42px rgba(112,48,75,.10);
+  border-radius:30px;
+  padding:20px;
+  box-shadow:0 18px 40px rgba(112,48,75,.10);
+  display:flex;
+  flex-direction:column;
+  min-height:330px;
 }
 
-.especial-icon{
-  width:58px;
-  height:58px;
-  border-radius:20px;
+.especial-media{
+  height:118px;
+  border-radius:24px;
+  background:
+    radial-gradient(circle at center, rgba(255,255,255,.72), transparent 60%),
+    linear-gradient(135deg,#fff0f6,#ffe2ee);
   display:grid;
   place-items:center;
-  background:#fff3f7;
+  margin-bottom:16px;
   border:1px solid #f1c4d5;
-  font-size:28px;
-  margin-bottom:14px;
+  overflow:hidden;
+}
+
+.especial-media span{
+  font-size:58px;
+  filter:drop-shadow(0 8px 12px rgba(112,48,75,.12));
 }
 
 .especial-card h3{
   margin:0 0 8px;
   color:#2c1b24;
   font-size:24px;
+  line-height:1.15;
 }
 
 .especial-card p{
-  margin:0 0 14px;
+  margin:0;
   color:#805d70;
   line-height:1.55;
+  font-size:15px;
 }
 
-.especial-precos{
-  display:grid;
-  gap:8px;
-  margin:14px 0;
-}
-
-.especial-precos div{
+.especial-destaque{
+  margin-top:14px;
+  padding:11px 13px;
+  border-radius:18px;
   background:#fff7fb;
   border:1px solid #f1c4d5;
-  border-radius:16px;
-  padding:10px 12px;
   color:#8d2b58;
   font-weight:900;
-}
-
-.especial-sabores{
-  color:#805d70;
   font-size:14px;
-  line-height:1.55;
-  margin-top:10px;
 }
 
 .especial-btn{
   width:100%;
-  margin-top:16px;
+  margin-top:auto;
   border:0;
   border-radius:999px;
   padding:14px 18px;
@@ -1226,11 +1243,12 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
   color:#fff;
   font-weight:900;
   cursor:pointer;
-  box-shadow:0 12px 24px rgba(217,100,145,.18);
+  box-shadow:0 12px 24px rgba(217,100,145,.20);
 }
 
 .especial-btn.whats{
   background:linear-gradient(135deg,#25D366,#18b957);
+  box-shadow:0 12px 24px rgba(24,185,87,.18);
 }
 
 /* modal exclusivo dos especiais */
@@ -1319,9 +1337,26 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
   color:#fff;
 }
 
+@media(min-width:851px){
+  .especial-card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 24px 52px rgba(112,48,75,.14);
+  }
+
+  .especial-card,
+  .especial-btn{
+    transition:.22s ease;
+  }
+}
+
 @media(max-width:850px){
   #especiais-andreza{
     padding:0 16px;
+  }
+
+  .especiais-vitrine{
+    padding:22px 16px;
+    border-radius:28px;
   }
 
   .especiais-grid{
@@ -1329,7 +1364,20 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
   }
 
   .especial-card{
-    padding:20px;
+    min-height:auto;
+    padding:18px;
+    transform:none !important;
+    transition:none !important;
+    animation:none !important;
+  }
+
+  .especial-media{
+    height:104px;
+  }
+
+  .especial-media span{
+    font-size:50px;
+    filter:none;
   }
 
   #especialModal{
@@ -1341,33 +1389,6 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
   .especial-modal-box{
     max-height:calc(100vh - 40px);
     overflow-y:auto;
-  }
-}
-</style>
-
-
-<style id="especiais-cards-clean">
-.especial-card{
-  display:flex;
-  flex-direction:column;
-}
-
-.especial-card p{
-  min-height:72px;
-}
-
-.especial-sabores{
-  min-height:78px;
-}
-
-.especial-btn{
-  margin-top:auto !important;
-}
-
-@media(max-width:850px){
-  .especial-card p,
-  .especial-sabores{
-    min-height:auto;
   }
 }
 </style>
@@ -1482,36 +1503,69 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 
 
 
-<section id="especiais-andreza">
-  <div class="especiais-head">
-    <div class="tag">✨ Especiais da Andreza Cakes</div>
-    <h2>Ovos de colher e cestas personalizadas</h2>
-    <p>Produtos especiais feitos sob encomenda, com sabores selecionados e preparo conforme disponibilidade.</p>
-  </div>
+<div id="especialModal">
+  <div class="especial-modal-box">
+    <h3 id="especialTitulo">Adicionar especial</h3>
 
-  <div class="especiais-grid">
-    <div class="especial-card">
-      <div class="especial-icon">🥚</div>
-      <h3>Ovo de colher simples</h3>
-      <p>Escolha o tamanho, sabor e quantidade no pedido. Clique em adicionar para personalizar.</p>
-      <button class="especial-btn" onclick="abrirEspecial('simples')">Adicionar ovo simples</button>
-    </div>
-
-    <div class="especial-card">
-      <div class="especial-icon">🍫</div>
-      <h3>Ovo de colher gourmet</h3>
-      <p>Escolha o tamanho, sabor e quantidade no pedido. Clique em adicionar para personalizar.</p>
-      <button class="especial-btn" onclick="abrirEspecial('gourmet')">Adicionar ovo gourmet</button>
-    </div>
-
-    <div class="especial-card">
-      <div class="especial-icon">☕</div>
-      <h3>Cesta personalizada</h3>
-      <p>Cestas montadas sob encomenda para café da manhã, presentes e datas especiais.</p>
-      <div class="especial-sabores">
-        Personalização combinada pelo WhatsApp de acordo com a ocasião, itens desejados e disponibilidade.
+    <div class="especial-form">
+      <div>
+        <label>Tamanho</label>
+        <select id="especialTamanho" onchange="atualizarEspecialTotal()"></select>
       </div>
-      <button class="especial-btn whats" onclick="abrirWhatsCesta()">Consultar pelo WhatsApp</button>
+
+      <div>
+        <label>Sabor</label>
+        <select id="especialSabor"></select>
+      </div>
+
+      <div>
+        <label>Quantidade</label>
+        <input id="especialQtd" type="number" min="1" value="1" oninput="atualizarEspecialTotal()">
+      </div>
+
+      <div class="especial-total" id="especialTotal">R$ 0,00</div>
+    </div>
+
+    <div class="especial-modal-actions">
+      <button class="especial-cancel" onclick="fecharEspecial()">Cancelar</button>
+      <button class="especial-save" onclick="salvarEspecialCarrinho()">Salvar no carrinho</button>
+    </div>
+  </div>
+</div>
+
+
+<section id="especiais-andreza">
+  <div class="especiais-vitrine">
+    <div class="especiais-head">
+      <div class="tag">✨ Edição especial sob encomenda</div>
+      <h2>Ovos de colher e cestas personalizadas</h2>
+      <p>Uma vitrine especial com opções feitas para presentear, surpreender e deixar cada momento mais gostoso.</p>
+    </div>
+
+    <div class="especiais-grid">
+      <div class="especial-card">
+        <div class="especial-media"><span>🥚</span></div>
+        <h3>Ovo de colher simples</h3>
+        <p>Sabores clássicos, cremosos e preparados sob encomenda.</p>
+        <div class="especial-destaque">Escolha tamanho, sabor e quantidade ao adicionar.</div>
+        <button class="especial-btn" onclick="abrirEspecial('simples')">🥚 Personalizar pedido</button>
+      </div>
+
+      <div class="especial-card">
+        <div class="especial-media"><span>🍫</span></div>
+        <h3>Ovo de colher gourmet</h3>
+        <p>Recheios premium e sabores especiais para uma experiência mais marcante.</p>
+        <div class="especial-destaque">Escolha tamanho, sabor e quantidade ao adicionar.</div>
+        <button class="especial-btn" onclick="abrirEspecial('gourmet')">🍫 Personalizar pedido</button>
+      </div>
+
+      <div class="especial-card">
+        <div class="especial-media"><span>🎁</span></div>
+        <h3>Cesta personalizada</h3>
+        <p>Montagem exclusiva para café da manhã, presentes e datas especiais.</p>
+        <div class="especial-destaque">Personalização conforme ocasião e disponibilidade.</div>
+        <button class="especial-btn whats" onclick="abrirWhatsCesta()">🎁 Consultar pelo WhatsApp</button>
+      </div>
     </div>
   </div>
 </section>
