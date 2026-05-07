@@ -2603,3 +2603,50 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
 
 </body>
 </html>
+
+<script id="fix-bolo-melado">
+setInterval(() => {
+  const modal = document.querySelector('.modal.open, #customModal');
+  if(!modal) return;
+
+  const texto = (modal.textContent || '').toLowerCase();
+
+  if(texto.includes('bolo melado')){
+    const selects = modal.querySelectorAll('select');
+
+    // MASSA
+    if(selects[0]){
+      [...selects[0].options].forEach(opt=>{
+        if(opt.textContent.toLowerCase().includes('red velvet')){
+          opt.remove();
+        }
+      });
+    }
+
+    // RECHEIOS
+    if(selects[1] && selects[1].options.length <= 1){
+      selects[1].innerHTML = `
+        <option value="">Escolha o recheio</option>
+        <option>Chocolate</option>
+        <option>Doce de leite</option>
+        <option>Prestígio</option>
+        <option>Ninho</option>
+        <option>Morango</option>
+      `;
+    }
+
+    // OBSERVAÇÃO
+    modal.querySelectorAll('label').forEach(lb=>{
+      if(lb.textContent.toLowerCase().includes('observação')){
+        lb.textContent = 'Observação do bolo';
+      }
+    });
+
+    modal.querySelectorAll('input, textarea').forEach(inp=>{
+      if(inp.placeholder && inp.placeholder.toLowerCase().includes('kit')){
+        inp.placeholder = 'Ex: frase, cobertura, detalhe do bolo...';
+      }
+    });
+  }
+}, 500);
+</script>
