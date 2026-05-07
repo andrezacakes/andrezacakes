@@ -1109,6 +1109,46 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 }
 </style>
 
+
+<style id="icones-novas-categorias-hero">
+.hero-card .mini div:nth-child(1)::before { content: "🎉" !important; }
+.hero-card .mini div:nth-child(2)::before { content: "🧁" !important; }
+.hero-card .mini div:nth-child(3)::before { content: "🎂" !important; }
+.hero-card .mini div:nth-child(4)::before { content: "🍬" !important; }
+.hero-card .mini div:nth-child(5)::before { content: "☕" !important; }
+.hero-card .mini div:nth-child(6)::before { content: "🥚" !important; }
+
+.hero-card .mini div::before{
+  width: 34px !important;
+  height: 34px !important;
+  display: grid !important;
+  place-items: center !important;
+  background: #fff3f7 !important;
+  border-radius: 12px !important;
+  font-size: 18px !important;
+  box-shadow: inset 0 0 0 1px rgba(241,196,213,.9) !important;
+  flex-shrink: 0 !important;
+}
+</style>
+
+
+<style id="filtros-novas-categorias-catalogo">
+.filters,
+.categorias,
+.tabs{
+  flex-wrap: wrap !important;
+}
+
+@media(max-width:850px){
+  .filters button,
+  .categorias button,
+  .tabs button{
+    font-size: 13px !important;
+    padding: 10px 14px !important;
+  }
+}
+</style>
+
 </head>
 
 <body id="topo">
@@ -1298,7 +1338,9 @@ const produtos=[
 {id:32,cat:"Personalizados",nome:"Maçã",emoji:"🍎",desc:"Personalizada.",preco:7},
 {id:33,cat:"Personalizados",nome:"Pirulito",emoji:"🍭",desc:"Personalizado.",preco:6},
 {id:34,cat:"Personalizados",nome:"Trufas",emoji:"🍫",desc:"Personalizada.",preco:5}
-];
+,
+  {id:35, nome:"Cesta café da manhã personalizada", cat:"Cestas café da manhã", emoji:"☕", desc:"Cesta montada sob encomenda. Valor a combinar pelo WhatsApp.", preco:0},
+  {id:36, nome:"Ovo de colher personalizado", cat:"Ovos de colher", emoji:"🥚", desc:"Ovo de colher sob encomenda. Valor a combinar pelo WhatsApp.", preco:0}];
 
 let cart=[], current="Todos", selected=null, editing=null, playlist=["assets/audio/musica1.mp3","assets/audio/musica2.mp3","assets/audio/musica3.mp3"], music=0;
 
