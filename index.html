@@ -1149,6 +1149,19 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 }
 </style>
 
+
+<style id="ovos-colher-premium">
+.card[data-cat="Ovos de colher"] .icon,
+.card[data-cat="Ovos de colher"] .product-photo{
+  background: linear-gradient(135deg,#fff4f8,#ffe4ef) !important;
+  border: 1px solid #f1c4d5 !important;
+}
+
+.card[data-cat="Ovos de colher"] h3{
+  color:#8d2b58;
+}
+</style>
+
 </head>
 
 <body id="topo">
@@ -1340,7 +1353,14 @@ const produtos=[
 {id:34,cat:"Personalizados",nome:"Trufas",emoji:"🍫",desc:"Personalizada.",preco:5}
 ,
   {id:35, nome:"Cesta café da manhã personalizada", cat:"Cestas café da manhã", emoji:"☕", desc:"Cesta montada sob encomenda. Valor a combinar pelo WhatsApp.", preco:0},
-  {id:36, nome:"Ovo de colher personalizado", cat:"Ovos de colher", emoji:"🥚", desc:"Ovo de colher sob encomenda. Valor a combinar pelo WhatsApp.", preco:0}];
+
+  {id:901, nome:"Ovo de colher simples 150g", cat:"Ovos de colher", emoji:"🥚", desc:"Sabores: Brigadeiro, Chocolate branco, Bem casado, Maracujá, Napolitano, Prestígio, Sensação, Doce de leite, Paçoca e Limão.", preco:25},
+  {id:902, nome:"Ovo de colher simples 250g", cat:"Ovos de colher", emoji:"🥚", desc:"Sabores: Brigadeiro, Chocolate branco, Bem casado, Maracujá, Napolitano, Prestígio, Sensação, Doce de leite, Paçoca e Limão.", preco:35},
+  {id:903, nome:"Ovo de colher simples 500g", cat:"Ovos de colher", emoji:"🥚", desc:"Sabores: Brigadeiro, Chocolate branco, Bem casado, Maracujá, Napolitano, Prestígio, Sensação, Doce de leite, Paçoca e Limão.", preco:45},
+  {id:904, nome:"Ovo de colher gourmet 150g", cat:"Ovos de colher", emoji:"🥚", desc:"Sabores: Ninho com Nutella, Oreo, Brawner, Red Velvet, Ferrero Rocher e Sonho de Valsa.", preco:30},
+  {id:905, nome:"Ovo de colher gourmet 250g", cat:"Ovos de colher", emoji:"🥚", desc:"Sabores: Ninho com Nutella, Oreo, Brawner, Red Velvet, Ferrero Rocher e Sonho de Valsa.", preco:40},
+  {id:906, nome:"Ovo de colher gourmet 500g", cat:"Ovos de colher", emoji:"🥚", desc:"Sabores: Ninho com Nutella, Oreo, Brawner, Red Velvet, Ferrero Rocher e Sonho de Valsa.", preco:55}
+];
 
 let cart=[], current="Todos", selected=null, editing=null, playlist=["assets/audio/musica1.mp3","assets/audio/musica2.mp3","assets/audio/musica3.mp3"], music=0;
 
