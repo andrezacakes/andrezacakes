@@ -654,13 +654,40 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 }
 </style>
 
+
+<style id="mobile-carrinho-contador-topo">
+@media (max-width: 850px){
+  #mobileSafeCartBtn{
+    position: relative !important;
+    padding-right: 22px !important;
+  }
+
+  #mobileSafeCartCount{
+    position: absolute !important;
+    top: -7px !important;
+    right: -7px !important;
+    min-width: 22px !important;
+    height: 22px !important;
+    border-radius: 999px !important;
+    background: #fff !important;
+    color: #8d2b58 !important;
+    border: 1px solid #f1c4d5 !important;
+    display: grid !important;
+    place-items: center !important;
+    font-size: 12px !important;
+    font-weight: 900 !important;
+    box-shadow: 0 6px 14px rgba(112,48,75,.16) !important;
+  }
+}
+</style>
+
 </head>
 
 <body>
 <header>
   <div class="nav">
     <div class="brand"><img src="logo-andreza-cakes.png" alt="Andreza Cakes"><div>Andreza Cakes<small>Confeitaria artesanal</small></div></div>
-    <div class="menu"><button class="btn" onclick="document.getElementById('catalogo').scrollIntoView({behavior:'smooth'})">Ver produtos</button><button class="btn mobile-safe-action" id="mobileSafeCartBtn" onclick="openCart()">Carrinho</button><button class="btn mobile-safe-action" id="mobileSafeMusicBtn" onclick="tocarMusica()">Música</button></div>
+    <div class="menu"><button class="btn" onclick="document.getElementById('catalogo').scrollIntoView({behavior:'smooth'})">Ver produtos</button><button class="btn mobile-safe-action" id="mobileSafeCartBtn" onclick="openCart()">Carrinho<span id="mobileSafeCartCount">0</span></button><button class="btn mobile-safe-action" id="mobileSafeMusicBtn" onclick="tocarMusica()">Música</button></div>
   </div>
 </header>
 
@@ -1130,6 +1157,33 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
   });
 
   setInterval(removeMobileFloating, 500);
+})();
+</script>
+
+
+<script id="mobile-carrinho-contador-topo-js">
+(function(){
+  function syncMobileSafeCartCount(){
+    const mainCount = document.getElementById("cartCount");
+    const mobileCount = document.getElementById("mobileSafeCartCount");
+
+    if(mainCount && mobileCount){
+      mobileCount.textContent = mainCount.textContent || "0";
+    }
+  }
+
+  const oldRenderCart = window.renderCart;
+  if(typeof oldRenderCart === "function"){
+    window.renderCart = function(){
+      const result = oldRenderCart.apply(this, arguments);
+      syncMobileSafeCartCount();
+      return result;
+    };
+  }
+
+  document.addEventListener("DOMContentLoaded", syncMobileSafeCartCount);
+  window.addEventListener("load", syncMobileSafeCartCount);
+  setInterval(syncMobileSafeCartCount, 600);
 })();
 </script>
 
