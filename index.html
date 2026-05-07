@@ -566,42 +566,6 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 </style>
 
 
-<style id="fix-mobile-scroll-jump">
-@media (max-width: 850px){
-  html { overflow-anchor: none; }
-
-  body.modal-open-mobile {
-    position: fixed !important;
-    width: 100% !important;
-    overflow: hidden !important;
-    touch-action: none;
-  }
-
-  .modal.open {
-    align-items: flex-start !important;
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch !important;
-    padding-top: 18px !important;
-    padding-bottom: 18px !important;
-  }
-
-  .modal.open .box {
-    max-height: calc(100vh - 36px) !important;
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch !important;
-  }
-
-  input, select, textarea {
-    font-size: 16px !important;
-  }
-}
-</style>
-
-
-
-
-
-
 <style id="mobile-sem-botoes-flutuantes">
 /* SOLUÇÃO DEFINITIVA: no celular, sem botões flutuantes para não piscar */
 .mobile-safe-action{
@@ -882,6 +846,39 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
   0%,100%{ transform: translateX(0); }
   25%{ transform: translateX(-3px); }
   75%{ transform: translateX(3px); }
+}
+</style>
+
+
+<style id="fix-mobile-scroll-catalogo-estavel">
+@media (max-width: 850px){
+  html, body{
+    overflow-anchor: none !important;
+    scroll-behavior: auto !important;
+  }
+
+  #catalogo,
+  #produtos{
+    overflow-anchor: none !important;
+  }
+
+  input, select, textarea{
+    font-size: 16px !important;
+  }
+
+  .modal.open{
+    align-items: flex-start !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding-top: 18px !important;
+    padding-bottom: 18px !important;
+  }
+
+  .modal.open .box{
+    max-height: calc(100vh - 36px) !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
 }
 </style>
 
@@ -1247,80 +1244,6 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
 </script>
 
 
-<script id="fix-mobile-scroll-jump-js">
-(function(){
-  let savedScrollY = 0;
-
-  function isMobile(){
-    return window.matchMedia("(max-width: 850px)").matches;
-  }
-
-  window.lockMobileScroll = function(){
-    if(!isMobile()) return;
-    savedScrollY = window.scrollY || document.documentElement.scrollTop || 0;
-    document.body.style.top = "-" + savedScrollY + "px";
-    document.body.classList.add("modal-open-mobile");
-  };
-
-  window.unlockMobileScroll = function(){
-    if(!isMobile()) return;
-    document.body.classList.remove("modal-open-mobile");
-    document.body.style.top = "";
-    window.scrollTo(0, savedScrollY);
-  };
-
-  const oldOpenCustom = window.openCustom;
-  if(typeof oldOpenCustom === "function"){
-    window.openCustom = function(){
-      lockMobileScroll();
-      return oldOpenCustom.apply(this, arguments);
-    };
-  }
-
-  const oldCloseCustom = window.closeCustom;
-  if(typeof oldCloseCustom === "function"){
-    window.closeCustom = function(){
-      const result = oldCloseCustom.apply(this, arguments);
-      setTimeout(unlockMobileScroll, 60);
-      return result;
-    };
-  }
-
-  const oldOpenCart = window.openCart;
-  if(typeof oldOpenCart === "function"){
-    window.openCart = function(){
-      lockMobileScroll();
-      return oldOpenCart.apply(this, arguments);
-    };
-  }
-
-  const oldCloseCart = window.closeCart;
-  if(typeof oldCloseCart === "function"){
-    window.closeCart = function(){
-      const result = oldCloseCart.apply(this, arguments);
-      setTimeout(unlockMobileScroll, 60);
-      return result;
-    };
-  }
-
-  const oldSaveCustom = window.saveCustom;
-  if(typeof oldSaveCustom === "function"){
-    window.saveCustom = function(){
-      const result = oldSaveCustom.apply(this, arguments);
-      setTimeout(function(){
-        unlockMobileScroll();
-        window.scrollTo(0, savedScrollY);
-      }, 90);
-      return result;
-    };
-  }
-})();
-</script>
-
-
-
-
-
 <script id="mobile-remove-floating-buttons-js">
 (function(){
   function isMobile(){
@@ -1510,6 +1433,75 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
 
   document.addEventListener("DOMContentLoaded", bindKitInputs);
   setInterval(bindKitInputs, 900);
+})();
+</script>
+
+
+<script id="fix-mobile-scroll-catalogo-estavel-js">
+(function(){
+  let modalScrollY = 0;
+  let openedByModal = false;
+
+  function isMobile(){
+    return window.matchMedia("(max-width: 850px)").matches;
+  }
+
+  function saveModalScroll(){
+    if(!isMobile()) return;
+    openedByModal = true;
+    modalScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+  }
+
+  function restoreModalScroll(){
+    if(!isMobile() || !openedByModal) return;
+    openedByModal = false;
+    setTimeout(function(){
+      window.scrollTo(0, modalScrollY);
+    }, 60);
+  }
+
+  const oldOpenCustom = window.openCustom;
+  if(typeof oldOpenCustom === "function"){
+    window.openCustom = function(){
+      saveModalScroll();
+      return oldOpenCustom.apply(this, arguments);
+    };
+  }
+
+  const oldCloseCustom = window.closeCustom;
+  if(typeof oldCloseCustom === "function"){
+    window.closeCustom = function(){
+      const result = oldCloseCustom.apply(this, arguments);
+      restoreModalScroll();
+      return result;
+    };
+  }
+
+  const oldOpenCart = window.openCart;
+  if(typeof oldOpenCart === "function"){
+    window.openCart = function(){
+      saveModalScroll();
+      return oldOpenCart.apply(this, arguments);
+    };
+  }
+
+  const oldCloseCart = window.closeCart;
+  if(typeof oldCloseCart === "function"){
+    window.closeCart = function(){
+      const result = oldCloseCart.apply(this, arguments);
+      restoreModalScroll();
+      return result;
+    };
+  }
+
+  const oldSaveCustom = window.saveCustom;
+  if(typeof oldSaveCustom === "function"){
+    window.saveCustom = function(){
+      const result = oldSaveCustom.apply(this, arguments);
+      restoreModalScroll();
+      return result;
+    };
+  }
 })();
 </script>
 
