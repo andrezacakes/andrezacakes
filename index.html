@@ -850,34 +850,98 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 </style>
 
 
-<style id="fix-mobile-scroll-catalogo-estavel">
+
+<style id="mobile-estabilidade-total">
 @media (max-width: 850px){
-  html, body{
-    overflow-anchor: none !important;
+
+  /* Impede a página de ficar balançando lateralmente */
+  html,
+  body{
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
     scroll-behavior: auto !important;
-  }
-
-  #catalogo,
-  #produtos{
+    overscroll-behavior-x: none !important;
     overflow-anchor: none !important;
   }
 
-  input, select, textarea{
+  body{
+    position: relative !important;
+  }
+
+  main,
+  section,
+  header,
+  footer,
+  .hero,
+  .hero-card,
+  .grid,
+  .card,
+  .modal,
+  .box{
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+  }
+
+  /* Remove brilhos/linhas animadas que passam para esquerda/direita no celular */
+  .hero h1::after,
+  #catalogo .title h2::after,
+  .menu .btn::after,
+  .card .icon::after,
+  .hero::before,
+  .hero-card::after{
+    display: none !important;
+    animation: none !important;
+    content: none !important;
+  }
+
+  /* Desliga animações contínuas só no celular */
+  .brand img,
+  .hero-card img,
+  .hero .badge,
+  .hero h1,
+  .hero p,
+  #catalogo .title h2,
+  .menu .btn,
+  .card,
+  .icon,
+  .premium-icon,
+  .product-photo{
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+    filter: none !important;
+  }
+
+  /* Evita zoom/tremida ao focar em campo no celular */
+  input,
+  select,
+  textarea{
     font-size: 16px !important;
   }
 
+  /* Modal estável no celular */
   .modal.open{
     align-items: flex-start !important;
     overflow-y: auto !important;
+    overflow-x: hidden !important;
     -webkit-overflow-scrolling: touch !important;
-    padding-top: 18px !important;
-    padding-bottom: 18px !important;
+    padding: 14px !important;
   }
 
   .modal.open .box{
-    max-height: calc(100vh - 36px) !important;
+    width: 100% !important;
+    max-height: calc(100vh - 28px) !important;
     overflow-y: auto !important;
+    overflow-x: hidden !important;
     -webkit-overflow-scrolling: touch !important;
+  }
+
+  /* Cards sem mexer de tamanho ao passar/dar toque */
+  .card:hover,
+  button:hover,
+  .btn:hover{
+    transform: none !important;
   }
 }
 </style>
@@ -1437,33 +1501,31 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
 </script>
 
 
-<script id="fix-mobile-scroll-catalogo-estavel-js">
+
+<script id="mobile-estabilidade-total-js">
 (function(){
-  let modalScrollY = 0;
-  let openedByModal = false;
+  let savedY = 0;
 
   function isMobile(){
     return window.matchMedia("(max-width: 850px)").matches;
   }
 
-  function saveModalScroll(){
+  function saveY(){
     if(!isMobile()) return;
-    openedByModal = true;
-    modalScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+    savedY = window.scrollY || document.documentElement.scrollTop || 0;
   }
 
-  function restoreModalScroll(){
-    if(!isMobile() || !openedByModal) return;
-    openedByModal = false;
+  function restoreY(){
+    if(!isMobile()) return;
     setTimeout(function(){
-      window.scrollTo(0, modalScrollY);
-    }, 60);
+      window.scrollTo(0, savedY);
+    }, 80);
   }
 
   const oldOpenCustom = window.openCustom;
   if(typeof oldOpenCustom === "function"){
     window.openCustom = function(){
-      saveModalScroll();
+      saveY();
       return oldOpenCustom.apply(this, arguments);
     };
   }
@@ -1471,16 +1533,25 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
   const oldCloseCustom = window.closeCustom;
   if(typeof oldCloseCustom === "function"){
     window.closeCustom = function(){
-      const result = oldCloseCustom.apply(this, arguments);
-      restoreModalScroll();
-      return result;
+      const r = oldCloseCustom.apply(this, arguments);
+      restoreY();
+      return r;
+    };
+  }
+
+  const oldSaveCustom = window.saveCustom;
+  if(typeof oldSaveCustom === "function"){
+    window.saveCustom = function(){
+      const r = oldSaveCustom.apply(this, arguments);
+      restoreY();
+      return r;
     };
   }
 
   const oldOpenCart = window.openCart;
   if(typeof oldOpenCart === "function"){
     window.openCart = function(){
-      saveModalScroll();
+      saveY();
       return oldOpenCart.apply(this, arguments);
     };
   }
@@ -1488,18 +1559,9 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
   const oldCloseCart = window.closeCart;
   if(typeof oldCloseCart === "function"){
     window.closeCart = function(){
-      const result = oldCloseCart.apply(this, arguments);
-      restoreModalScroll();
-      return result;
-    };
-  }
-
-  const oldSaveCustom = window.saveCustom;
-  if(typeof oldSaveCustom === "function"){
-    window.saveCustom = function(){
-      const result = oldSaveCustom.apply(this, arguments);
-      restoreModalScroll();
-      return result;
+      const r = oldCloseCart.apply(this, arguments);
+      restoreY();
+      return r;
     };
   }
 })();
