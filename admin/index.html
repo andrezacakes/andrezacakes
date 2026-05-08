@@ -643,6 +643,183 @@
 }
 </style>
 
+
+<style id="admin-menu-topo-premium">
+/* Layout premium com menu superior */
+.app{
+  display:block !important;
+  min-height:100vh !important;
+}
+
+aside{
+  position:sticky !important;
+  top:0 !important;
+  z-index:1000 !important;
+  height:auto !important;
+  width:100% !important;
+  border-right:none !important;
+  border-bottom:1px solid var(--border) !important;
+  padding:16px 26px !important;
+  background:rgba(255,255,255,.94) !important;
+  backdrop-filter:blur(16px) !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:18px !important;
+  box-shadow:0 12px 32px rgba(107,63,79,.08) !important;
+}
+
+.side-brand{
+  margin-bottom:0 !important;
+  min-width:210px !important;
+}
+
+.side-logo{
+  width:54px !important;
+  height:54px !important;
+  border-radius:18px !important;
+  background:#fff !important;
+  box-shadow:0 10px 24px rgba(107,63,79,.12) !important;
+}
+
+.side-brand strong{
+  font-size:18px !important;
+  color:#2f1f26 !important;
+}
+
+.side-brand span{
+  font-size:12.5px !important;
+}
+
+aside nav{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:8px !important;
+  flex:1 !important;
+  overflow-x:auto !important;
+  padding:4px 2px !important;
+  scrollbar-width:thin !important;
+}
+
+.nav-btn{
+  width:auto !important;
+  flex:0 0 auto !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:7px !important;
+  padding:12px 15px !important;
+  border-radius:999px !important;
+  background:transparent !important;
+  color:var(--secondary) !important;
+  white-space:nowrap !important;
+  font-size:14px !important;
+  box-shadow:none !important;
+}
+
+.nav-btn.active,
+.nav-btn:hover{
+  background:linear-gradient(135deg,#ffe4ef,#ffd3e4) !important;
+  color:var(--primary-dark) !important;
+  box-shadow:0 10px 22px rgba(214,106,143,.16) !important;
+}
+
+.nav-btn:last-child{
+  margin-left:6px !important;
+  background:#fff3f8 !important;
+}
+
+main{
+  padding:28px clamp(18px,3vw,42px) !important;
+  max-width:1440px !important;
+  margin:0 auto !important;
+  width:100% !important;
+}
+
+#statusSupabaseAdmin{
+  margin-top:0 !important;
+}
+
+/* Financeiro fica mais natural dentro do conteúdo */
+#gestaoFinanceira.finance-section{
+  margin-top:18px !important;
+  margin-bottom:30px !important;
+}
+
+/* Mais espaço para pedidos */
+#pedidos .grid-2{
+  grid-template-columns:minmax(360px,.72fr) minmax(740px,1.28fr) !important;
+}
+
+#pedidos .table-wrap{
+  max-width:100% !important;
+}
+
+/* Dashboard mais bonito no layout amplo */
+.cards{
+  grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+}
+
+/* Responsivo */
+@media(max-width:1100px){
+  aside{
+    align-items:flex-start !important;
+    flex-direction:column !important;
+    padding:16px 18px !important;
+  }
+
+  .side-brand{
+    min-width:0 !important;
+  }
+
+  aside nav{
+    width:100% !important;
+    justify-content:flex-start !important;
+  }
+
+  main{
+    padding:20px 16px !important;
+  }
+
+  .cards{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+
+  #pedidos .grid-2{
+    grid-template-columns:1fr !important;
+  }
+}
+
+@media(max-width:650px){
+  aside{
+    gap:12px !important;
+  }
+
+  .side-logo{
+    width:48px !important;
+    height:48px !important;
+  }
+
+  .side-brand strong{
+    font-size:16px !important;
+  }
+
+  .nav-btn{
+    padding:10px 12px !important;
+    font-size:13px !important;
+  }
+
+  .cards{
+    grid-template-columns:1fr !important;
+  }
+
+  .topbar{
+    gap:12px !important;
+  }
+}
+</style>
+
 </head>
 <body>
   <section id="loginPage" class="login-page">
@@ -680,7 +857,7 @@
         <button class="nav-btn" onclick="showSection('produtos', this)">📦 Produtos</button>
         <button class="nav-btn" onclick="showSection('agenda', this)">📅 Agenda</button>
         <button class="nav-btn" onclick="showSection('financeiro', this)">💰 Financeiro</button>
-        <button class="nav-btn" onclick="showSection('relatorio', this)">📊 Relatório</button>
+        <button class="nav-btn" onclick="showSection('relatorio', this)">📊 Relatórios</button>
         <button class="nav-btn" onclick="showSection('config', this)">⚙️ Configurações</button>
         <button class="nav-btn" onclick="logout()">🚪 Sair</button>
       </nav>
@@ -693,125 +870,6 @@
       </div>
 
       
-<section class="finance-section" id="gestaoFinanceira">
-  <div class="finance-head">
-    <div class="finance-icon">💰</div>
-    <div>
-      <h2>Gestão Financeira Inteligente</h2>
-      <p>Acompanhe hoje, últimos 7 dias, quinzena e mês completo com divisão automática do dinheiro.</p>
-    </div>
-  </div>
-
-  <div class="finance-grid">
-    <div class="finance-card">
-      <h3>Configurar divisão financeira</h3>
-
-      <div class="finance-form">
-        <div>
-          <label>Mês financeiro</label>
-          <input id="financeMes" type="month" onchange="atualizarFinanceiroAutomatico()">
-        </div>
-
-        <div>
-          <label>Período</label>
-          <select id="financePeriodo" onchange="atualizarFinanceiroAutomatico()">
-            <option value="mes">Mês completo</option>
-            <option value="q1">1ª quinzena</option>
-            <option value="q2">2ª quinzena</option>
-            <option value="7dias">Últimos 7 dias</option>
-            <option value="hoje">Hoje</option>
-          </select>
-        </div>
-
-        <div>
-          <label>Total vendido no período</label>
-          <input id="financeValor" type="number" min="0" step="0.01" value="0" readonly>
-        </div>
-
-        <div>
-          <label>Reposição de produtos (%)</label>
-          <input id="financeReposicao" type="number" min="0" max="100" value="45">
-        </div>
-
-        <div>
-          <label>Custos fixos: água, luz, gás etc. (%)</label>
-          <input id="financeCustos" type="number" min="0" max="100" value="15">
-        </div>
-
-        <div>
-          <label>Reserva emergencial (%)</label>
-          <input id="financeReserva" type="number" min="0" max="100" value="10">
-        </div>
-
-        <div>
-          <label>Lucro livre (%)</label>
-          <input id="financeLucro" type="number" min="0" max="100" value="30">
-        </div>
-
-        <button class="finance-btn" onclick="calcularGestaoFinanceira()">Atualizar resumo</button>
-      </div>
-
-      <div class="finance-tip">
-        Os valores são calculados automaticamente usando os pedidos do mês selecionado. Você pode ajustar as porcentagens conforme a realidade da Andreza Cakes.
-      </div>
-    </div>
-
-    <div class="finance-card">
-      <h3>Resultado automático do período</h3>
-
-      <div class="finance-results">
-        <div class="finance-result">
-          <span>Pedidos no mês</span>
-          <strong id="resPedidosMes">0</strong>
-        </div>
-
-        <div class="finance-result">
-          <span>Ticket médio</span>
-          <strong id="resTicketMedio">R$ 0,00</strong>
-        </div>
-
-        <div class="finance-result">
-          <span>Produto mais vendido</span>
-          <strong id="resProdutoMaisVendido">-</strong>
-        </div>
-
-        <div class="finance-result">
-          <span>Melhor dia de venda</span>
-          <strong id="resMelhorDia">-</strong>
-        </div>
-
-        <div class="finance-result">
-          <span>Reposição de produtos</span>
-          <strong id="resReposicao">R$ 90,00</strong>
-        </div>
-
-        <div class="finance-result">
-          <span>Custos fixos</span>
-          <strong id="resCustos">R$ 30,00</strong>
-        </div>
-
-        <div class="finance-result">
-          <span>Reserva emergencial</span>
-          <strong id="resReserva">R$ 20,00</strong>
-        </div>
-
-        <div class="finance-result">
-          <span>Lucro livre</span>
-          <strong id="resLucro">R$ 60,00</strong>
-        </div>
-
-        <div class="finance-result">
-          <span>Total distribuído</span>
-          <strong id="resTotal">R$ 200,00</strong>
-        </div>
-      </div>
-
-      <div class="finance-tip" id="financeAviso">
-        Quando vender, separe o dinheiro antes de gastar. Assim você repõe produtos, paga despesas, cria reserva e ainda sabe o lucro real.
-      </div>
-    </div>
-  </div>
-</section>
 
 <section id="dashboard" class="section active">
         <div class="topbar">
@@ -955,6 +1013,126 @@
 
       <section id="financeiro" class="section">
         <div class="topbar"><div><h2>Financeiro</h2><p>Resumo financeiro baseado nos pedidos cadastrados.</p></div></div>
+
+<section class="finance-section" id="gestaoFinanceira">
+  <div class="finance-head">
+    <div class="finance-icon">💰</div>
+    <div>
+      <h2>Gestão Financeira Inteligente</h2>
+      <p>Acompanhe hoje, últimos 7 dias, quinzena e mês completo com divisão automática do dinheiro.</p>
+    </div>
+  </div>
+
+  <div class="finance-grid">
+    <div class="finance-card">
+      <h3>Configurar divisão financeira</h3>
+
+      <div class="finance-form">
+        <div>
+          <label>Mês financeiro</label>
+          <input id="financeMes" type="month" onchange="atualizarFinanceiroAutomatico()">
+        </div>
+
+        <div>
+          <label>Período</label>
+          <select id="financePeriodo" onchange="atualizarFinanceiroAutomatico()">
+            <option value="mes">Mês completo</option>
+            <option value="q1">1ª quinzena</option>
+            <option value="q2">2ª quinzena</option>
+            <option value="7dias">Últimos 7 dias</option>
+            <option value="hoje">Hoje</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Total vendido no período</label>
+          <input id="financeValor" type="number" min="0" step="0.01" value="0" readonly>
+        </div>
+
+        <div>
+          <label>Reposição de produtos (%)</label>
+          <input id="financeReposicao" type="number" min="0" max="100" value="45">
+        </div>
+
+        <div>
+          <label>Custos fixos: água, luz, gás etc. (%)</label>
+          <input id="financeCustos" type="number" min="0" max="100" value="15">
+        </div>
+
+        <div>
+          <label>Reserva emergencial (%)</label>
+          <input id="financeReserva" type="number" min="0" max="100" value="10">
+        </div>
+
+        <div>
+          <label>Lucro livre (%)</label>
+          <input id="financeLucro" type="number" min="0" max="100" value="30">
+        </div>
+
+        <button class="finance-btn" onclick="calcularGestaoFinanceira()">Atualizar resumo</button>
+      </div>
+
+      <div class="finance-tip">
+        Os valores são calculados automaticamente usando os pedidos do mês selecionado. Você pode ajustar as porcentagens conforme a realidade da Andreza Cakes.
+      </div>
+    </div>
+
+    <div class="finance-card">
+      <h3>Resultado automático do período</h3>
+
+      <div class="finance-results">
+        <div class="finance-result">
+          <span>Pedidos no mês</span>
+          <strong id="resPedidosMes">0</strong>
+        </div>
+
+        <div class="finance-result">
+          <span>Ticket médio</span>
+          <strong id="resTicketMedio">R$ 0,00</strong>
+        </div>
+
+        <div class="finance-result">
+          <span>Produto mais vendido</span>
+          <strong id="resProdutoMaisVendido">-</strong>
+        </div>
+
+        <div class="finance-result">
+          <span>Melhor dia de venda</span>
+          <strong id="resMelhorDia">-</strong>
+        </div>
+
+        <div class="finance-result">
+          <span>Reposição de produtos</span>
+          <strong id="resReposicao">R$ 90,00</strong>
+        </div>
+
+        <div class="finance-result">
+          <span>Custos fixos</span>
+          <strong id="resCustos">R$ 30,00</strong>
+        </div>
+
+        <div class="finance-result">
+          <span>Reserva emergencial</span>
+          <strong id="resReserva">R$ 20,00</strong>
+        </div>
+
+        <div class="finance-result">
+          <span>Lucro livre</span>
+          <strong id="resLucro">R$ 60,00</strong>
+        </div>
+
+        <div class="finance-result">
+          <span>Total distribuído</span>
+          <strong id="resTotal">R$ 200,00</strong>
+        </div>
+      </div>
+
+      <div class="finance-tip" id="financeAviso">
+        Quando vender, separe o dinheiro antes de gastar. Assim você repõe produtos, paga despesas, cria reserva e ainda sabe o lucro real.
+      </div>
+    </div>
+  </div>
+</section>
         <div class="cards">
           <div class="card metric"><span>Receita prevista</span><strong id="fTotal">R$ 0,00</strong></div>
           <div class="card metric"><span>Já recebido</span><strong id="fPaid">R$ 0,00</strong></div>
