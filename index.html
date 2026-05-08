@@ -1526,7 +1526,7 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
           </div>
         </div>
       </div>
-      <div class="full" id="itemObsBox" style="display:none"><label>Observação do bolo/kit</label><input id="customObs" placeholder="Ex: frase, cor, acabamento, detalhe do modelo..."></div>
+      <div class="full" id="itemObsBox" style="display:none"><label>Observação do kit/kit</label><input id="customObs" placeholder="Ex: frase, cor, acabamento, detalhe do modelo..."></div>
       <div class="full"><div class="price" id="modalPrice">R$ 0,00</div></div>
     </div>
     <button class="btn" style="margin-top:15px;font-size:16px;padding:15px 22px" onclick="saveCustom()">Salvar no carrinho</button>
@@ -2419,7 +2419,7 @@ setInterval(() => {
     // OBSERVAÇÃO
     modal.querySelectorAll('label').forEach(lb=>{
       if(lb.textContent.toLowerCase().includes('observação')){
-        lb.textContent = 'Observação do bolo';
+        lb.textContent = 'Observação do kit';
       }
     });
 
@@ -2431,3 +2431,4 @@ setInterval(() => {
   }
 }, 500);
 </script>
+
