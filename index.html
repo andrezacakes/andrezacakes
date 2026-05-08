@@ -1393,6 +1393,67 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 }
 </style>
 
+
+<style id="footer-instagram-final-css">
+.footer-instagram-final{
+  text-align:center;
+  padding:24px 15px 34px;
+  background:#fdeef5;
+  color:#8b6b7c;
+  font-size:15px;
+  font-weight:700;
+}
+.footer-instagram-final p{
+  margin:0 0 8px;
+}
+.footer-instagram-final a{
+  color:#c04f82;
+  font-weight:900;
+  text-decoration:none;
+  font-size:18px;
+}
+.footer-instagram-final a:hover{
+  color:#a63d6d;
+  text-decoration:underline;
+}
+</style>
+
+
+
+
+<style id="kit-festa-listas-restauradas">
+#kitChoices .choice-area{
+  display:grid !important;
+  grid-template-columns:1fr 1fr !important;
+  gap:14px !important;
+}
+#kitChoices .choice-card{
+  width:100% !important;
+}
+#kitChoices .choice-row{
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) 92px !important;
+  gap:8px !important;
+  align-items:center !important;
+  margin:8px 0 !important;
+}
+#kitChoices .choice-row span{
+  font-weight:800 !important;
+  color:#4a2b3b !important;
+  line-height:1.2 !important;
+}
+#kitChoices .choice-row input{
+  width:92px !important;
+  text-align:center !important;
+  font-weight:900 !important;
+}
+@media(max-width:850px){
+  #kitChoices .choice-area{
+    grid-template-columns:1fr !important;
+  }
+}
+</style>
+
 </head>
 
 <body id="topo">
@@ -1426,12 +1487,12 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 <section id="catalogo">
   <div class="title"><h2>Monte seu pedido</h2><p>Escolha seus itens, personalize e finalize direto pelo WhatsApp.</p></div>
   <div class="tabs">
-    <button class="tab active" onclick="filterCat('Todos',this)">Todos</button>
-    <button class="tab" onclick="filterCat('Kits festa',this)">Kits festa</button>
-    <button class="tab" onclick="filterCat('Bolos',this)">Bolos</button>
-    <button class="tab" onclick="filterCat('Salgados',this)">Salgados</button>
-    <button class="tab" onclick="filterCat('Doces',this)">Doces</button>
-    <button class="tab" onclick="filterCat('Personalizados',this)">Personalizados</button>
+    <button class="tab active" type="button" onclick="filterCat('Todos',this)">Todos</button>
+    <button class="tab" type="button" onclick="filterCat('Kits festa',this)">Kits festa</button>
+    <button class="tab" type="button" onclick="filterCat('Bolos',this)">Bolos</button>
+    <button class="tab" type="button" onclick="filterCat('Salgados',this)">Salgados</button>
+    <button class="tab" type="button" onclick="filterCat('Doces',this)">Doces</button>
+    <button class="tab" type="button" onclick="filterCat('Personalizados',this)">Personalizados</button>
   </div>
   <div class="grid" id="produtos"></div>
 </section>
@@ -1640,7 +1701,12 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
   </div>
 </section>
 
-<footer>Andreza Cakes • Recife/PE • <a href="https://www.instagram.com/Andrezaa_cakes" target="_blank" style="color:var(--vinho);font-weight:900">@ANDREZAA_CAKES</a><br></footer>
+<footer>
+  <div class="footer-instagram-final">
+    <p>Andreza Cakes • Recife/PE</p>
+    <a href="https://instagram.com/andrezaa_cakes" target="_blank" rel="noopener">@ANDREZAA_CAKES</a>
+  </div>
+</footer>
 
 <script>
 const supabaseClient = window.supabase ? window.supabase.createClient("https://zybwkqjkwpdusnxjgnfu.supabase.co","sb_publishable_9Fe8WMnzl0geZvxGqCkjAg_PyeJC-mf") : null;
@@ -1696,21 +1762,23 @@ function renderProducts(){
   `).join("");
 }
 
-function filterCat(cat){
-  current = cat;
-  document.querySelectorAll('.filters button').forEach(btn => btn.classList.remove('active'));
 
-  document.querySelectorAll('.filters button').forEach(btn => {
-    const txt = (btn.textContent || '').trim().toLowerCase();
-    const alvo = String(cat || '').trim().toLowerCase();
-
-    if(txt === alvo || (cat === 'Todos' && txt.includes('todos'))){
-      btn.classList.add('active');
-    }
-  });
-
+function filterCat(cat,btn){
+  current=cat;
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  if(btn){
+    btn.classList.add('active');
+  }else{
+    document.querySelectorAll('.tab').forEach(b=>{
+      if((b.textContent||'').trim().toLowerCase()===String(cat).trim().toLowerCase()){
+        b.classList.add('active');
+      }
+    });
+  }
   renderProducts();
 }
+
+
 
 function openCustom(id,idx=null){
   selected=produtos.find(p=>p.id===id);editing=idx;
@@ -1825,6 +1893,31 @@ function arrastavel(el,clickFn){
   el.addEventListener("mousedown",start);document.addEventListener("mousemove",move);document.addEventListener("mouseup",end);
   el.addEventListener("touchstart",start,{passive:false});document.addEventListener("touchmove",move,{passive:false});document.addEventListener("touchend",end);
 }
+
+function fillSelects(){
+  if(typeof customRecheio !== "undefined" && customRecheio){
+    customRecheio.innerHTML = recheios.map(r=>`<option value="${r}">${r}</option>`).join("");
+  }
+
+  if(typeof salgadosRows !== "undefined" && salgadosRows){
+    salgadosRows.innerHTML = salgados.map(nome=>`
+      <label class="choice-row">
+        <span>${nome}</span>
+        <input type="number" min="0" step="1" value="0" data-type="salgado" data-name="${nome}" oninput="validateKitInputs()">
+      </label>
+    `).join("");
+  }
+
+  if(typeof docesRows !== "undefined" && docesRows){
+    docesRows.innerHTML = doces.map(nome=>`
+      <label class="choice-row">
+        <span>${nome}</span>
+        <input type="number" min="0" step="1" value="0" data-type="doce" data-name="${nome}" oninput="validateKitInputs()">
+      </label>
+    `).join("");
+  }
+}
+
 fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrastavel(musicBtn,tocarMusica);
 </script>
 
@@ -2269,5 +2362,72 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
 })();
 </script>
 
+
+
+<script id="fix-bolo-aparte-sem-kit">
+(function(){
+  function limparBoloAparte(){
+    const modal = document.querySelector("#customModal .box, .modal.open .box");
+    if(!modal) return;
+
+    const txt = (modal.textContent || "").toLowerCase();
+
+    if(txt.includes("bolo à parte")){
+      document.querySelectorAll("#kitPerfectWrap,.kit-perfect-wrap,.kit-extra-list,#kitExtraList")
+        .forEach(el => el.remove());
+    }
+  }
+
+  setInterval(limparBoloAparte, 500);
+})();
+</script>
+
 </body>
 </html>
+
+<script id="fix-bolo-melado">
+setInterval(() => {
+  const modal = document.querySelector('.modal.open, #customModal');
+  if(!modal) return;
+
+  const texto = (modal.textContent || '').toLowerCase();
+
+  if(texto.includes('bolo melado')){
+    const selects = modal.querySelectorAll('select');
+
+    // MASSA
+    if(selects[0]){
+      [...selects[0].options].forEach(opt=>{
+        if(opt.textContent.toLowerCase().includes('red velvet')){
+          opt.remove();
+        }
+      });
+    }
+
+    // RECHEIOS
+    if(selects[1] && selects[1].options.length <= 1){
+      selects[1].innerHTML = `
+        <option value="">Escolha o recheio</option>
+        <option>Chocolate</option>
+        <option>Doce de leite</option>
+        <option>Prestígio</option>
+        <option>Ninho</option>
+        <option>Morango</option>
+      `;
+    }
+
+    // OBSERVAÇÃO
+    modal.querySelectorAll('label').forEach(lb=>{
+      if(lb.textContent.toLowerCase().includes('observação')){
+        lb.textContent = 'Observação do bolo';
+      }
+    });
+
+    modal.querySelectorAll('input, textarea').forEach(inp=>{
+      if(inp.placeholder && inp.placeholder.toLowerCase().includes('kit')){
+        inp.placeholder = 'Ex: frase, cobertura, detalhe do bolo...';
+      }
+    });
+  }
+}, 500);
+</script>
