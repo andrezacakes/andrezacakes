@@ -2480,7 +2480,7 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
       <div class="contato-info-card">
         <div class="contato-icon">📸</div>
         <h3>Instagram</h3>
-        <p>Acompanhe novidades, produções e inspirações pelo <a href="https://instagram.com/andrezaa_cakes" target="_blank" rel="noopener">@ANDREZAA_CAKES</a>.</p>
+        <p>Acompanhe novidades, produções e inspirações pelo @ANDREZAA_CAKES.</p>
       </div>
     </div>
 
@@ -2498,7 +2498,7 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 <footer>
   <div class="footer-instagram-final">
     <p>Andreza Cakes • Recife/PE</p>
-    <a href="https://instagram.com/andrezaa_cakes" target="_blank" rel="noopener">@ANDREZAA_CAKES</a>
+    @ANDREZAA_CAKES
   </div>
 </footer>
 
@@ -3311,6 +3311,73 @@ async function salvarPedidoPublicoSupabaseFinal(msg){
       console.log("Integração Supabase instalada no envio do pedido.");
     }
   }, 300);
+})();
+</script>
+
+
+<script id="pos-envio-whatsapp-andreza">
+(function(){
+  function fecharFinalizacaoEVoltarInicio(){
+    try{
+      // Limpa carrinho se existir
+      if(typeof cart !== "undefined" && Array.isArray(cart)){
+        cart.length = 0;
+      }
+
+      if(typeof updateCart === "function") updateCart();
+      if(typeof renderCart === "function") renderCart();
+
+      // Fecha modais conhecidos
+      document.querySelectorAll('.modal,.modal-overlay,.cart-modal,.checkout-modal,.overlay').forEach(el=>{
+        el.classList.remove('active','show','open');
+        el.style.display = 'none';
+      });
+
+      // Remove travas de rolagem
+      document.body.classList.remove('modal-open','no-scroll','overflow-hidden');
+      document.documentElement.classList.remove('modal-open','no-scroll','overflow-hidden');
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+
+      // Volta para o início
+      setTimeout(()=>{
+        const topo = document.getElementById('topo') || document.body;
+        topo.scrollIntoView({behavior:'smooth', block:'start'});
+        if(location.hash !== '#topo'){
+          history.replaceState(null,'','#topo');
+        }
+      },350);
+    }catch(e){
+      console.warn('Pós-envio WhatsApp não conseguiu fechar tudo:', e);
+    }
+  }
+
+  // Se já existir sendOrder, embrulha a função para fechar depois do envio
+  const instalar = setInterval(()=>{
+    if(typeof window.sendOrder === "function" && !window.sendOrder.__fechaDepoisWhats){
+      const original = window.sendOrder;
+
+      window.sendOrder = function(){
+        const result = original.apply(this, arguments);
+        setTimeout(fecharFinalizacaoEVoltarInicio, 900);
+        return result;
+      };
+
+      window.sendOrder.__fechaDepoisWhats = true;
+      clearInterval(instalar);
+    }
+  },300);
+
+  // Segurança extra: se clicar diretamente em botão de WhatsApp da finalização
+  document.addEventListener('click', function(e){
+    const btn = e.target.closest('button,a');
+    if(!btn) return;
+
+    const texto = (btn.textContent || '').toLowerCase();
+    if(texto.includes('enviar pelo whatsapp') || texto.includes('finalizar pelo whatsapp')){
+      setTimeout(fecharFinalizacaoEVoltarInicio, 1100);
+    }
+  }, true);
 })();
 </script>
 
