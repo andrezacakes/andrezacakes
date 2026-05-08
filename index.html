@@ -2919,15 +2919,21 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
 </script>
 
 
-<script id="supabase-site-publico-andreza">
-const SUPABASE_URL_SITE = "https://kegbnovwbfvfpwemvhgs.supabase.co";
-const SUPABASE_KEY_SITE = "sb_publishable_Erank1QrAbfUWmEQRkEmrA_XCvWadHT";
-const supabaseSite = window.supabase ? window.supabase.createClient(SUPABASE_URL_SITE, SUPABASE_KEY_SITE) : null;
 
-async function salvarPedidoSiteNoSupabase(mensagemPedido){
-  if(!supabaseSite) return false;
+<script id="supabase-site-salvar-pedido-final">
+const SUPABASE_URL_SITE_FINAL = "https://kegbnovwbfvfpwemvhgs.supabase.co";
+const SUPABASE_KEY_SITE_FINAL = "sb_publishable_Erank1QrAbfUWmEQRkEmrA_XCvWadHT";
+const supabaseSiteFinal = window.supabase ? window.supabase.createClient(SUPABASE_URL_SITE_FINAL, SUPABASE_KEY_SITE_FINAL) : null;
 
-  try{
+async function salvarPedidoPublicoSupabaseFinal(msg){
+  if(!supabaseSiteFinal) {
+    console.warn("Supabase não carregou no site público.");
+    return false;
+  }
+
+  try {
+    const carrinhoAtual = (typeof cart !== "undefined" && Array.isArray(cart)) ? cart : [];
+
     const nome = document.getElementById("cliente")?.value?.trim() || "";
     const telefone = document.getElementById("telefone")?.value?.trim() || "";
     const data = document.getElementById("data")?.value || "";
@@ -2936,69 +2942,100 @@ async function salvarPedidoSiteNoSupabase(mensagemPedido){
     const aniversariante = document.getElementById("aniversariante")?.value?.trim() || "";
     const obs = document.getElementById("obsPedido")?.value?.trim() || "";
 
-    const totalPedido = (window.cart || []).reduce((s,item)=>{
-      return s + (Number(item.preco || 0) * Number(item.qtd || 1));
+    const totalPedido = carrinhoAtual.reduce((s,item)=>{
+      const preco = Number(item.preco || item.price || 0);
+      const qtd = Number(item.qtd || item.qty || 1);
+      return s + (preco * qtd);
     },0);
 
-    const produtosTexto = (window.cart || []).map(item=>{
-      const qtd = item.qtd || 1;
-      const nomeItem = item.nome || "Item";
-      const detalhes = item.desc || item.details || "";
+    const produtosTexto = carrinhoAtual.map(item=>{
+      const qtd = item.qtd || item.qty || 1;
+      const nomeItem = item.nome || item.name || "Item";
+      const detalhes = item.desc || item.details || item.obs || "";
       return `${qtd}x ${nomeItem}${detalhes ? " - " + detalhes : ""}`;
     }).join("\n");
 
-    const produtoPrincipal = (window.cart || []).map(item=>item.nome || "Item").join(", ");
+    const produtoPrincipal = carrinhoAtual.map(item=>item.nome || item.name || "Item").join(", ");
 
     const pedido = {
       id: Date.now(),
-      client: nome,
+      client: nome || "Cliente do site",
       phone: telefone,
       category: "Pedido pelo site",
       product: produtoPrincipal || "Pedido pelo site",
       flavor: "",
       filling: produtosTexto,
       theme: tema || aniversariante,
-      date: data,
+      date: data || null,
       time: hora,
       total: totalPedido,
       paid: 0,
       status: "pendente",
-      notes: (obs ? obs + "\n\n" : "") + mensagemPedido
+      notes: (obs ? obs + "\n\n" : "") + (msg || "Pedido feito pelo site Andreza Cakes.")
     };
 
-    const { error } = await supabaseSite.from("pedidos").insert([pedido]);
+    const { error } = await supabaseSiteFinal.from("pedidos").insert([pedido]);
 
     if(error){
-      console.warn("Pedido não salvou no Supabase:", error);
+      console.warn("Erro ao salvar pedido no Supabase:", error);
+      alert("O pedido abriu no WhatsApp, mas não salvou no painel. Erro: " + error.message);
       return false;
     }
 
+    console.log("Pedido salvo no Supabase com sucesso.");
     return true;
-  }catch(e){
-    console.warn("Erro ao salvar pedido no Supabase:", e);
+  } catch(e) {
+    console.warn("Erro geral ao salvar pedido no Supabase:", e);
+    alert("O pedido abriu no WhatsApp, mas não salvou no painel. Verifique a conexão.");
     return false;
   }
 }
-</script>
 
-
-<script id="fallback-salvar-pedido-site">
+// Intercepta a função original de envio para salvar antes de abrir WhatsApp.
 (function(){
-  document.addEventListener("click", function(e){
-    const btn = e.target.closest("button");
-    if(!btn) return;
-    const texto = (btn.textContent || "").toLowerCase();
-    if(texto.includes("enviar pelo whatsapp")){
-      setTimeout(()=>{
-        const cliente = document.getElementById("cliente")?.value?.trim() || "";
-        const totalPedido = (window.cart || []).reduce((s,item)=>s + (Number(item.preco || 0) * Number(item.qtd || 1)),0);
-        if(cliente && totalPedido > 0){
-          const resumo = "Pedido feito pelo site Andreza Cakes. Ver detalhes no WhatsApp.";
-          salvarPedidoSiteNoSupabase(resumo);
+  const tentarInstalar = setInterval(function(){
+    if(typeof window.sendOrder === "function" && !window.sendOrder.__supabaseFinal){
+      const originalSendOrder = window.sendOrder;
+
+      window.sendOrder = async function(){
+        // cria uma abertura segura: se a função original chamar window.open,
+        // seguramos o link até salvar no Supabase.
+        const oldOpen = window.open;
+        let whatsappUrl = null;
+
+        window.open = function(url, target){
+          whatsappUrl = url;
+          return null;
+        };
+
+        let resultado;
+        try {
+          resultado = originalSendOrder.apply(this, arguments);
+        } finally {
+          window.open = oldOpen;
         }
-      },200);
+
+        let msg = "Pedido feito pelo site Andreza Cakes.";
+        try {
+          if(whatsappUrl && whatsappUrl.includes("text=")){
+            msg = decodeURIComponent(whatsappUrl.split("text=")[1] || msg);
+          }
+        } catch(e) {}
+
+        await salvarPedidoPublicoSupabaseFinal(msg);
+
+        if(whatsappUrl){
+          oldOpen.call(window, whatsappUrl, "_blank");
+        }
+
+        return resultado;
+      };
+
+      window.sendOrder.__supabaseFinal = true;
+      clearInterval(tentarInstalar);
+      console.log("Integração Supabase instalada no envio do pedido.");
     }
-  },true);
+  }, 300);
 })();
 </script>
 
