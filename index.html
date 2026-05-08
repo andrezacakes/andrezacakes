@@ -1757,6 +1757,176 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 }
 </style>
 
+
+<style id="horario-super-premium-final">
+/* Refinamento super premium somente da seção de horário */
+#horario-atendimento.horario-premium{
+  margin-top:48px !important;
+  margin-bottom:34px !important;
+}
+
+#horario-atendimento .horario-card{
+  position:relative !important;
+  overflow:hidden !important;
+  background:
+    radial-gradient(circle at 10% 8%, rgba(255,255,255,.95), transparent 28%),
+    radial-gradient(circle at 92% 12%, rgba(255,141,180,.18), transparent 34%),
+    linear-gradient(135deg,#fffafc 0%,#fff3f8 45%,#ffffff 100%) !important;
+  border:1px solid rgba(241,196,213,.95) !important;
+  border-radius:36px !important;
+  box-shadow:0 30px 78px rgba(112,48,75,.16) !important;
+  padding:30px !important;
+}
+
+#horario-atendimento .horario-card::before{
+  content:"" !important;
+  position:absolute !important;
+  inset:0 !important;
+  background:
+    linear-gradient(120deg,rgba(255,255,255,.65),transparent 35%,rgba(217,100,145,.08)) !important;
+  pointer-events:none !important;
+}
+
+#horario-atendimento .horario-icon{
+  position:relative !important;
+  width:64px !important;
+  height:64px !important;
+  border-radius:24px !important;
+  background:
+    linear-gradient(135deg,rgba(255,255,255,.35),transparent),
+    linear-gradient(135deg,#c94f82,#ff7baa) !important;
+  box-shadow:
+    0 18px 34px rgba(217,100,145,.28),
+    inset 0 0 0 1px rgba(255,255,255,.45) !important;
+  font-size:0 !important;
+}
+
+#horario-atendimento .horario-icon::before{
+  content:"◷" !important;
+  font-size:34px !important;
+  color:#fff !important;
+  line-height:1 !important;
+}
+
+#horario-atendimento .horario-content{
+  position:relative !important;
+}
+
+#horario-atendimento .horario-content h2{
+  color:#2c1b24 !important;
+  letter-spacing:-.03em !important;
+  font-size:clamp(30px,4vw,42px) !important;
+}
+
+#horario-atendimento .horario-content .sub{
+  color:#7b5668 !important;
+  font-size:16px !important;
+  margin-bottom:20px !important;
+}
+
+#horario-atendimento .horario-grid{
+  gap:14px !important;
+}
+
+#horario-atendimento .horario-item{
+  position:relative !important;
+  overflow:hidden !important;
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.96),rgba(255,247,251,.9)) !important;
+  border:1px solid rgba(241,196,213,.95) !important;
+  border-radius:22px !important;
+  padding:16px 18px !important;
+  min-height:92px !important;
+  box-shadow:0 14px 30px rgba(112,48,75,.08) !important;
+}
+
+#horario-atendimento .horario-item::after{
+  content:"" !important;
+  position:absolute !important;
+  width:90px !important;
+  height:90px !important;
+  right:-38px !important;
+  top:-42px !important;
+  border-radius:50% !important;
+  background:radial-gradient(circle,rgba(217,100,145,.14),transparent 70%) !important;
+  pointer-events:none !important;
+}
+
+#horario-atendimento .horario-item strong{
+  color:#8d2b58 !important;
+  font-size:15px !important;
+  letter-spacing:.01em !important;
+}
+
+#horario-atendimento .horario-item span{
+  color:#2c1b24 !important;
+  font-size:18px !important;
+  font-weight:900 !important;
+}
+
+#horario-atendimento .horario-item small{
+  color:#7b5668 !important;
+  font-size:13px !important;
+}
+
+#horario-atendimento .horario-fechado{
+  background:
+    linear-gradient(145deg,#fff6f8,#fff) !important;
+}
+
+#horario-atendimento .horario-extra-premium{
+  position:relative !important;
+  margin-top:16px !important;
+  padding:18px 20px !important;
+  border-radius:24px !important;
+  background:
+    linear-gradient(135deg,rgba(255,255,255,.94),rgba(255,243,248,.92)) !important;
+  border:1px solid rgba(241,196,213,.95) !important;
+  box-shadow:0 16px 34px rgba(112,48,75,.09) !important;
+  color:#8d2b58 !important;
+}
+
+#horario-atendimento .horario-extra-premium span{
+  color:#6f4f5e !important;
+  font-weight:800 !important;
+}
+
+@media(min-width:851px){
+  #horario-atendimento .horario-item{
+    transition:.22s ease !important;
+  }
+
+  #horario-atendimento .horario-item:hover{
+    transform:translateY(-3px) !important;
+    box-shadow:0 20px 42px rgba(112,48,75,.13) !important;
+  }
+}
+
+@media(max-width:850px){
+  #horario-atendimento.horario-premium{
+    margin-top:34px !important;
+  }
+
+  #horario-atendimento .horario-card{
+    padding:24px 18px !important;
+    border-radius:30px !important;
+  }
+
+  #horario-atendimento .horario-icon{
+    width:58px !important;
+    height:58px !important;
+    border-radius:22px !important;
+  }
+
+  #horario-atendimento .horario-item{
+    min-height:auto !important;
+    padding:15px !important;
+    transform:none !important;
+    transition:none !important;
+  }
+}
+</style>
+
 </head>
 
 <body id="topo">
@@ -2797,4 +2967,3 @@ setInterval(() => {
   }
 }, 500);
 </script>
-
