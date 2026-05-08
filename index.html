@@ -1454,6 +1454,169 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 }
 </style>
 
+
+<style id="especiais-super-premium-visual">
+#especiais-andreza .especiais-vitrine{
+  background:
+    radial-gradient(circle at 12% 12%, rgba(255,255,255,.95), transparent 28%),
+    radial-gradient(circle at 88% 12%, rgba(255,141,180,.20), transparent 35%),
+    linear-gradient(135deg,#fff8fb 0%,#ffeaf3 48%,#fff 100%) !important;
+  box-shadow:0 28px 75px rgba(112,48,75,.16) !important;
+  border:1px solid rgba(241,196,213,.95) !important;
+}
+
+#especiais-andreza .especial-card{
+  position:relative !important;
+  overflow:hidden !important;
+  border-radius:32px !important;
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.98),rgba(255,247,251,.92)) !important;
+  box-shadow:0 22px 52px rgba(112,48,75,.12) !important;
+  border:1px solid rgba(241,196,213,.95) !important;
+}
+
+#especiais-andreza .especial-card::before{
+  content:"" !important;
+  position:absolute !important;
+  inset:0 !important;
+  background:linear-gradient(120deg,rgba(255,255,255,.7),transparent 36%,rgba(255,141,180,.10)) !important;
+  pointer-events:none !important;
+}
+
+#especiais-andreza .especial-media{
+  position:relative !important;
+  height:112px !important;
+  border-radius:26px !important;
+  background:
+    radial-gradient(circle at center, rgba(255,255,255,.96), transparent 55%),
+    linear-gradient(135deg,#fff3f8,#ffe2ee) !important;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.65), 0 14px 30px rgba(112,48,75,.08) !important;
+}
+
+#especiais-andreza .especial-media span{
+  font-size:0 !important;
+  width:62px !important;
+  height:62px !important;
+  border-radius:22px !important;
+  display:grid !important;
+  place-items:center !important;
+  background:linear-gradient(135deg,#fff,#fff4f8) !important;
+  border:1px solid rgba(241,196,213,.95) !important;
+  box-shadow:0 14px 28px rgba(112,48,75,.12) !important;
+  filter:none !important;
+}
+
+#especiais-andreza .especial-card:nth-child(1) .especial-media span::before{
+  content:"◖" !important;
+  font-size:42px !important;
+  color:#d96491 !important;
+  line-height:1 !important;
+  transform:rotate(-8deg) !important;
+}
+
+#especiais-andreza .especial-card:nth-child(2) .especial-media span::before{
+  content:"◆" !important;
+  font-size:34px !important;
+  color:#8d2b58 !important;
+  line-height:1 !important;
+}
+
+#especiais-andreza .especial-card:nth-child(3) .especial-media span::before{
+  content:"✦" !important;
+  font-size:38px !important;
+  color:#d96491 !important;
+  line-height:1 !important;
+}
+
+#especiais-andreza .especial-card h3{
+  position:relative !important;
+  font-size:25px !important;
+  letter-spacing:-.02em !important;
+}
+
+#especiais-andreza .especial-card p{
+  position:relative !important;
+  color:#7b5668 !important;
+  font-size:15.5px !important;
+}
+
+#especiais-andreza .especial-destaque{
+  position:relative !important;
+  background:rgba(255,255,255,.82) !important;
+  border:1px solid rgba(241,196,213,.95) !important;
+  color:#8d2b58 !important;
+  box-shadow:0 10px 22px rgba(112,48,75,.07) !important;
+}
+
+#especiais-andreza .especial-btn{
+  position:relative !important;
+  overflow:hidden !important;
+  min-height:49px !important;
+  background:linear-gradient(135deg,#c94f82,#ff77aa) !important;
+  box-shadow:0 16px 32px rgba(217,100,145,.24) !important;
+  letter-spacing:.01em !important;
+}
+
+#especiais-andreza .especial-btn::after{
+  content:"" !important;
+  position:absolute !important;
+  top:0 !important;
+  left:-70% !important;
+  width:45% !important;
+  height:100% !important;
+  background:linear-gradient(110deg,transparent,rgba(255,255,255,.58),transparent) !important;
+  transform:skewX(-18deg) !important;
+}
+
+#especiais-andreza .especial-btn.whats{
+  background:linear-gradient(135deg,#19b85a,#25d366) !important;
+  box-shadow:0 16px 32px rgba(24,185,87,.20) !important;
+}
+
+#especiais-andreza .especiais-head .tag{
+  background:rgba(255,255,255,.88) !important;
+  box-shadow:0 12px 26px rgba(112,48,75,.08) !important;
+}
+
+@media(min-width:851px){
+  #especiais-andreza .especial-card:hover{
+    transform:translateY(-5px) !important;
+    box-shadow:0 28px 64px rgba(112,48,75,.17) !important;
+  }
+
+  #especiais-andreza .especial-btn:hover::after{
+    animation:premiumBtnShine .9s ease both !important;
+  }
+
+  @keyframes premiumBtnShine{
+    from{left:-70%;}
+    to{left:130%;}
+  }
+}
+
+@media(max-width:850px){
+  #especiais-andreza .especial-card,
+  #especiais-andreza .especial-btn,
+  #especiais-andreza .especial-btn::after{
+    animation:none !important;
+    transition:none !important;
+  }
+
+  #especiais-andreza .especial-card{
+    border-radius:28px !important;
+  }
+
+  #especiais-andreza .especial-media{
+    height:98px !important;
+  }
+
+  #especiais-andreza .especial-media span{
+    width:56px !important;
+    height:56px !important;
+  }
+}
+</style>
+
 </head>
 
 <body id="topo">
@@ -1607,24 +1770,24 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
       <div class="especial-card">
         <div class="especial-media"><span>🥚</span></div>
         <h3>Ovo de colher simples</h3>
-        <p>Sabores clássicos, cremosos e preparados sob encomenda.</p>
-        <div class="especial-destaque">Escolha tamanho, sabor e quantidade ao adicionar.</div>
+        <p>Cremosos, delicados e preparados especialmente para seu momento.</p>
+        <div class="especial-destaque">Personalize tamanho, sabor e quantidade.</div>
         <button class="especial-btn" onclick="abrirEspecial('simples')">🥚 Personalizar pedido</button>
       </div>
 
       <div class="especial-card">
         <div class="especial-media"><span>🍫</span></div>
         <h3>Ovo de colher gourmet</h3>
-        <p>Recheios premium e sabores especiais para uma experiência mais marcante.</p>
-        <div class="especial-destaque">Escolha tamanho, sabor e quantidade ao adicionar.</div>
+        <p>Sabores irresistíveis para presentear, surpreender e encantar.</p>
+        <div class="especial-destaque">Personalize tamanho, sabor e quantidade.</div>
         <button class="especial-btn" onclick="abrirEspecial('gourmet')">🍫 Personalizar pedido</button>
       </div>
 
       <div class="especial-card">
         <div class="especial-media"><span>🎁</span></div>
         <h3>Cesta personalizada</h3>
-        <p>Montagem exclusiva para café da manhã, presentes e datas especiais.</p>
-        <div class="especial-destaque">Personalização conforme ocasião e disponibilidade.</div>
+        <p>Uma experiência personalizada para presentear com carinho e bom gosto.</p>
+        <div class="especial-destaque">Montagem exclusiva conforme a ocasião.</div>
         <button class="especial-btn whats" onclick="abrirWhatsCesta()">🎁 Consultar pelo WhatsApp</button>
       </div>
     </div>
@@ -2431,4 +2594,3 @@ setInterval(() => {
   }
 }, 500);
 </script>
-
