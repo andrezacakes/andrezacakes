@@ -1927,6 +1927,235 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 }
 </style>
 
+
+<style id="contato-localizacao-super-premium">
+#contato-localizacao{
+  max-width:1180px;
+  margin:44px auto 32px;
+  padding:0 20px;
+}
+
+.contato-premium-card{
+  position:relative;
+  overflow:hidden;
+  border-radius:36px;
+  border:1px solid rgba(241,196,213,.95);
+  background:
+    radial-gradient(circle at 12% 8%, rgba(255,255,255,.96), transparent 30%),
+    radial-gradient(circle at 88% 14%, rgba(255,141,180,.18), transparent 36%),
+    linear-gradient(135deg,#fffafc 0%,#fff3f8 48%,#ffffff 100%);
+  box-shadow:0 30px 78px rgba(112,48,75,.15);
+  padding:34px;
+}
+
+.contato-premium-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(120deg,rgba(255,255,255,.68),transparent 38%,rgba(217,100,145,.08));
+  pointer-events:none;
+}
+
+.contato-premium-head{
+  position:relative;
+  text-align:center;
+  margin-bottom:26px;
+}
+
+.contato-premium-tag{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:9px 17px;
+  border-radius:999px;
+  background:rgba(255,255,255,.88);
+  border:1px solid rgba(241,196,213,.95);
+  color:#8d2b58;
+  font-weight:900;
+  font-size:14px;
+  box-shadow:0 12px 26px rgba(112,48,75,.08);
+  margin-bottom:13px;
+}
+
+.contato-premium-head h2{
+  margin:0;
+  color:#2c1b24;
+  font-size:clamp(30px,4vw,46px);
+  letter-spacing:-.035em;
+}
+
+.contato-premium-head p{
+  margin:12px auto 0;
+  max-width:660px;
+  color:#7b5668;
+  line-height:1.7;
+  font-size:16px;
+}
+
+.contato-premium-grid{
+  position:relative;
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:16px;
+}
+
+.contato-info-card{
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(145deg,rgba(255,255,255,.97),rgba(255,247,251,.9));
+  border:1px solid rgba(241,196,213,.95);
+  border-radius:26px;
+  padding:22px 18px;
+  box-shadow:0 18px 42px rgba(112,48,75,.10);
+  min-height:190px;
+  display:flex;
+  flex-direction:column;
+}
+
+.contato-info-card::after{
+  content:"";
+  position:absolute;
+  width:100px;
+  height:100px;
+  right:-42px;
+  top:-48px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(217,100,145,.14),transparent 70%);
+}
+
+.contato-icon{
+  width:56px;
+  height:56px;
+  border-radius:21px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,#fff,#fff4f8);
+  border:1px solid rgba(241,196,213,.95);
+  box-shadow:0 14px 28px rgba(112,48,75,.10);
+  color:#d96491;
+  font-size:26px;
+  margin-bottom:14px;
+}
+
+.contato-info-card h3{
+  margin:0 0 8px;
+  color:#2c1b24;
+  font-size:20px;
+  line-height:1.15;
+}
+
+.contato-info-card p{
+  margin:0;
+  color:#765466;
+  line-height:1.55;
+  font-size:14.5px;
+}
+
+.contato-info-card a{
+  color:#8d2b58;
+  font-weight:900;
+  text-decoration:none;
+}
+
+.contato-info-card a:hover{
+  text-decoration:underline;
+}
+
+.contato-actions{
+  position:relative;
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top:26px;
+}
+
+.contato-action-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  border-radius:999px;
+  padding:15px 22px;
+  font-weight:900;
+  text-decoration:none;
+  box-shadow:0 16px 34px rgba(112,48,75,.13);
+}
+
+.contato-whats{
+  background:linear-gradient(135deg,#19b85a,#25d366);
+  color:#fff;
+}
+
+.contato-insta{
+  background:linear-gradient(135deg,#c94f82,#ff77aa);
+  color:#fff;
+}
+
+.contato-note{
+  position:relative;
+  margin:22px auto 0;
+  max-width:780px;
+  text-align:center;
+  color:#7b5668;
+  line-height:1.65;
+  font-size:14.5px;
+}
+
+/* Desktop: micro refinamento leve */
+@media(min-width:851px){
+  .contato-info-card{
+    transition:.22s ease;
+  }
+
+  .contato-info-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 24px 52px rgba(112,48,75,.14);
+  }
+
+  .contato-action-btn{
+    transition:.22s ease;
+  }
+
+  .contato-action-btn:hover{
+    transform:translateY(-2px);
+  }
+}
+
+/* Celular: sem animação e sem flutuante para evitar bugs */
+@media(max-width:850px){
+  #contato-localizacao{
+    padding:0 16px;
+    margin:34px auto 24px;
+  }
+
+  .contato-premium-card{
+    padding:24px 16px;
+    border-radius:30px;
+  }
+
+  .contato-premium-grid{
+    grid-template-columns:1fr;
+  }
+
+  .contato-info-card{
+    min-height:auto;
+    padding:20px 17px;
+    transform:none !important;
+    transition:none !important;
+    animation:none !important;
+  }
+
+  .contato-action-btn{
+    width:100%;
+    max-width:340px;
+    transform:none !important;
+    transition:none !important;
+    animation:none !important;
+  }
+}
+</style>
+
 </head>
 
 <body id="topo">
@@ -2218,6 +2447,52 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
      target="_blank">
      Enviar meu feedback 💬
   </a>
+</section>
+
+
+<section id="contato-localizacao">
+  <div class="contato-premium-card">
+    <div class="contato-premium-head">
+      <div class="contato-premium-tag">📍 Atendimento e contato</div>
+      <h2>Fale com a Andreza Cakes</h2>
+      <p>Encomendas personalizadas, dúvidas, entregas e retiradas combinadas com carinho pelo WhatsApp.</p>
+    </div>
+
+    <div class="contato-premium-grid">
+      <div class="contato-info-card">
+        <div class="contato-icon">📍</div>
+        <h3>Localização</h3>
+        <p>Atendimento em Recife/PE, com encomendas feitas sob programação.</p>
+      </div>
+
+      <div class="contato-info-card">
+        <div class="contato-icon">🛵</div>
+        <h3>Entregas</h3>
+        <p>Entregas e retiradas combinadas conforme disponibilidade e região.</p>
+      </div>
+
+      <div class="contato-info-card">
+        <div class="contato-icon">💬</div>
+        <h3>WhatsApp</h3>
+        <p>Tire dúvidas, envie referências e combine detalhes do seu pedido.</p>
+      </div>
+
+      <div class="contato-info-card">
+        <div class="contato-icon">📸</div>
+        <h3>Instagram</h3>
+        <p>Acompanhe novidades, produções e inspirações pelo <a href="https://instagram.com/andrezaa_cakes" target="_blank" rel="noopener">@ANDREZAA_CAKES</a>.</p>
+      </div>
+    </div>
+
+    <div class="contato-actions">
+      <a class="contato-action-btn contato-whats" href="https://wa.me/5581984225298?text=Ol%C3%A1%20Andreza%20Cakes!%20Gostaria%20de%20tirar%20uma%20d%C3%BAvida%20sobre%20encomendas." target="_blank" rel="noopener">💬 Falar no WhatsApp</a>
+      <a class="contato-action-btn contato-insta" href="https://instagram.com/andrezaa_cakes" target="_blank" rel="noopener">📸 Ver Instagram</a>
+    </div>
+
+    <p class="contato-note">
+      Para datas comemorativas, faça sua encomenda com antecedência. Assim conseguimos organizar cada detalhe com mais carinho e qualidade.
+    </p>
+  </div>
 </section>
 
 <footer>
