@@ -571,6 +571,11 @@
     </aside>
 
     <main>
+
+      <div id="statusSupabaseAdmin" style="display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;font-weight:800;font-size:13px;margin-bottom:16px;background:#fff1c9;color:#c58b12;">
+        🟡 Verificando conexão...
+      </div>
+
       
 <section class="finance-section" id="gestaoFinanceira">
   <div class="finance-head">
@@ -836,7 +841,150 @@
     </main>
   </section>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
+
+    const SUPABASE_URL = "https://kegbnovwbfvfpwemvhgs.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_Erank1QrAbfUWmEQRkEmrA_XCvWadHT";
+    const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+    let usandoSupabase = !!supabaseClient;
+
+    async function carregarDadosSupabase() {
+      if (!supabaseClient) return false;
+
+      try {
+        const pedidosResp = await supabaseClient
+          .from('pedidos')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        const produtosResp = await supabaseClient
+          .from('produtos')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (pedidosResp.error || produtosResp.error) {
+          console.warn('Supabase ainda não está pronto. Usando modo local.', pedidosResp.error || produtosResp.error);
+          usandoSupabase = false;
+          return false;
+        }
+
+        orders = (pedidosResp.data || []).map(p => ({
+          id: p.id,
+          client: p.client || '',
+          phone: p.phone || '',
+          category: p.category || '',
+          product: p.product || '',
+          flavor: p.flavor || '',
+          filling: p.filling || '',
+          theme: p.theme || '',
+          date: p.date || '',
+          time: p.time || '',
+          total: Number(p.total || 0),
+          paid: Number(p.paid || 0),
+          status: p.status || 'pendente',
+          notes: p.notes || ''
+        }));
+
+        products = (produtosResp.data || []).map(p => ({
+          id: p.id,
+          name: p.name || '',
+          price: Number(p.price || 0),
+          category: p.category || ''
+        }));
+
+        usandoSupabase = true;
+        return true;
+      } catch (e) {
+        console.warn('Erro ao carregar Supabase. Usando modo local.', e);
+        usandoSupabase = false;
+        return false;
+      }
+    }
+
+    async function salvarPedidoSupabase(order) {
+      if (!supabaseClient || !usandoSupabase) return false;
+
+      const { error } = await supabaseClient.from('pedidos').insert([{
+        id: order.id,
+        client: order.client,
+        phone: order.phone,
+        category: order.category,
+        product: order.product,
+        flavor: order.flavor,
+        filling: order.filling,
+        theme: order.theme,
+        date: order.date,
+        time: order.time,
+        total: order.total,
+        paid: order.paid,
+        status: order.status,
+        notes: order.notes
+      }]);
+
+      if (error) {
+        console.warn('Pedido não salvou no Supabase. Salvando local.', error);
+        return false;
+      }
+
+      return true;
+    }
+
+    async function apagarPedidoSupabase(id) {
+      if (!supabaseClient || !usandoSupabase) return false;
+      const { error } = await supabaseClient.from('pedidos').delete().eq('id', id);
+      if (error) console.warn('Erro ao apagar pedido no Supabase.', error);
+      return !error;
+    }
+
+    async function atualizarStatusSupabase(id, status) {
+      if (!supabaseClient || !usandoSupabase) return false;
+      const { error } = await supabaseClient.from('pedidos').update({ status }).eq('id', id);
+      if (error) console.warn('Erro ao atualizar status no Supabase.', error);
+      return !error;
+    }
+
+    async function salvarProdutoSupabase(product) {
+      if (!supabaseClient || !usandoSupabase) return false;
+
+      const { error } = await supabaseClient.from('produtos').insert([{
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        category: product.category
+      }]);
+
+      if (error) {
+        console.warn('Produto não salvou no Supabase. Salvando local.', error);
+        return false;
+      }
+
+      return true;
+    }
+
+    async function apagarProdutoSupabase(id) {
+      if (!supabaseClient || !usandoSupabase) return false;
+      const { error } = await supabaseClient.from('produtos').delete().eq('id', id);
+      if (error) console.warn('Erro ao apagar produto no Supabase.', error);
+      return !error;
+    }
+
+    function indicadorSupabase() {
+      const el = document.getElementById('statusSupabaseAdmin');
+      if (!el) return;
+
+      if (usandoSupabase) {
+        el.innerHTML = '🟢 Conectado ao Supabase';
+        el.style.background = '#ddf7e9';
+        el.style.color = '#2e9d65';
+      } else {
+        el.innerHTML = '🟡 Modo local ativo';
+        el.style.background = '#fff1c9';
+        el.style.color = '#c58b12';
+      }
+    }
+
+
     const USUARIOS = [
       { usuario: 'Andreza', senha: 'Andreza2026@' },
       { usuario: 'Maximylian', senha: 'Max2026@' }
@@ -866,7 +1014,10 @@
         localStorage.setItem('ac_logged', 'yes');
         document.getElementById('loginPage').classList.add('hidden');
         document.getElementById('appPage').classList.remove('hidden');
-        renderAll();
+        carregarDadosSupabase().then(() => {
+          indicadorSupabase();
+          renderAll();
+        });
       } else {
         document.getElementById('loginError').classList.remove('hidden');
       }
@@ -896,7 +1047,7 @@
       document.getElementById('orderClient').focus();
     }
 
-    function addOrder() {
+    async function addOrder() {
       const order = {
         id: Date.now(),
         client: document.getElementById('orderClient').value.trim(),
@@ -919,6 +1070,7 @@
         return;
       }
 
+      await salvarPedidoSupabase(order);
       orders.push(order);
       save();
 
@@ -928,20 +1080,22 @@
       renderAll();
     }
 
-    function deleteOrder(id) {
+    async function deleteOrder(id) {
       if (!confirm('Deseja apagar este pedido?')) return;
+      await apagarPedidoSupabase(id);
       orders = orders.filter(o => o.id !== id);
       save();
       renderAll();
     }
 
-    function changeStatus(id, status) {
+    async function changeStatus(id, status) {
+      await atualizarStatusSupabase(id, status);
       orders = orders.map(o => o.id === id ? { ...o, status } : o);
       save();
       renderAll();
     }
 
-    function addProduct() {
+    async function addProduct() {
       const product = {
         id: Date.now(),
         name: document.getElementById('productName').value.trim(),
@@ -952,6 +1106,7 @@
         alert('Digite o nome do produto.');
         return;
       }
+      await salvarProdutoSupabase(product);
       products.push(product);
       save();
       document.getElementById('productName').value = '';
@@ -960,8 +1115,9 @@
       renderAll();
     }
 
-    function deleteProduct(id) {
+    async function deleteProduct(id) {
       if (!confirm('Deseja apagar este produto?')) return;
+      await apagarProdutoSupabase(id);
       products = products.filter(p => p.id !== id);
       save();
       renderAll();
@@ -1341,12 +1497,16 @@
       renderClients();
       renderAgenda();
       renderMonthlyReport();
+      indicadorSupabase();
     }
 
     if (localStorage.getItem('ac_logged') === 'yes') {
       document.getElementById('loginPage').classList.add('hidden');
       document.getElementById('appPage').classList.remove('hidden');
-      renderAll();
+      carregarDadosSupabase().then(() => {
+        indicadorSupabase();
+        renderAll();
+      });
     }
   </script>
 
@@ -1433,6 +1593,50 @@ document.addEventListener('DOMContentLoaded', function(){
   }
 });
 </script>
+
+
+<!--
+TABELAS NECESSÁRIAS NO SUPABASE:
+
+create table if not exists pedidos (
+  id bigint primary key,
+  client text,
+  phone text,
+  category text,
+  product text,
+  flavor text,
+  filling text,
+  theme text,
+  date date,
+  time text,
+  total numeric default 0,
+  paid numeric default 0,
+  status text default 'pendente',
+  notes text,
+  created_at timestamptz default now()
+);
+
+create table if not exists produtos (
+  id bigint primary key,
+  name text,
+  price numeric default 0,
+  category text,
+  created_at timestamptz default now()
+);
+
+alter table pedidos enable row level security;
+alter table produtos enable row level security;
+
+create policy "Permitir leitura pedidos" on pedidos for select using (true);
+create policy "Permitir inserir pedidos" on pedidos for insert with check (true);
+create policy "Permitir atualizar pedidos" on pedidos for update using (true);
+create policy "Permitir apagar pedidos" on pedidos for delete using (true);
+
+create policy "Permitir leitura produtos" on produtos for select using (true);
+create policy "Permitir inserir produtos" on produtos for insert with check (true);
+create policy "Permitir atualizar produtos" on produtos for update using (true);
+create policy "Permitir apagar produtos" on produtos for delete using (true);
+-->
 
 </body>
 </html>
