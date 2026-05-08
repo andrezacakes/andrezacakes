@@ -1047,12 +1047,81 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 }
 </style>
 
+
+<style id="logo-clicavel-e-horario-premium-fix">
+.brand{
+  text-decoration: none !important;
+  color: var(--texto) !important;
+  cursor: pointer !important;
+}
+
+.brand:hover{
+  opacity: .92;
+}
+
+.horario-extra-premium{
+  margin-top:18px;
+  padding:16px 18px;
+  border-radius:20px;
+  background:linear-gradient(135deg,#fff7fb,#fff0f5);
+  border:1px solid #f1c4d5;
+  color:#8d2b58;
+  font-weight:700;
+  line-height:1.6;
+  text-align:center;
+  box-shadow:0 10px 24px rgba(217,100,145,.10);
+}
+
+.horario-extra-premium span{
+  font-weight:600;
+  color:#805d70;
+}
+
+@media(max-width:850px){
+  .brand:hover{
+    opacity:1;
+  }
+}
+</style>
+
+
+<style id="restaurar-filtros-estaveis">
+.filters{
+  display:flex !important;
+  flex-wrap:wrap !important;
+  justify-content:center !important;
+  gap:12px !important;
+}
+
+.filters button{
+  border-radius:999px !important;
+  border:1px solid #f1c4d5 !important;
+  background:#fff !important;
+  color:#8d2b58 !important;
+  font-weight:900 !important;
+  box-shadow:none !important;
+}
+
+.filters button.active{
+  background:linear-gradient(135deg,#d96491,#ff8db4) !important;
+  color:#fff !important;
+  border-color:transparent !important;
+}
+
+@media(max-width:850px){
+  .filters button{
+    font-size:14px !important;
+    padding:10px 15px !important;
+  }
+}
+</style>
+
 </head>
 
-<body>
+<body id="topo">
 <header>
   <div class="nav">
-    <div class="brand"><img src="logo-andreza-cakes.png" alt="Andreza Cakes"><div>Andreza Cakes<small>Confeitaria artesanal</small></div></div>
+    <a class="brand" href="#topo" aria-label="Voltar ao início"><img src="logo-andreza-cakes.png" alt="Andreza Cakes"><div>Andreza Cakes<small>Confeitaria artesanal</small></div></a>
     <div class="menu"><button class="btn" onclick="document.getElementById('catalogo').scrollIntoView({behavior:'smooth'})">Ver produtos</button><button class="btn mobile-safe-action" id="mobileSafeCartBtn" onclick="openCart()">Carrinho<span id="mobileSafeCartCount">0</span></button><button class="btn mobile-safe-action" id="mobileSafeMusicBtn" onclick="tocarMusica()">Música</button></div>
   </div>
 </header>
@@ -1063,34 +1132,19 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
     <div class="badge">✨ Encomendas personalizadas em Recife/PE</div>
     <h1>O sabor que faz todo mundo pedir mais.</h1>
     <p>Bolos, kits e doces personalizados feitos com carinho, qualidade e aquele toque especial que encanta em cada detalhe.</p>
-    
-    
   </div>
+
   <div class="hero-card">
     <img src="logo-andreza-cakes.png" alt="Andreza Cakes">
-    <div class="mini"><div>Kits festa</div><div>Personalizados</div><div>Bolos</div><div>Doces e salgados</div></div><div class="premium-note">Feito sob encomenda com amor em Recife 💖
-<div style="
-margin-top:18px;
-padding:16px 18px;
-border-radius:20px;
-background:linear-gradient(135deg,#fff7fb,#fff0f5);
-border:1px solid #f1c4d5;
-color:#8d2b58;
-font-weight:700;
-line-height:1.6;
-text-align:center;
-box-shadow:0 10px 24px rgba(217,100,145,.10);
-">
-✨ Produção artesanal e personalizada<br>
-<span style="font-weight:600;color:#805d70">
-Cada encomenda é preparada com carinho para tornar seu momento ainda mais especial 💖
-</span>
-</div>
-
-</div>
-</div>
+    <div class="mini">
+      <div>Kits festa</div>
+      <div>Personalizados</div>
+      <div>Bolos</div>
+      <div>Doces e salgados</div>
+    </div>
+    <div class="premium-note">Feito sob encomenda com amor em Recife 💖</div>
+  </div>
 </section>
-
 
 <section id="catalogo">
   <div class="title"><h2>Monte seu pedido</h2><p>Escolha seus itens, personalize e finalize direto pelo WhatsApp.</p></div>
@@ -1170,18 +1224,18 @@ Cada encomenda é preparada com carinho para tornar seu momento ainda mais espec
 </div>
 
 
+
 <section class="horario-premium" id="horario-atendimento">
   <div class="horario-card">
     <div class="horario-icon">🕒</div>
     <div class="horario-content">
       <h2>Atendemos por encomenda</h2>
-      <p class="sub">Pedidos, produção e entregas programadas com carinho para cada ocasião.</p>
+      <p class="sub">Pedidos, atendimento e entregas conforme disponibilidade.</p>
 
       <div class="horario-grid">
         <div class="horario-item horario-fechado">
           <strong>Segunda-feira</strong>
           <span>Fechado</span>
-          <small></small>
         </div>
 
         <div class="horario-item">
@@ -1193,14 +1247,19 @@ Cada encomenda é preparada com carinho para tornar seu momento ainda mais espec
         <div class="horario-item">
           <strong>Domingo</strong>
           <span>09h às 14h</span>
-          <small>Atendimento e entregas programadas</small>
+          
         </div>
 
         <div class="horario-item">
-          <strong>WhatsApp</strong>
-          <span>Resposta conforme disponibilidade</span>
-          <small>Faça seu pedido com antecedência 💖</small>
+          <strong>Datas comemorativas</strong>
+          <span>Vagas limitadas para datas especiais</span>
+          <small>Garanta sua encomenda com antecedência pelo WhatsApp 💖</small>
         </div>
+      </div>
+
+      <div class="horario-extra-premium">
+        ✨ Produção artesanal e personalizada<br>
+        <span>Cada encomenda é preparada com carinho para tornar seu momento ainda mais especial 💖</span>
       </div>
     </div>
   </div>
@@ -1261,12 +1320,23 @@ function renderProducts(){
     </div>
   `).join("");
 }
-function filterCat(cat,btn){current=cat;document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderProducts();}
-function fillSelects(){
-  customRecheio.innerHTML=recheios.map(r=>`<option>${r}</option>`).join("");
-  salgadosRows.innerHTML=salgados.map(s=>`<div class="choice-row"><span>${s}</span><input type="number" min="0" value="0" data-type="salgado" data-name="${s}" oninput="validateKitInputs()"></div>`).join("");
-  docesRows.innerHTML=doces.map(d=>`<div class="choice-row"><span>${d}</span><input type="number" min="0" value="0" data-type="doce" data-name="${d}" oninput="validateKitInputs()"></div>`).join("");
+
+function filterCat(cat){
+  current = cat;
+  document.querySelectorAll('.filters button').forEach(btn => btn.classList.remove('active'));
+
+  document.querySelectorAll('.filters button').forEach(btn => {
+    const txt = (btn.textContent || '').trim().toLowerCase();
+    const alvo = String(cat || '').trim().toLowerCase();
+
+    if(txt === alvo || (cat === 'Todos' && txt.includes('todos'))){
+      btn.classList.add('active');
+    }
+  });
+
+  renderProducts();
 }
+
 function openCustom(id,idx=null){
   selected=produtos.find(p=>p.id===id);editing=idx;
   customTitle.textContent=(idx===null?"Adicionar ":"Editar ")+selected.nome;
