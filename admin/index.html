@@ -527,6 +527,106 @@
 }
 </style>
 
+
+<style id="financeiro-mensal-auto-css">
+#financeValor[readonly]{
+  background:#fff7fb !important;
+  color:#8d2b58 !important;
+  font-weight:900 !important;
+}
+
+#financeMes{
+  font-weight:900 !important;
+  color:#8d2b58 !important;
+}
+
+.finance-result:nth-child(1),
+.finance-result:nth-child(2){
+  background:linear-gradient(135deg,#fff,#fff3f8) !important;
+}
+</style>
+
+
+<style id="corrigir-tabela-pedidos-admin">
+/* Corrige tabela cortando botões do lado direito */
+#pedidos .panel{
+  overflow:visible !important;
+}
+
+#pedidos .grid-2{
+  grid-template-columns:minmax(360px,.85fr) minmax(680px,1.15fr) !important;
+  align-items:start !important;
+}
+
+#pedidos .table-wrap{
+  width:100% !important;
+  overflow-x:auto !important;
+  overflow-y:visible !important;
+  padding-bottom:12px !important;
+  -webkit-overflow-scrolling:touch !important;
+}
+
+#pedidos table{
+  min-width:1050px !important;
+}
+
+#pedidos th:last-child,
+#pedidos td:last-child{
+  min-width:150px !important;
+  width:150px !important;
+}
+
+#pedidos .actions{
+  display:grid !important;
+  grid-template-columns:1fr !important;
+  gap:7px !important;
+  min-width:135px !important;
+}
+
+#pedidos .actions button{
+  width:100% !important;
+  white-space:nowrap !important;
+  padding:8px 9px !important;
+  font-size:12px !important;
+}
+
+@media(max-width:1200px){
+  #pedidos .grid-2{
+    grid-template-columns:1fr !important;
+  }
+
+  #pedidos .table-wrap{
+    max-width:calc(100vw - 42px) !important;
+  }
+}
+
+@media(max-width:700px){
+  #pedidos table{
+    min-width:980px !important;
+  }
+}
+</style>
+
+
+<style id="financeiro-periodos-premium-css">
+#financePeriodo{
+  font-weight:900 !important;
+  color:#8d2b58 !important;
+}
+
+#financeiro .finance-result strong,
+#gestaoFinanceira .finance-result strong{
+  text-align:right !important;
+  max-width:55% !important;
+  overflow-wrap:anywhere !important;
+  line-height:1.25 !important;
+}
+
+#gestaoFinanceira .finance-results{
+  grid-template-columns:1fr !important;
+}
+</style>
+
 </head>
 <body>
   <section id="loginPage" class="login-page">
@@ -582,18 +682,34 @@
     <div class="finance-icon">💰</div>
     <div>
       <h2>Gestão Financeira Inteligente</h2>
-      <p>Agora o sistema divide automaticamente cada venda entre reposição, custos fixos, reserva emergencial e lucro livre.</p>
+      <p>Acompanhe hoje, últimos 7 dias, quinzena e mês completo com divisão automática do dinheiro.</p>
     </div>
   </div>
 
   <div class="finance-grid">
     <div class="finance-card">
-      <h3>Simular divisão da venda</h3>
+      <h3>Configurar divisão financeira</h3>
 
       <div class="finance-form">
         <div>
-          <label>Valor da venda</label>
-          <input id="financeValor" type="number" min="0" step="0.01" value="200">
+          <label>Mês financeiro</label>
+          <input id="financeMes" type="month" onchange="atualizarFinanceiroAutomatico()">
+        </div>
+
+        <div>
+          <label>Período</label>
+          <select id="financePeriodo" onchange="atualizarFinanceiroAutomatico()">
+            <option value="mes">Mês completo</option>
+            <option value="q1">1ª quinzena</option>
+            <option value="q2">2ª quinzena</option>
+            <option value="7dias">Últimos 7 dias</option>
+            <option value="hoje">Hoje</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Total vendido no período</label>
+          <input id="financeValor" type="number" min="0" step="0.01" value="0" readonly>
         </div>
 
         <div>
@@ -616,18 +732,38 @@
           <input id="financeLucro" type="number" min="0" max="100" value="30">
         </div>
 
-        <button class="finance-btn" onclick="calcularGestaoFinanceira()">Calcular divisão</button>
+        <button class="finance-btn" onclick="calcularGestaoFinanceira()">Atualizar resumo</button>
       </div>
 
       <div class="finance-tip">
-        Sugestão inicial: 45% reposição, 15% custos fixos, 10% reserva e 30% lucro. Depois você pode ajustar conforme a realidade da confeitaria.
+        Os valores são calculados automaticamente usando os pedidos do mês selecionado. Você pode ajustar as porcentagens conforme a realidade da Andreza Cakes.
       </div>
     </div>
 
     <div class="finance-card">
-      <h3>Resultado da divisão</h3>
+      <h3>Resultado automático do período</h3>
 
       <div class="finance-results">
+        <div class="finance-result">
+          <span>Pedidos no mês</span>
+          <strong id="resPedidosMes">0</strong>
+        </div>
+
+        <div class="finance-result">
+          <span>Ticket médio</span>
+          <strong id="resTicketMedio">R$ 0,00</strong>
+        </div>
+
+        <div class="finance-result">
+          <span>Produto mais vendido</span>
+          <strong id="resProdutoMaisVendido">-</strong>
+        </div>
+
+        <div class="finance-result">
+          <span>Melhor dia de venda</span>
+          <strong id="resMelhorDia">-</strong>
+        </div>
+
         <div class="finance-result">
           <span>Reposição de produtos</span>
           <strong id="resReposicao">R$ 90,00</strong>
@@ -1216,35 +1352,124 @@
       agenda.innerHTML = html || `<div class="empty">Nenhuma entrega na agenda.</div>`;
     }
 
-
     function atualizarFinanceiroAutomatico() {
-      const totalVendas = orders.reduce((s,o) => s + Number(o.total || 0), 0);
+      const mesInput = document.getElementById('financeMes');
+      const periodoInput = document.getElementById('financePeriodo');
 
-      const porcentReposicao = 45;
-      const porcentCustos = 15;
-      const porcentReserva = 10;
-      const porcentLucro = 30;
+      if (mesInput && !mesInput.value) {
+        const hoje = new Date();
+        mesInput.value = hoje.toISOString().slice(0, 7);
+      }
+
+      const mesSelecionado = mesInput ? mesInput.value : new Date().toISOString().slice(0, 7);
+      const periodo = periodoInput ? periodoInput.value : 'mes';
+
+      const hoje = new Date();
+      const hojeISO = hoje.toISOString().slice(0, 10);
+
+      const pedidosValidos = orders.filter(o => o.date && o.status !== 'cancelado');
+
+      let pedidosDoPeriodo = pedidosValidos.filter(o => String(o.date).slice(0, 7) === mesSelecionado);
+
+      if (periodo === 'q1') {
+        pedidosDoPeriodo = pedidosDoPeriodo.filter(o => {
+          const dia = Number(String(o.date).slice(8, 10));
+          return dia >= 1 && dia <= 15;
+        });
+      }
+
+      if (periodo === 'q2') {
+        pedidosDoPeriodo = pedidosDoPeriodo.filter(o => {
+          const dia = Number(String(o.date).slice(8, 10));
+          return dia >= 16;
+        });
+      }
+
+      if (periodo === 'hoje') {
+        pedidosDoPeriodo = pedidosValidos.filter(o => String(o.date).slice(0, 10) === hojeISO);
+      }
+
+      if (periodo === '7dias') {
+        const limite = new Date();
+        limite.setDate(limite.getDate() - 6);
+        const limiteISO = limite.toISOString().slice(0, 10);
+        pedidosDoPeriodo = pedidosValidos.filter(o => {
+          const data = String(o.date).slice(0, 10);
+          return data >= limiteISO && data <= hojeISO;
+        });
+      }
+
+      const totalVendas = pedidosDoPeriodo.reduce((s,o) => s + Number(o.total || 0), 0);
+
+      const porcentReposicao = Number(document.getElementById('financeReposicao')?.value || 45);
+      const porcentCustos = Number(document.getElementById('financeCustos')?.value || 15);
+      const porcentReserva = Number(document.getElementById('financeReserva')?.value || 10);
+      const porcentLucro = Number(document.getElementById('financeLucro')?.value || 30);
 
       const reposicao = totalVendas * (porcentReposicao / 100);
       const custos = totalVendas * (porcentCustos / 100);
       const reserva = totalVendas * (porcentReserva / 100);
       const lucro = totalVendas * (porcentLucro / 100);
+      const ticketMedio = pedidosDoPeriodo.length ? totalVendas / pedidosDoPeriodo.length : 0;
 
+      const produtos = {};
+      pedidosDoPeriodo.forEach(o => {
+        const nome = o.product || o.category || 'Pedido';
+        produtos[nome] = (produtos[nome] || 0) + 1;
+      });
+
+      const produtoMaisVendido = Object.entries(produtos).sort((a,b) => b[1] - a[1])[0];
+
+      const dias = {};
+      pedidosDoPeriodo.forEach(o => {
+        const dia = String(o.date).slice(0, 10);
+        dias[dia] = (dias[dia] || 0) + Number(o.total || 0);
+      });
+
+      const melhorDia = Object.entries(dias).sort((a,b) => b[1] - a[1])[0];
+
+      const valorInput = document.getElementById('financeValor');
+      if (valorInput) valorInput.value = totalVendas.toFixed(2);
+
+      setText('resPedidosMes', pedidosDoPeriodo.length);
+      setText('resTicketMedio', money(ticketMedio));
+      setText('resProdutoMaisVendido', produtoMaisVendido ? `${produtoMaisVendido[0]} (${produtoMaisVendido[1]})` : '-');
+      setText('resMelhorDia', melhorDia ? `${formatDate(melhorDia[0])} • ${money(melhorDia[1])}` : '-');
       setText('resReposicao', money(reposicao));
       setText('resCustos', money(custos));
       setText('resReserva', money(reserva));
       setText('resLucro', money(lucro));
       setText('resTotal', money(totalVendas));
 
+      const nomesPeriodo = {
+        mes: 'mês completo',
+        q1: '1ª quinzena',
+        q2: '2ª quinzena',
+        '7dias': 'últimos 7 dias',
+        hoje: 'hoje'
+      };
+
       const aviso = document.getElementById('financeAviso');
       if (aviso) {
-        aviso.innerHTML = `
-          <strong>Distribuição automática ativada ✨</strong><br>
-          Cada novo pedido cadastrado já atualiza automaticamente:
-          reposição, custos fixos, reserva emergencial e lucro livre.
-        `;
+        if (totalVendas > 0) {
+          aviso.innerHTML = `
+            <strong>Resumo automático do período ✨</strong><br>
+            No período <strong>${nomesPeriodo[periodo] || 'selecionado'}</strong>, você teve
+            <strong>${pedidosDoPeriodo.length}</strong> pedido(s), totalizando
+            <strong>${money(totalVendas)}</strong>. Separe os valores acima antes de usar o dinheiro.
+          `;
+        } else {
+          aviso.innerHTML = `
+            <strong>Nenhum pedido neste período ainda.</strong><br>
+            Quando um pedido com data dentro deste período entrar no sistema, o resumo financeiro será atualizado automaticamente.
+          `;
+        }
       }
     }
+
+
+
+
 
 
     function renderDashboard() {
@@ -1637,6 +1862,17 @@ create policy "Permitir inserir produtos" on produtos for insert with check (tru
 create policy "Permitir atualizar produtos" on produtos for update using (true);
 create policy "Permitir apagar produtos" on produtos for delete using (true);
 -->
+
+
+<script id="financeiro-mensal-auto-inputs">
+document.addEventListener('input', function(e){
+  if(['financeReposicao','financeCustos','financeReserva','financeLucro'].includes(e.target.id)){
+    if(typeof atualizarFinanceiroAutomatico === 'function'){
+      atualizarFinanceiroAutomatico();
+    }
+  }
+});
+</script>
 
 </body>
 </html>
