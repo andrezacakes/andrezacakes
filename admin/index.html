@@ -577,7 +577,7 @@
     <div class="finance-icon">💰</div>
     <div>
       <h2>Gestão Financeira Inteligente</h2>
-      <p>Divida cada venda entre reposição, custos fixos, reserva emergencial e lucro.</p>
+      <p>Agora o sistema divide automaticamente cada venda entre reposição, custos fixos, reserva emergencial e lucro livre.</p>
     </div>
   </div>
 
@@ -1060,6 +1060,37 @@
       agenda.innerHTML = html || `<div class="empty">Nenhuma entrega na agenda.</div>`;
     }
 
+
+    function atualizarFinanceiroAutomatico() {
+      const totalVendas = orders.reduce((s,o) => s + Number(o.total || 0), 0);
+
+      const porcentReposicao = 45;
+      const porcentCustos = 15;
+      const porcentReserva = 10;
+      const porcentLucro = 30;
+
+      const reposicao = totalVendas * (porcentReposicao / 100);
+      const custos = totalVendas * (porcentCustos / 100);
+      const reserva = totalVendas * (porcentReserva / 100);
+      const lucro = totalVendas * (porcentLucro / 100);
+
+      setText('resReposicao', money(reposicao));
+      setText('resCustos', money(custos));
+      setText('resReserva', money(reserva));
+      setText('resLucro', money(lucro));
+      setText('resTotal', money(totalVendas));
+
+      const aviso = document.getElementById('financeAviso');
+      if (aviso) {
+        aviso.innerHTML = `
+          <strong>Distribuição automática ativada ✨</strong><br>
+          Cada novo pedido cadastrado já atualiza automaticamente:
+          reposição, custos fixos, reserva emergencial e lucro livre.
+        `;
+      }
+    }
+
+
     function renderDashboard() {
       const total = orders.reduce((s,o) => s + Number(o.total || 0), 0);
       const paid = orders.reduce((s,o) => s + Number(o.paid || 0), 0);
@@ -1303,6 +1334,7 @@
     }
 
     function renderAll() {
+      atualizarFinanceiroAutomatico();
       renderDashboard();
       renderOrders();
       renderProducts();
