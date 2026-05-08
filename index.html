@@ -1927,6 +1927,161 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 }
 </style>
 
+
+<style id="hero-super-premium-final">
+/* Refinamento super premium somente da primeira seção */
+.hero{
+  position:relative !important;
+  overflow:hidden !important;
+}
+
+.hero::after{
+  content:"" !important;
+  position:absolute !important;
+  width:420px !important;
+  height:420px !important;
+  left:-160px !important;
+  bottom:-190px !important;
+  border-radius:50% !important;
+  background:radial-gradient(circle,rgba(255,141,180,.16),transparent 68%) !important;
+  pointer-events:none !important;
+}
+
+.hero h1{
+  letter-spacing:-.045em !important;
+}
+
+.hero p{
+  max-width:650px !important;
+}
+
+.hero-card{
+  position:relative !important;
+  overflow:hidden !important;
+  background:
+    radial-gradient(circle at 50% 14%, rgba(255,255,255,.98), transparent 34%),
+    radial-gradient(circle at 88% 18%, rgba(255,141,180,.14), transparent 34%),
+    linear-gradient(145deg,rgba(255,255,255,.97),rgba(255,244,249,.92)) !important;
+  border:1px solid rgba(241,196,213,.98) !important;
+  box-shadow:
+    0 32px 82px rgba(112,48,75,.16),
+    inset 0 0 0 1px rgba(255,255,255,.62) !important;
+}
+
+.hero-card::before{
+  content:"" !important;
+  position:absolute !important;
+  inset:0 !important;
+  background:
+    linear-gradient(120deg,rgba(255,255,255,.72),transparent 38%,rgba(217,100,145,.08)) !important;
+  pointer-events:none !important;
+  z-index:0 !important;
+}
+
+.hero-card > *{
+  position:relative !important;
+  z-index:1 !important;
+}
+
+.hero-card img{
+  width:min(218px,70%) !important;
+  max-width:218px !important;
+  filter:drop-shadow(0 18px 28px rgba(112,48,75,.16)) !important;
+}
+
+.hero-card .mini{
+  gap:14px !important;
+}
+
+.hero-card .mini div{
+  min-height:64px !important;
+  border-radius:22px !important;
+  background:rgba(255,255,255,.88) !important;
+  border:1px solid rgba(241,196,213,.98) !important;
+  box-shadow:0 16px 34px rgba(112,48,75,.09) !important;
+}
+
+.hero-card .premium-note{
+  padding:10px 16px !important;
+  border-radius:999px !important;
+  background:rgba(255,255,255,.82) !important;
+  border:1px solid rgba(241,196,213,.98) !important;
+  color:#8d2b58 !important;
+  box-shadow:0 14px 30px rgba(112,48,75,.09) !important;
+}
+
+/* Frase mais premium */
+.hero-card .premium-note{
+  font-size:13.5px !important;
+}
+
+/* brilho premium apenas desktop */
+@media(min-width:851px){
+  .hero-card{
+    animation:heroCardFloatPremium 5.5s ease-in-out infinite !important;
+  }
+
+  .hero-card img{
+    animation:heroLogoFloatPremium 5s ease-in-out infinite !important;
+  }
+
+  .hero-card .mini div{
+    transition:.24s ease !important;
+  }
+
+  .hero-card .mini div:hover{
+    transform:translateY(-4px) !important;
+    box-shadow:0 22px 44px rgba(112,48,75,.14) !important;
+  }
+
+  .hero-card .premium-note{
+    transition:.24s ease !important;
+  }
+
+  .hero-card .premium-note:hover{
+    transform:translateY(-2px) !important;
+  }
+
+  @keyframes heroCardFloatPremium{
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(-5px); }
+  }
+
+  @keyframes heroLogoFloatPremium{
+    0%,100%{ transform:translateY(0) scale(1); }
+    50%{ transform:translateY(-6px) scale(1.018); }
+  }
+}
+
+/* Mobile: estável, sem animação */
+@media(max-width:850px){
+  .hero{
+    overflow:hidden !important;
+  }
+
+  .hero::after{
+    display:none !important;
+  }
+
+  .hero-card{
+    animation:none !important;
+  }
+
+  .hero-card img{
+    width:min(180px,68%) !important;
+    max-width:180px !important;
+    animation:none !important;
+    filter:none !important;
+  }
+
+  .hero-card .mini div{
+    min-height:58px !important;
+    transform:none !important;
+    transition:none !important;
+  }
+}
+</style>
+
 </head>
 
 <body id="topo">
@@ -1953,7 +2108,7 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
       <div>Bolos</div>
       <div>Doces e salgados</div>
     </div>
-    <div class="premium-note">💖 Seu momento especial merece um sabor inesquecível</div>
+    <div class="premium-note">✨ Mais que doces, experiências inesquecíveis</div>
   </div>
 </section>
 
@@ -2967,3 +3122,4 @@ setInterval(() => {
   }
 }, 500);
 </script>
+
