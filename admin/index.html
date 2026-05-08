@@ -627,6 +627,22 @@
 }
 </style>
 
+
+<style id="admin-selects-premium-ajuste">
+#orderCategory,
+#orderFlavor,
+#orderFilling{
+  cursor:pointer;
+  font-weight:600;
+}
+
+#orderCategory option,
+#orderFlavor option,
+#orderFilling option{
+  color:#2f1f26;
+}
+</style>
+
 </head>
 <body>
   <section id="loginPage" class="login-page">
@@ -846,13 +862,37 @@
                   <option value="Doces">Doces</option>
                   <option value="Personalizados">Personalizados</option>
                   <option value="Kit Festa">Kit Festa</option>
-                  <option value="Cesta de Café da Manhã">Cesta de Café da Manhã</option>
+                  <option value="Cestas personalizadas">Cestas personalizadas</option>
+                  <option value="Ovo de colher">Ovo de colher</option>
                   <option value="Outros">Outros</option>
                 </select>
               </div>
               <div><label>Produto</label><input id="orderProduct" placeholder="Ex: Bolo 2kg, cento de salgados..." /></div>
-              <div><label>Sabor</label><input id="orderFlavor" placeholder="Ex: Chocolate, baunilha, massa branca..." /></div>
-              <div><label>Recheio</label><input id="orderFilling" placeholder="Ex: Ninho com Nutella, brigadeiro..." /></div>
+              <div><label>Massa</label>
+                <select id="orderFlavor">
+                  <option value="">Selecione a massa</option>
+                  <option value="Branca">Branca</option>
+                  <option value="Chocolate">Chocolate</option>
+                  <option value="Red Velvet">Red Velvet</option>
+                </select>
+              </div>
+              <div><label>Recheio</label>
+                <select id="orderFilling">
+                  <option value="">Selecione o recheio</option>
+                  <option value="Chocolate">Chocolate</option>
+                  <option value="Chocolate branco">Chocolate branco</option>
+                  <option value="Bem casado">Bem casado</option>
+                  <option value="Prestígio">Prestígio</option>
+                  <option value="Sensação">Sensação</option>
+                  <option value="Bicho de pé">Bicho de pé</option>
+                  <option value="Doce de leite">Doce de leite</option>
+                  <option value="Maracujá">Maracujá</option>
+                  <option value="Limão">Limão</option>
+                  <option value="Napolitano">Napolitano</option>
+                  <option value="Oreo">Oreo</option>
+                  <option value="Paçoca">Paçoca</option>
+                </select>
+              </div>
               <div><label>Tema</label><input id="orderTheme" placeholder="Ex: Princesa, futebol..." /></div>
               <div><label>Data de entrega</label><input id="orderDate" type="date" /></div>
               <div><label>Horário</label><input id="orderTime" type="time" /></div>
@@ -1210,7 +1250,9 @@
       orders.push(order);
       save();
 
-      ['orderClient','orderPhone','orderProduct','orderFlavor','orderFilling','orderTheme','orderDate','orderTime','orderTotal','orderPaid','orderNotes'].forEach(id => document.getElementById(id).value = '');
+      ['orderClient','orderPhone','orderProduct','orderTheme','orderDate','orderTime','orderTotal','orderPaid','orderNotes'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('orderFlavor').value = '';
+      document.getElementById('orderFilling').value = '';
       document.getElementById('orderCategory').value = 'Bolos';
       document.getElementById('orderStatus').value = 'pendente';
       renderAll();
