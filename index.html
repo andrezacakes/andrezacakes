@@ -3326,6 +3326,9 @@ async function salvarPedidoPublicoSupabaseFinal(msg){
       date: data || null,
       time: hora,
       total: totalPedido,
+      device_type: window.DISPOSITIVO_PEDIDO || "computador",
+      device_label: window.DISPOSITIVO_PEDIDO_TEXTO || "💻 Computador",
+      dispositivo: window.DISPOSITIVO_PEDIDO_TEXTO || "💻 Computador",
       paid: 0,
       status: "pendente",
       notes: (obs ? obs + "\n\n" : "") + (msg || "Pedido feito pelo site Andreza Cakes.")
@@ -3471,6 +3474,63 @@ async function salvarPedidoPublicoSupabaseFinal(msg){
     <div class="credito-max-sub">Designer Gráfico • Web Designer</div>
   </div>
 </section>
+
+
+<script id="detectar-dispositivo-pedido">
+(function(){
+  function detectarDispositivoPedido(){
+    const ua = navigator.userAgent || "";
+    const largura = window.innerWidth || document.documentElement.clientWidth || screen.width || 0;
+
+    const isTablet = /iPad|Tablet|PlayBook|Silk/i.test(ua) || (largura >= 768 && largura <= 1024 && /Android/i.test(ua));
+    const isMobile = /Mobi|Android|iPhone|iPod|Windows Phone/i.test(ua) || largura <= 767;
+
+    if(isTablet) return "tablet";
+    if(isMobile) return "celular";
+    return "computador";
+  }
+
+  function textoDispositivoPedido(){
+    const tipo = detectarDispositivoPedido();
+    if(tipo === "celular") return "📱 Celular";
+    if(tipo === "tablet") return "📲 Tablet";
+    return "💻 Computador";
+  }
+
+  window.detectarDispositivoPedido = detectarDispositivoPedido;
+  window.textoDispositivoPedido = textoDispositivoPedido;
+
+  /*
+    Compatibilidade:
+    - Se o código montar um objeto "pedido" antes de salvar, esta função pode ser usada.
+    - Também deixamos os valores globais disponíveis para qualquer função de envio existente.
+  */
+  window.DISPOSITIVO_PEDIDO = detectarDispositivoPedido();
+  window.DISPOSITIVO_PEDIDO_TEXTO = textoDispositivoPedido();
+
+  /*
+    Se existir uma função salvarPedidoSupabase(pedido), adicionamos o campo automaticamente.
+    Isso evita mexer pesado no código original.
+  */
+  const tentarIntegrar = setInterval(function(){
+    if(typeof window.salvarPedidoSupabase === "function" && !window.salvarPedidoSupabase.__devicePatch){
+      const originalSalvarPedidoSupabase = window.salvarPedidoSupabase;
+
+      window.salvarPedidoSupabase = function(pedido){
+        if(pedido && typeof pedido === "object"){
+          pedido.device_type = window.DISPOSITIVO_PEDIDO;
+          pedido.device_label = window.DISPOSITIVO_PEDIDO_TEXTO;
+          pedido.dispositivo = window.DISPOSITIVO_PEDIDO_TEXTO;
+        }
+        return originalSalvarPedidoSupabase.apply(this, arguments);
+      };
+
+      window.salvarPedidoSupabase.__devicePatch = true;
+      clearInterval(tentarIntegrar);
+    }
+  }, 250);
+})();
+</script>
 
 </body>
 </html>
