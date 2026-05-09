@@ -820,6 +820,660 @@ main{
 }
 </style>
 
+
+<style id="admin-mobile-excelente-final">
+/* =====================================================
+   ADMIN ANDREZA CAKES — AJUSTE MOBILE PREMIUM FINAL
+   Mantém desktop bonito e reorganiza tudo no celular.
+===================================================== */
+
+/* Segurança geral contra corte lateral */
+html, body{
+  max-width:100% !important;
+  overflow-x:hidden !important;
+}
+
+img, video, canvas, svg{
+  max-width:100% !important;
+}
+
+/* Melhor toque no celular */
+button,
+.nav-btn,
+input,
+select,
+textarea{
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Tablet e celular */
+@media(max-width:900px){
+
+  body{
+    background:linear-gradient(135deg,#fff7f3,#ffe7ef) !important;
+  }
+
+  .app{
+    display:block !important;
+    width:100% !important;
+    min-height:100vh !important;
+  }
+
+  aside{
+    position:sticky !important;
+    top:0 !important;
+    z-index:9999 !important;
+    width:100% !important;
+    height:auto !important;
+    padding:12px 12px 10px !important;
+    border-right:0 !important;
+    border-bottom:1px solid var(--border) !important;
+    background:rgba(255,255,255,.96) !important;
+    backdrop-filter:blur(14px) !important;
+    box-shadow:0 10px 26px rgba(107,63,79,.08) !important;
+  }
+
+  .side-brand{
+    width:100% !important;
+    min-width:0 !important;
+    margin:0 0 10px !important;
+    gap:10px !important;
+    align-items:center !important;
+  }
+
+  .side-logo{
+    width:44px !important;
+    height:44px !important;
+    min-width:44px !important;
+    border-radius:15px !important;
+  }
+
+  .side-brand strong{
+    font-size:16px !important;
+    line-height:1.1 !important;
+  }
+
+  .side-brand span{
+    font-size:12px !important;
+  }
+
+  aside nav{
+    width:100% !important;
+    display:flex !important;
+    gap:8px !important;
+    overflow-x:auto !important;
+    overflow-y:hidden !important;
+    padding:2px 2px 8px !important;
+    justify-content:flex-start !important;
+    scroll-snap-type:x mandatory !important;
+    -webkit-overflow-scrolling:touch !important;
+  }
+
+  aside nav::-webkit-scrollbar{
+    height:5px !important;
+  }
+
+  aside nav::-webkit-scrollbar-thumb{
+    background:#f1c4d5 !important;
+    border-radius:999px !important;
+  }
+
+  .nav-btn{
+    flex:0 0 auto !important;
+    width:auto !important;
+    min-width:max-content !important;
+    scroll-snap-align:start !important;
+    padding:10px 13px !important;
+    border-radius:999px !important;
+    font-size:13px !important;
+    white-space:nowrap !important;
+    justify-content:center !important;
+  }
+
+  main{
+    width:100% !important;
+    max-width:100% !important;
+    padding:16px 12px 30px !important;
+    overflow:visible !important;
+  }
+
+  #statusSupabaseAdmin{
+    width:100% !important;
+    justify-content:center !important;
+    margin:0 0 14px !important;
+    text-align:center !important;
+    white-space:normal !important;
+  }
+
+  .topbar{
+    flex-direction:column !important;
+    align-items:stretch !important;
+    gap:12px !important;
+    margin-bottom:16px !important;
+  }
+
+  .topbar h2{
+    font-size:24px !important;
+    line-height:1.15 !important;
+  }
+
+  .topbar p{
+    font-size:14px !important;
+    line-height:1.45 !important;
+  }
+
+  .topbar button,
+  .btn-primary,
+  .btn-soft,
+  .btn-danger,
+  .finance-btn{
+    width:100% !important;
+    min-height:48px !important;
+    border-radius:999px !important;
+  }
+
+  .cards{
+    grid-template-columns:1fr 1fr !important;
+    gap:12px !important;
+  }
+
+  .card,
+  .panel,
+  .finance-section,
+  .finance-card{
+    border-radius:22px !important;
+    padding:16px !important;
+    width:100% !important;
+    max-width:100% !important;
+    overflow:hidden !important;
+  }
+
+  .metric strong{
+    font-size:22px !important;
+    overflow-wrap:anywhere !important;
+  }
+
+  .grid-2,
+  #pedidos .grid-2{
+    grid-template-columns:1fr !important;
+    gap:16px !important;
+  }
+
+  .form-grid,
+  .finance-grid{
+    grid-template-columns:1fr !important;
+    gap:12px !important;
+  }
+
+  input,
+  select,
+  textarea{
+    width:100% !important;
+    max-width:100% !important;
+    min-height:48px !important;
+    font-size:16px !important;
+    border-radius:15px !important;
+  }
+
+  textarea{
+    min-height:110px !important;
+  }
+
+  label{
+    font-size:13px !important;
+  }
+
+  .toolbar{
+    flex-direction:column !important;
+    align-items:stretch !important;
+    gap:12px !important;
+  }
+
+  .toolbar input{
+    max-width:100% !important;
+    width:100% !important;
+  }
+
+  .finance-head{
+    align-items:flex-start !important;
+    gap:12px !important;
+  }
+
+  .finance-icon{
+    width:50px !important;
+    height:50px !important;
+    min-width:50px !important;
+    border-radius:18px !important;
+    font-size:24px !important;
+  }
+
+  .finance-head h2{
+    font-size:23px !important;
+    line-height:1.15 !important;
+  }
+
+  .finance-head p{
+    font-size:14px !important;
+  }
+
+  .finance-result{
+    align-items:flex-start !important;
+    flex-direction:column !important;
+    gap:5px !important;
+  }
+
+  .finance-result strong{
+    max-width:100% !important;
+    white-space:normal !important;
+    text-align:left !important;
+    font-size:17px !important;
+  }
+
+  /* Tabelas viram cards no celular */
+  .table-wrap{
+    overflow:visible !important;
+    width:100% !important;
+    max-width:100% !important;
+    padding-bottom:0 !important;
+  }
+
+  table{
+    min-width:0 !important;
+    width:100% !important;
+    border-collapse:separate !important;
+    border-spacing:0 12px !important;
+  }
+
+  thead{
+    display:none !important;
+  }
+
+  tbody,
+  tr,
+  td{
+    display:block !important;
+    width:100% !important;
+  }
+
+  tr{
+    background:#fff !important;
+    border:1px solid var(--border) !important;
+    border-radius:20px !important;
+    box-shadow:0 12px 28px rgba(107,63,79,.08) !important;
+    padding:12px !important;
+    margin-bottom:12px !important;
+    overflow:hidden !important;
+  }
+
+  td{
+    border-bottom:1px solid #f4d6e1 !important;
+    padding:10px 0 !important;
+    font-size:14px !important;
+    overflow-wrap:anywhere !important;
+  }
+
+  td:last-child{
+    border-bottom:0 !important;
+  }
+
+  td::before{
+    display:block !important;
+    color:var(--primary-dark) !important;
+    font-weight:900 !important;
+    font-size:12px !important;
+    text-transform:uppercase !important;
+    letter-spacing:.04em !important;
+    margin-bottom:4px !important;
+  }
+
+  /* Labels da tabela de pedidos */
+  #pedidos td:nth-child(1)::before{content:"Cliente";}
+  #pedidos td:nth-child(2)::before{content:"Produto";}
+  #pedidos td:nth-child(3)::before{content:"Detalhes";}
+  #pedidos td:nth-child(4)::before{content:"Entrega";}
+  #pedidos td:nth-child(5)::before{content:"Valor";}
+  #pedidos td:nth-child(6)::before{content:"Restante";}
+  #pedidos td:nth-child(7)::before{content:"Status";}
+  #pedidos td:nth-child(8)::before{content:"Ações";}
+
+  /* Labels clientes */
+  #clientes td:nth-child(1)::before{content:"Cliente";}
+  #clientes td:nth-child(2)::before{content:"Telefone";}
+  #clientes td:nth-child(3)::before{content:"Total de pedidos";}
+  #clientes td:nth-child(4)::before{content:"Total comprado";}
+
+  /* Labels produtos */
+  #produtos td:nth-child(1)::before{content:"Produto";}
+  #produtos td:nth-child(2)::before{content:"Categoria";}
+  #produtos td:nth-child(3)::before{content:"Preço";}
+  #produtos td:nth-child(4)::before{content:"Ações";}
+
+  /* Labels relatório mensal */
+  #relatorio td:nth-child(1)::before{content:"Cliente";}
+  #relatorio td:nth-child(2)::before{content:"Categoria";}
+  #relatorio td:nth-child(3)::before{content:"Produto";}
+  #relatorio td:nth-child(4)::before{content:"Detalhes";}
+  #relatorio td:nth-child(5)::before{content:"Entrega";}
+  #relatorio td:nth-child(6)::before{content:"Total";}
+  #relatorio td:nth-child(7)::before{content:"Pago";}
+  #relatorio td:nth-child(8)::before{content:"Restante";}
+  #relatorio td:nth-child(9)::before{content:"Status";}
+
+  .actions,
+  #pedidos .actions{
+    display:grid !important;
+    grid-template-columns:1fr 1fr !important;
+    gap:8px !important;
+    min-width:0 !important;
+    width:100% !important;
+  }
+
+  .actions button,
+  #pedidos .actions button{
+    width:100% !important;
+    min-height:40px !important;
+    padding:9px 8px !important;
+    font-size:12px !important;
+    border-radius:13px !important;
+    white-space:normal !important;
+  }
+
+  .badge{
+    white-space:normal !important;
+    text-align:center !important;
+  }
+
+  .empty{
+    padding:22px 14px !important;
+  }
+}
+
+/* Celulares pequenos */
+@media(max-width:520px){
+  main{
+    padding:14px 10px 28px !important;
+  }
+
+  aside{
+    padding:11px 10px 9px !important;
+  }
+
+  .cards{
+    grid-template-columns:1fr !important;
+  }
+
+  .card,
+  .panel,
+  .finance-section,
+  .finance-card{
+    padding:14px !important;
+    border-radius:20px !important;
+  }
+
+  .topbar h2{
+    font-size:22px !important;
+  }
+
+  .finance-head{
+    flex-direction:column !important;
+  }
+
+  .finance-head h2{
+    font-size:21px !important;
+  }
+
+  .actions,
+  #pedidos .actions{
+    grid-template-columns:1fr !important;
+  }
+
+  .nav-btn{
+    font-size:12.5px !important;
+    padding:9px 11px !important;
+  }
+
+  .side-brand strong{
+    font-size:15px !important;
+  }
+
+  .metric strong{
+    font-size:21px !important;
+  }
+}
+</style>
+
+
+<style id="admin-pedidos-mobile-premium-final">
+/* =====================================================
+   MELHORIA MOBILE DA ABA PEDIDOS
+   Lista primeiro + formulário compacto/abrível
+===================================================== */
+
+.mobile-open-order,
+.mobile-toggle-order,
+.mobile-form-head{
+  display:none;
+}
+
+@media(max-width:900px){
+
+  /* No celular, a lista vem primeiro e o cadastro só abre quando precisar */
+  #pedidos .pedidos-mobile-layout{
+    display:flex !important;
+    flex-direction:column !important;
+    gap:14px !important;
+  }
+
+  #pedidos .lista-pedidos-panel{
+    order:1 !important;
+  }
+
+  #pedidos .novo-pedido-panel{
+    order:2 !important;
+  }
+
+  .mobile-open-order{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    width:100% !important;
+    min-height:46px !important;
+    border-radius:999px !important;
+  }
+
+  .mobile-form-head{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:space-between !important;
+    gap:10px !important;
+    margin-bottom:14px !important;
+  }
+
+  .mobile-form-head h3{
+    margin:0 !important;
+    font-size:19px !important;
+  }
+
+  .mobile-toggle-order{
+    display:inline-flex !important;
+    width:auto !important;
+    min-height:38px !important;
+    padding:8px 13px !important;
+    border-radius:999px !important;
+    font-size:12px !important;
+  }
+
+  #novoPedidoPanel{
+    display:none !important;
+  }
+
+  body.mobile-order-open #novoPedidoPanel{
+    display:block !important;
+  }
+
+  body.mobile-order-open .lista-pedidos-panel{
+    display:none !important;
+  }
+
+  /* Topo da aba pedidos mais limpo */
+  #pedidos .topbar{
+    background:rgba(255,255,255,.72) !important;
+    border:1px solid var(--border) !important;
+    border-radius:22px !important;
+    padding:14px !important;
+    box-shadow:0 10px 24px rgba(107,63,79,.07) !important;
+  }
+
+  #pedidos .topbar h2{
+    font-size:24px !important;
+  }
+
+  #pedidos .topbar p{
+    font-size:13px !important;
+  }
+
+  /* Formulário mais compacto */
+  #novoPedidoPanel .form-grid{
+    gap:10px !important;
+  }
+
+  #novoPedidoPanel label{
+    margin:8px 0 5px !important;
+    font-size:12px !important;
+  }
+
+  #novoPedidoPanel input,
+  #novoPedidoPanel select,
+  #novoPedidoPanel textarea{
+    min-height:44px !important;
+    padding:10px 12px !important;
+    border-radius:14px !important;
+    font-size:15px !important;
+  }
+
+  #novoPedidoPanel textarea{
+    min-height:88px !important;
+  }
+
+  #novoPedidoPanel .btn-full{
+    margin-top:8px !important;
+    min-height:48px !important;
+  }
+
+  /* Lista de pedidos mais bonita no celular */
+  #pedidos .lista-pedidos-panel{
+    padding:14px !important;
+  }
+
+  #pedidos .toolbar{
+    background:transparent !important;
+    padding:0 !important;
+  }
+
+  #pedidos .toolbar h3{
+    font-size:20px !important;
+    margin:0 !important;
+  }
+
+  #pedidos #searchOrders{
+    min-height:44px !important;
+    border-radius:999px !important;
+    background:#fff !important;
+  }
+
+  #pedidos tbody tr{
+    position:relative !important;
+    padding:14px !important;
+    border-radius:22px !important;
+    background:
+      radial-gradient(circle at top right, rgba(255,141,180,.10), transparent 34%),
+      #fff !important;
+    box-shadow:0 14px 30px rgba(107,63,79,.10) !important;
+  }
+
+  #pedidos tbody td{
+    display:grid !important;
+    grid-template-columns:95px minmax(0,1fr) !important;
+    align-items:start !important;
+    gap:8px !important;
+    padding:8px 0 !important;
+    font-size:13.5px !important;
+    line-height:1.35 !important;
+  }
+
+  #pedidos tbody td::before{
+    margin:0 !important;
+    font-size:10.5px !important;
+    line-height:1.25 !important;
+    color:#a83f66 !important;
+  }
+
+  #pedidos tbody td:nth-child(1){
+    font-weight:900 !important;
+    font-size:14px !important;
+    color:#2f1f26 !important;
+  }
+
+  #pedidos tbody td:nth-child(5),
+  #pedidos tbody td:nth-child(6){
+    font-weight:900 !important;
+    color:#8d2b58 !important;
+  }
+
+  #pedidos tbody td:nth-child(8){
+    display:block !important;
+  }
+
+  #pedidos tbody td:nth-child(8)::before{
+    display:block !important;
+    margin-bottom:8px !important;
+  }
+
+  #pedidos .actions{
+    display:grid !important;
+    grid-template-columns:1fr 1fr !important;
+    gap:8px !important;
+    width:100% !important;
+  }
+
+  #pedidos .actions button{
+    min-height:38px !important;
+    border-radius:999px !important;
+    font-size:11.5px !important;
+    padding:8px !important;
+    background:#ffe4ef !important;
+    color:#8d2b58 !important;
+  }
+
+  #pedidos .actions button:first-child{
+    background:linear-gradient(135deg,#19b85a,#25d366) !important;
+    color:#fff !important;
+  }
+
+  #pedidos .actions .btn-danger,
+  #pedidos .actions button[onclick*="delete"],
+  #pedidos .actions button[onclick*="remove"]{
+    background:#ffe0e0 !important;
+    color:#b3304b !important;
+  }
+}
+
+@media(max-width:420px){
+  #pedidos tbody td{
+    grid-template-columns:82px minmax(0,1fr) !important;
+    font-size:13px !important;
+  }
+
+  #pedidos .actions{
+    grid-template-columns:1fr !important;
+  }
+
+  #pedidos .actions button{
+    min-height:40px !important;
+  }
+}
+</style>
+
 </head>
 <body>
   <section id="loginPage" class="login-page">
@@ -907,9 +1561,9 @@ main{
           </div>
         </div>
 
-        <div class="grid-2">
-          <div class="panel">
-            <h3>Novo pedido</h3>
+        <div class="grid-2 pedidos-mobile-layout">
+          <div class="panel novo-pedido-panel" id="novoPedidoPanel">
+            <div class="mobile-form-head"><h3>Novo pedido</h3><button type="button" class="btn-soft mobile-toggle-order" onclick="toggleNovoPedido()">Fechar</button></div>
             <div class="form-grid">
               <div><label>Cliente</label><input id="orderClient" placeholder="Nome do cliente" /></div>
               <div><label>Telefone</label><input id="orderPhone" placeholder="WhatsApp" /></div>
@@ -962,9 +1616,10 @@ main{
             </div>
           </div>
 
-          <div class="panel">
+          <div class="panel lista-pedidos-panel">
             <div class="toolbar">
               <h3>Lista de pedidos</h3>
+              <button type="button" class="btn-primary mobile-open-order" onclick="toggleNovoPedido()">+ Novo pedido</button>
               <input id="searchOrders" oninput="renderAll()" placeholder="Buscar pedido..." />
             </div>
             <div class="table-wrap">
@@ -2092,6 +2747,23 @@ document.addEventListener('input', function(e){
     }
   }
 });
+</script>
+
+
+<script id="admin-pedidos-mobile-premium-js">
+function toggleNovoPedido(){
+  document.body.classList.toggle('mobile-order-open');
+
+  setTimeout(function(){
+    const destino = document.body.classList.contains('mobile-order-open')
+      ? document.getElementById('novoPedidoPanel')
+      : document.querySelector('#pedidos .lista-pedidos-panel');
+
+    if(destino){
+      destino.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+  }, 80);
+}
 </script>
 
 </body>
