@@ -567,7 +567,7 @@
 }
 
 #pedidos table{
-  min-width:1050px !important;
+  min-width:1120px !important;
 }
 
 #pedidos th:last-child,
@@ -602,7 +602,7 @@
 
 @media(max-width:700px){
   #pedidos table{
-    min-width:980px !important;
+    min-width:1040px !important;
   }
 }
 </style>
@@ -1474,6 +1474,37 @@ textarea{
 }
 </style>
 
+
+<style id="admin-dispositivo-pedido-css">
+.device-badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:7px 10px;
+  border-radius:999px;
+  background:#fff3f8;
+  border:1px solid #f1c4d5;
+  color:#8d2b58;
+  font-weight:900;
+  font-size:12px;
+  white-space:nowrap;
+}
+
+@media(max-width:900px){
+  #pedidos td:nth-child(7)::before{content:"Dispositivo";}
+  #pedidos td:nth-child(8)::before{content:"Status";}
+  #pedidos td:nth-child(9)::before{content:"Ações";}
+
+  #relatorio td:nth-child(9)::before{content:"Dispositivo";}
+  #relatorio td:nth-child(10)::before{content:"Status";}
+
+  .device-badge{
+    font-size:12px !important;
+    padding:6px 9px !important;
+  }
+}
+</style>
+
 </head>
 <body>
   <section id="loginPage" class="login-page">
@@ -1624,7 +1655,7 @@ textarea{
             </div>
             <div class="table-wrap">
               <table>
-                <thead><tr><th>Cliente</th><th>Produto</th><th>Detalhes</th><th>Entrega</th><th>Valor</th><th>Restante</th><th>Status</th><th>Ações</th></tr></thead>
+                <thead><tr><th>Cliente</th><th>Produto</th><th>Detalhes</th><th>Entrega</th><th>Valor</th><th>Restante</th><th>Dispositivo</th><th>Status</th><th>Ações</th></tr></thead>
                 <tbody id="ordersTable"></tbody>
               </table>
             </div>
@@ -1826,7 +1857,7 @@ textarea{
           <h3 style="margin-bottom:14px">Pedidos do mês</h3>
           <table>
             <thead>
-              <tr><th>Cliente</th><th>Categoria</th><th>Produto</th><th>Detalhes</th><th>Entrega</th><th>Total</th><th>Pago</th><th>Restante</th><th>Status</th></tr>
+              <tr><th>Cliente</th><th>Categoria</th><th>Produto</th><th>Detalhes</th><th>Entrega</th><th>Total</th><th>Pago</th><th>Restante</th><th>Dispositivo</th><th>Status</th></tr>
             </thead>
             <tbody id="monthlyTable"></tbody>
           </table>
@@ -1892,7 +1923,9 @@ textarea{
           total: Number(p.total || 0),
           paid: Number(p.paid || 0),
           status: p.status || 'pendente',
-          notes: p.notes || ''
+          notes: p.notes || '',
+          device_type: p.device_type || p.dispositivo_tipo || '',
+          device_label: p.device_label || p.dispositivo || ''
         }));
 
         products = (produtosResp.data || []).map(p => ({
@@ -2071,7 +2104,9 @@ textarea{
         total: Number(document.getElementById('orderTotal').value || 0),
         paid: Number(document.getElementById('orderPaid').value || 0),
         status: document.getElementById('orderStatus').value,
-        notes: document.getElementById('orderNotes').value.trim()
+        notes: document.getElementById('orderNotes').value.trim(),
+        device_type: 'admin',
+        device_label: '🛠️ Admin'
       };
 
       if (!order.client || !order.product || !order.date) {
@@ -2159,7 +2194,8 @@ textarea{
           <td>${formatDate(o.date)} ${escapeHtml(o.time || '')}</td>
           <td>${money(o.total)}</td>
           <td>${money(due)}</td>
-          <td><span class="badge status-${o.status}">${statusLabel(o.status)}</span></td>
+          <td><span class="device-badge">${deviceLabel(o)}</span></td>
+                <td><span class="badge status-${o.status}">${statusLabel(o.status)}</span></td>
           <td class="actions">
             <button class="btn-soft" onclick="openWhatsApp(${o.id})">WhatsApp</button>
             <button class="btn-soft" onclick="printOrder(${o.id})">Imprimir</button>
@@ -2764,6 +2800,38 @@ function toggleNovoPedido(){
     }
   }, 80);
 }
+</script>
+
+
+<script id="admin-dispositivo-pedido-js">
+function deviceLabel(order){
+  if(!order) return '—';
+  const raw = (order.device_label || order.dispositivo || order.device_type || '').toString().toLowerCase();
+
+  if(raw.includes('admin')) return '🛠️ Admin';
+  if(raw.includes('tablet')) return '📲 Tablet';
+  if(raw.includes('celular') || raw.includes('mobile')) return '📱 Celular';
+  if(raw.includes('computador') || raw.includes('desktop')) return '💻 Computador';
+
+  return '—';
+}
+
+/* Reforço visual para tabelas antigas: se algum pedido ainda não tiver campo, mostra traço */
+(function(){
+  const originalRenderAll = window.renderAll;
+  if(typeof originalRenderAll === 'function' && !originalRenderAll.__devicePatch){
+    window.renderAll = function(){
+      const r = originalRenderAll.apply(this, arguments);
+      try{
+        document.querySelectorAll('.device-badge').forEach(el=>{
+          if(!el.textContent.trim()) el.textContent = '—';
+        });
+      }catch(e){}
+      return r;
+    };
+    window.renderAll.__devicePatch = true;
+  }
+})();
 </script>
 
 </body>
