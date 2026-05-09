@@ -1476,18 +1476,29 @@ textarea{
 
 
 
-<style id="admin-origem-pedido-sem-coluna-css">
-.origem-pedido{
-  display:inline-flex;
-  align-items:center;
-  margin-top:4px;
-  padding:5px 9px;
-  border-radius:999px;
-  background:#fff3f8;
-  border:1px solid #f1c4d5;
-  color:#8d2b58;
-  font-weight:900;
-  font-size:12px;
+<style id="admin-detalhes-origem-final-css">
+#pedidos td,
+#relatorio td{
+  overflow-wrap:anywhere;
+}
+
+#pedidos td span,
+#relatorio td span{
+  line-height:1.35;
+}
+
+.finance-result strong{
+  max-width:52% !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+  white-space:nowrap !important;
+}
+
+@media(max-width:900px){
+  .finance-result strong{
+    max-width:100% !important;
+    white-space:normal !important;
+  }
 }
 </style>
 
@@ -1911,8 +1922,7 @@ textarea{
           status: p.status || 'pendente',
           notes: p.notes || '',
           device_type: p.device_type || p.dispositivo_tipo || '',
-          device_label: p.device_label || p.dispositivo || ''
-        }));
+          device_label: p.device_label || p.dispositivo || '',}));
 
         products = (produtosResp.data || []).map(p => ({
           id: p.id,
@@ -2155,6 +2165,104 @@ textarea{
       renderAll();
     }
 
+
+    function deviceLabel(order){
+      if(!order) return '—';
+
+      const raw = String(
+        (order.device_label || '') + ' ' +
+        (order.dispositivo || '') + ' ' +
+        (order.device_type || '') + ' ' +
+        (order.dispositivo_tipo || '')
+      ).toLowerCase();
+
+      if(raw.includes('admin')) return '🛠️ Admin';
+      if(raw.includes('tablet')) return '📲 Tablet';
+      if(raw.includes('celular') || raw.includes('mobile')) return '📱 Celular';
+      if(raw.includes('computador') || raw.includes('desktop')) return '💻 Computador';
+
+      return '—';
+    }
+
+    function massaDoPedido(order){
+      if(!order) return '-';
+
+      const valoresDiretos = [
+        order.flavor,
+        order.massa,
+        order.sabor,
+        order.mass
+      ];
+
+      for(const valor of valoresDiretos){
+        if(valor && String(valor).trim() && String(valor).trim() !== '-') {
+          return String(valor).trim();
+        }
+      }
+
+      const texto = String(
+        (order.details || '') + ' ' +
+        (order.detalhes || '') + ' ' +
+        (order.notes || '') + ' ' +
+        (order.product || '')
+      );
+
+      const match = texto.match(/(?:massa|sabor)\s*[:\-]\s*([^<\n\r,;]+)/i);
+      if(match && match[1] && match[1].trim() && match[1].trim() !== '-') {
+        return match[1].trim();
+      }
+
+      if(/red\s*velvet/i.test(texto)) return 'Red Velvet';
+      if(/massa\s*branca|bolo\s*branco|branca/i.test(texto)) return 'Branca';
+      if(/chocolate/i.test(texto)) return 'Chocolate';
+
+      return '-';
+    }
+
+    function recheioDoPedido(order){
+      if(!order) return '-';
+
+      const valoresDiretos = [
+        order.filling,
+        order.recheio
+      ];
+
+      for(const valor of valoresDiretos){
+        if(valor && String(valor).trim() && String(valor).trim() !== '-') {
+          return String(valor).trim();
+        }
+      }
+
+      const texto = String(
+        (order.details || '') + ' ' +
+        (order.detalhes || '') + ' ' +
+        (order.notes || '') + ' ' +
+        (order.product || '')
+      );
+
+      const match = texto.match(/recheio\s*[:\-]\s*([^<\n\r,;]+)/i);
+      if(match && match[1] && match[1].trim() && match[1].trim() !== '-') {
+        return match[1].trim();
+      }
+
+      return '-';
+    }
+
+    function detalhesPedidoHtml(order){
+      const massa = massaDoPedido(order);
+      const recheio = recheioDoPedido(order);
+      const tema = order.theme || order.tema || '-';
+      const origem = deviceLabel(order);
+
+      return `
+        <span style="color:var(--muted)">Sabor/Massa:</span> ${escapeHtml(massa)}<br>
+        <span style="color:var(--muted)">Recheio:</span> ${escapeHtml(recheio)}<br>
+        <span style="color:var(--muted)">Tema:</span> ${escapeHtml(tema || '-')}<br>
+        <span style="color:var(--muted)">Origem:</span> ${escapeHtml(origem)}
+      `;
+    }
+
+
     function statusLabel(status) {
       const labels = { pendente: 'Pendente', producao: 'Em produção', entregue: 'Entregue', cancelado: 'Cancelado' };
       return labels[status] || status;
@@ -2172,15 +2280,11 @@ textarea{
         return `<tr>
           <td><strong>${escapeHtml(o.client)}</strong><br><span style="color:var(--muted)">${escapeHtml(o.phone || '-')}</span></td>
           <td><strong>${escapeHtml(o.category || 'Bolos')}</strong><br>${escapeHtml(o.product)}</td>
-          <td>
-            <span style="color:var(--muted)">Sabor:</span> ${escapeHtml(o.flavor || '-')}<br>
-            <span style="color:var(--muted)">Recheio:</span> ${escapeHtml(o.filling || '-')}<br>
-            <span style="color:var(--muted)">Tema:</span> ${escapeHtml(o.theme || '-')}
-          </td>
+          <td>${detalhesPedidoHtml(o)}</td>
           <td>${formatDate(o.date)} ${escapeHtml(o.time || '')}</td>
           <td>${money(o.total)}</td>
           <td>${money(due)}</td>
-                <td><span class="badge status-${o.status}">${statusLabel(o.status)}</span></td>
+          <td><span class="badge status-${o.status}">${statusLabel(o.status)}</span></td>
           <td class="actions">
             <button class="btn-soft" onclick="openWhatsApp(${o.id})">WhatsApp</button>
             <button class="btn-soft" onclick="printOrder(${o.id})">Imprimir</button>
@@ -2562,7 +2666,7 @@ textarea{
             <td><strong>${escapeHtml(o.client)}</strong></td>
             <td>${escapeHtml(o.category || 'Bolos')}</td>
             <td>${escapeHtml(o.product)}</td>
-            <td>Sabor: ${escapeHtml(o.flavor || '-')}<br>Recheio: ${escapeHtml(o.filling || '-')}</td>
+            <td>${detalhesPedidoHtml(o)}</td>
             <td>${formatDate(o.date)} ${escapeHtml(o.time || '')}</td>
             <td>${money(o.total)}</td>
             <td>${money(o.paid)}</td>
@@ -2598,7 +2702,7 @@ textarea{
               const rest = Math.max(0, Number(o.total || 0) - Number(o.paid || 0));
               return `<div style="border-bottom:1px solid #eee; padding:10px 0">
                 <strong>${escapeHtml(o.client)}</strong> - ${escapeHtml(o.category || 'Bolos')} - ${escapeHtml(o.product)}<br>
-                Sabor: ${escapeHtml(o.flavor || '-')} | Recheio: ${escapeHtml(o.filling || '-')}<br>
+                Sabor/Massa: ${escapeHtml(massaDoPedido(o))} | Recheio: ${escapeHtml(recheioDoPedido(o))} | Origem: ${escapeHtml(deviceLabel(o))}<br>
                 Entrega: ${formatDate(o.date)} ${escapeHtml(o.time || '')}<br>
                 Total: ${money(o.total)} | Pago: ${money(o.paid)} | Restante: ${money(rest)} | Status: ${statusLabel(o.status)}
               </div>`;
