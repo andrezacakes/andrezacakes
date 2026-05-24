@@ -1502,6 +1502,14 @@ textarea{
 }
 </style>
 
+
+<style id="supabase-diagnostico-claro">
+#statusSupabaseAdmin.local-warning::after{
+  content:" — confira se as tabelas pedidos e produtos existem no Supabase novo";
+  font-weight:700;
+}
+</style>
+
 </head>
 <body>
   <section id="loginPage" class="login-page">
@@ -2891,6 +2899,17 @@ function toggleNovoPedido(){
 }
 </script>
 
+
+
+<script id="diagnostico-supabase-novo">
+setTimeout(function(){
+  const status = document.getElementById('statusSupabaseAdmin');
+  if(status && status.textContent && status.textContent.toLowerCase().includes('modo local')){
+    status.classList.add('local-warning');
+    console.warn('Supabase não conectou. Verifique: URL/key, tabelas pedidos/produtos, RLS policies e se o projeto está ativo.');
+  }
+}, 3000);
+</script>
 
 </body>
 </html>
