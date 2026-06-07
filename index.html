@@ -2804,7 +2804,7 @@ footer{text-align:center;padding:35px 20px;color:var(--muted)}
 </div><section id="especiais-andreza"><div class="especiais-vitrine"><div class="especiais-head"><div class="tag"> Edição especial sob encomenda</div><h2>Ovos de Colher e Cestas Personalizadas</h2><p>Uma vitrine especial com opções feitas para presentear, surpreender e deixar cada momento mais gostoso.</p></div><div class="especiais-grid"><div class="especial-card"><div class="especial-media"><span></span></div><h3>Ovo de colher simples</h3><p>Cremosos, delicados e preparados especialmente para seu momento.</p><div class="especial-destaque">Personalize tamanho, sabor e quantidade.</div><button class="especial-btn" onclick="abrirEspecial('simples')">Personalizar pedido</button></div><div class="especial-card"><h3>Ovo de colher gourmet</h3><p>Sabores irresistíveis para presentear, surpreender e encantar.</p><div class="especial-destaque">Personalize tamanho, sabor e quantidade.</div><button class="especial-btn" onclick="abrirEspecial('gourmet')"> Personalizar pedido</button></div><div class="especial-card"><h3>Cesta personalizada</h3><p>Uma experiência personalizada para presentear com carinho e bom gosto.</p><div class="especial-destaque">Montagem exclusiva conforme a ocasião.</div><button class="especial-btn whats" onclick="abrirWhatsCesta()"> Consultar pelo WhatsApp</button></div></div></div>
 </section>
 <div id="especialModal"><div class="especial-modal-box"><h3 id="especialTitulo">Adicionar especial</h3><div class="especial-form"><div><label>Tamanho</label><select id="especialTamanho" onchange="atualizarEspecialTotal()"></select></div><div><label>Sabor</label><select id="especialSabor"></select></div><div><label>Quantidade</label><input id="especialQtd" type="number" min="1" value="1" oninput="atualizarEspecialTotal()"></div><div class="especial-total" id="especialTotal">R$ 0,00</div></div><div class="especial-modal-actions"><button class="especial-cancel" onclick="fecharEspecial()">Cancelar</button><button class="especial-save" onclick="salvarEspecialCarrinho()">Salvar no carrinho</button></div></div>
-</div><section class="horario-premium" id="horario-atendimento"><div class="horario-card"><div class="horario-icon">🕒</div><div class="horario-content"><h2>Atendemos por encomenda</h2><p class="sub">Pedidos, atendimento e entregas conforme disponibilidade.</p><div class="horario-grid"><div class="horario-item horario-fechado"><strong>Segunda-feira</strong><span>Fechado</span></div><div class="horario-item"><strong>Terça à Sábado</strong><span>09h às 19h</span><small>Pausa para almoço: 12h às 13h</small></div><div class="horario-item"><strong>Domingo</strong><span>09h às 14h</span></div><div class="horario-item"><strong>Datas comemorativas</strong><span>Vagas limitadas para datas especiais</span><small>Garanta sua encomenda com antecedência pelo WhatsApp </small></div></div><div class="horario-extra-premium">
+</div><section class="horario-premium" id="horario-atendimento"><div class="horario-card"><div class="horario-icon">🕒</div><div class="horario-content"><h2>Atendemos por encomenda</h2><p class="sub">Pedidos, atendimento e entregas conforme disponibilidade.</p><div class="horario-grid"><div class="horario-item horario-fechado"><strong>Segunda-feira</strong><span>Fechado</span></div><div class="horario-item"><strong>Terça à Sábado</strong><span>09h às 17h</span><small>Pausa para almoço: 12h às 13h</small></div><div class="horario-item"><strong>Domingo</strong><span>09h às 14h</span></div><div class="horario-item"><strong>Datas comemorativas</strong><span>Vagas limitadas para datas especiais</span><small>Garanta sua encomenda com antecedência pelo WhatsApp </small></div></div><div class="horario-extra-premium">
          Produção artesanal e personalizada<br><span>Cada encomenda é preparada com carinho para tornar seu momento ainda mais especial </span></div></div></div>
 </section><section id="feedbacks-clientes" class="feedbacks-premium"><div class="feedback-head"><span class="feedback-tag">Clientes felizes </span><h2>O que nossos clientes dizem</h2><p>Carinho, sabor e momentos especiais preparados pela Andreza Cakes.</p></div><div class="feedback-grid"><div class="feedback-card"><div class="stars">★★★★★</div><p>
         “O bolo ficou perfeito, lindo e extremamente saboroso.
@@ -2862,12 +2862,12 @@ const produtos=[
 {id:34,cat:"Personalizados",nome:"Trufas",emoji:"",desc:"Personalizada.",preco:5}
 ,
 {id:900,cat:"Cardápio Junino",nome:"Bolo Junino",emoji:"🌽",desc:"Tradicional, fresquinho e vendido por kg.",preco:90},
-{id:901,cat:"Cardápio Junino",nome:"Canjica",emoji:"",desc:"Cremosa e tradicional.",preco:5},
-{id:902,cat:"Cardápio Junino",nome:"Arroz Doce",emoji:"",desc:"Tradicional e cremoso.",preco:6},
-{id:903,cat:"Cardápio Junino",nome:"Munguzá",emoji:"",desc:"Sabor clássico do São João.",preco:6},
-{id:904,cat:"Cardápio Junino",nome:"Pamonha",emoji:"",desc:"Unidade.",preco:8},
-{id:905,cat:"Cardápio Junino",nome:"Milho Cozido",emoji:"",desc:"Unidade.",preco:4},
-{id:906,cat:"Cardápio Junino",nome:"Bolos Caseiros",emoji:"",desc:"Sabores juninos. Valores a partir de R$15,00.",preco:15}];
+{id:901,cat:"Cardápio Junino",nome:"Canjica",emoji:"",desc:"Cremosa e tradicional.",preco:5,juninoSimples:true},
+{id:902,cat:"Cardápio Junino",nome:"Arroz Doce",emoji:"",desc:"Tradicional e cremoso.",preco:6,juninoSimples:true},
+{id:903,cat:"Cardápio Junino",nome:"Munguzá",emoji:"",desc:"Sabor clássico do São João.",preco:6,juninoSimples:true},
+{id:904,cat:"Cardápio Junino",nome:"Pamonha",emoji:"",desc:"Unidade.",preco:8,juninoSimples:true},
+{id:905,cat:"Cardápio Junino",nome:"Milho Cozido",emoji:"",desc:"Unidade.",preco:4,juninoSimples:true},
+{id:906,cat:"Cardápio Junino",nome:"Bolos Caseiros",emoji:"",desc:"Caseirinhos juninos feitos com carinho para deixar sua festa ainda mais gostosa.",preco:15,boloCaseiro:true}];
 
 let cart=[], current="", selected=null, editing=null, playlist=["assets/audio/musica1.mp3","assets/audio/musica2.mp3","assets/audio/musica3.mp3"], music=0;
 
@@ -3834,6 +3834,389 @@ function toggleCardapioDigital(){
 
   const observer = new MutationObserver(() => ajustarModalBoloJunino());
   observer.observe(document.body, {childList:true, subtree:true, attributes:true, attributeFilter:['class','style']});
+})();
+</script>
+
+
+
+
+<script id="correcao-carrinho-junino-js">
+(function(){
+  let produtoAtual=null;
+
+  function brl(v){
+    return Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+  }
+
+  function modal(){
+    let m=document.getElementById('modalJuninoQuantidade');
+    if(m) return m;
+
+    m=document.createElement('div');
+    m.id='modalJuninoQuantidade';
+    m.className='modal';
+    m.innerHTML=`<div class="box" style="max-width:620px">
+      <div class="top">
+        <h2 id="juninoTitulo">Adicionar item</h2>
+        <button class="close" type="button" onclick="fecharJuninoQtd()">×</button>
+      </div>
+      <div class="formgrid">
+        <div>
+          <label>Quantidade</label>
+          <input id="juninoQtd" type="number" min="1" step="1" value="1">
+        </div>
+
+        <div id="juninoTamanhoBox" style="display:none">
+          <label>Tamanho do bolo</label>
+          <select id="juninoTamanho">
+            <option value="Pequeno" data-preco="15">Bolo pequeno - R$ 15,00</option>
+            <option value="Grande" data-preco="25">Bolo grande - R$ 25,00</option>
+          </select>
+        </div>
+
+        <div id="juninoSaborBox" style="display:none">
+          <label>Sabor do bolo</label>
+          <select id="juninoSabor">
+            <option value="Bolo de Milho">Bolo de Milho</option>
+            <option value="Bolo de Fubá">Bolo de Fubá</option>
+            <option value="Bolo de Mandioca">Bolo de Mandioca</option>
+            <option value="Bolo de Macaxeira">Bolo de Macaxeira</option>
+            <option value="Bolo de Cenoura">Bolo de Cenoura</option>
+          </select>
+        </div>
+
+        <div id="juninoKgBox" style="display:none">
+          <label>Kg do bolo</label>
+          <input id="juninoKg" type="number" min="1" step="1" value="1">
+        </div>
+      </div>
+
+      <div class="total" id="juninoTotal" style="margin-top:16px">R$ 0,00</div>
+      <button class="btn" type="button" onclick="salvarJuninoQtd()" style="margin-top:14px">Salvar no carrinho</button>
+    </div>`;
+
+    document.body.appendChild(m);
+    ['juninoQtd','juninoTamanho','juninoKg','juninoSabor'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(el) el.addEventListener('input',total);
+      if(el) el.addEventListener('change',total);
+    });
+    return m;
+  }
+
+  function isBoloJunino(){
+    return produtoAtual && produtoAtual.nome === 'Bolo Junino';
+  }
+
+  function precoUnitario(){
+    if(!produtoAtual) return 0;
+
+    if(produtoAtual.boloCaseiro){
+      let s=document.getElementById('juninoTamanho');
+      let o=s && s.options[s.selectedIndex];
+      return Number(o ? o.dataset.preco : 15);
+    }
+
+    if(isBoloJunino()){
+      let kgInput=document.getElementById('juninoKg');
+      let kg=parseInt(kgInput ? kgInput.value : '1',10);
+      if(!kg || kg<1) kg=1;
+      if(kgInput) kgInput.value=kg;
+      return Number(produtoAtual.preco||90) * kg;
+    }
+
+    return Number(produtoAtual.preco||0);
+  }
+
+  function qtd(){
+    let i=document.getElementById('juninoQtd');
+    let q=parseInt(i ? i.value : '1',10);
+    if(!q || q<1) q=1;
+    if(i) i.value=q;
+    return q;
+  }
+
+  function total(){
+    let t=document.getElementById('juninoTotal');
+    if(t) t.textContent=brl(precoUnitario()*qtd());
+  }
+
+  function getCarrinhoArray(){
+    try{
+      if(typeof carrinho !== 'undefined' && Array.isArray(carrinho)) return carrinho;
+    }catch(e){}
+    window.carrinho = window.carrinho || [];
+    return window.carrinho;
+  }
+
+  function atualizarTudo(){
+    const arr = getCarrinhoArray();
+
+    try{ localStorage.setItem('carrinhoAndreza', JSON.stringify(arr)); }catch(e){}
+    try{ localStorage.setItem('andreza_carrinho', JSON.stringify(arr)); }catch(e){}
+    try{ localStorage.setItem('cart', JSON.stringify(arr)); }catch(e){}
+
+    [
+      'renderCarrinho',
+      'atualizarCarrinho',
+      'renderCart',
+      'updateCart',
+      'renderizarCarrinho',
+      'updateCartCount',
+      'atualizarContador',
+      'updateCartUI'
+    ].forEach(fn=>{
+      if(typeof window[fn]==='function'){
+        try{ window[fn](); }catch(e){}
+      }
+    });
+
+    const count = arr.reduce((s,it)=>s + Number(it.qtd || it.quantidade || 1),0);
+    ['cartCount','mobileSafeCartCount'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(el) el.textContent=count;
+    });
+  }
+
+  window.fecharJuninoQtd=function(){
+    let m=document.getElementById('modalJuninoQuantidade');
+    if(m) m.classList.remove('open');
+  };
+
+  window.salvarJuninoQtd=function(){
+    if(!produtoAtual) return;
+
+    let q = qtd();
+    let nome = produtoAtual.nome;
+    let detalhes = '';
+    let preco = precoUnitario();
+
+    if(produtoAtual.boloCaseiro){
+      let s=document.getElementById('juninoTamanho');
+      let tam=s ? s.value : 'Pequeno';
+      nome='Bolos Caseiros - '+tam;
+      detalhes='Tamanho: '+tam;
+    }
+
+    if(isBoloJunino()){
+      let sabor=document.getElementById('juninoSabor')?.value || 'Bolo de Milho';
+      let kg=document.getElementById('juninoKg')?.value || '1';
+      nome=sabor;
+      detalhes='Kg do bolo: '+kg+'kg';
+    }
+
+    const item={
+      id: Date.now() + Math.floor(Math.random()*999),
+      produtoId: produtoAtual.id,
+      nome: nome,
+      produto: nome,
+      titulo: nome,
+      qtd: q,
+      quantidade: q,
+      preco: preco,
+      valor: preco,
+      total: preco*q,
+      subtotal: preco*q,
+      detalhes: detalhes,
+      obs: detalhes,
+      descricao: detalhes
+    };
+
+    getCarrinhoArray().push(item);
+    atualizarTudo();
+    fecharJuninoQtd();
+  };
+
+  function abrir(p){
+    produtoAtual=p;
+    let m=modal();
+
+    m.querySelector('#juninoTitulo').textContent='Adicionar '+p.nome;
+    m.querySelector('#juninoQtd').value=1;
+
+    const boxTam=m.querySelector('#juninoTamanhoBox');
+    const boxSabor=m.querySelector('#juninoSaborBox');
+    const boxKg=m.querySelector('#juninoKgBox');
+
+    if(boxTam) boxTam.style.display = p.boloCaseiro ? 'block' : 'none';
+    if(boxSabor) boxSabor.style.display = p.nome === 'Bolo Junino' ? 'block' : 'none';
+    if(boxKg) boxKg.style.display = p.nome === 'Bolo Junino' ? 'block' : 'none';
+
+    const kg=m.querySelector('#juninoKg');
+    if(kg) kg.value=1;
+
+    total();
+    m.classList.add('open');
+  }
+
+  document.addEventListener('click',function(e){
+    let btn=e.target.closest('button');
+    if(!btn) return;
+
+    let card=btn.closest('.card');
+    if(!card) return;
+
+    let h=card.querySelector('h3');
+    let nome=h ? h.textContent.trim() : '';
+    if(!nome || typeof produtos==='undefined' || !Array.isArray(produtos)) return;
+
+    let p=produtos.find(x=>x.nome===nome);
+    if(p && (p.cat === 'Cardápio Junino' || p.juninoSimples || p.boloCaseiro || p.nome === 'Bolo Junino')){
+      e.preventDefault();
+      e.stopPropagation();
+      abrir(p);
+    }
+  },true);
+})();
+</script>
+
+
+<script id="correcao-final-modal-carrinho-junino-js">
+(function(){
+  function brl(v){
+    return Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+  }
+
+  function getCarrinhoReal(){
+    let arr=[];
+    try{
+      if(typeof carrinho !== 'undefined' && Array.isArray(carrinho)) arr = carrinho;
+    }catch(e){}
+    if(!arr.length && Array.isArray(window.carrinho)) arr = window.carrinho;
+
+    if(!arr.length){
+      ['carrinhoAndreza','andreza_carrinho','cart'].forEach(k=>{
+        try{
+          const saved = JSON.parse(localStorage.getItem(k)||'[]');
+          if(Array.isArray(saved) && saved.length) arr = saved;
+        }catch(e){}
+      });
+    }
+    return arr;
+  }
+
+  function normalizarItem(it){
+    const nome = it.nome || it.produto || it.titulo || it.name || 'Item';
+    const qtd = Number(it.qtd || it.quantidade || it.qty || 1);
+    const preco = Number(it.preco || it.valor || it.price || 0);
+    const total = Number(it.total || it.subtotal || (preco*qtd));
+    const detalhes = it.detalhes || it.obs || it.descricao || '';
+    return {nome,qtd,preco,total,detalhes};
+  }
+
+  function atualizarContadoresJunino(){
+    const arr=getCarrinhoReal();
+    const qtdTotal=arr.reduce((s,it)=>s+Number(it.qtd||it.quantidade||1),0);
+    ['cartCount','mobileSafeCartCount'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(el) el.textContent=qtdTotal;
+    });
+  }
+
+  function encontrarAreaPedido(){
+    const modal = document.getElementById('cartModal') || document.querySelector('.modal.open') || document.querySelector('.modal');
+    if(!modal) return null;
+
+    let area =
+      document.getElementById('cartItems') ||
+      document.getElementById('itensCarrinho') ||
+      document.getElementById('cartList') ||
+      modal.querySelector('.cart-items') ||
+      modal.querySelector('.cart-list');
+
+    if(area) return area;
+
+    const labels = Array.from(modal.querySelectorAll('strong,b,h3,h4,p,div,label'));
+    const marcador = labels.find(el => /Seu pedido/i.test(el.textContent || ''));
+    if(marcador){
+      let atual = marcador.nextElementSibling;
+      while(atual && atual.children && atual.querySelector('input,select,textarea')) atual = atual.nextElementSibling;
+      if(atual) return atual;
+    }
+    return null;
+  }
+
+  function renderizarListaNoModal(){
+    const arr=getCarrinhoReal().map(normalizarItem);
+    const modal = document.getElementById('cartModal') || document.querySelector('.modal.open');
+    if(!modal) return;
+
+    let area=encontrarAreaPedido();
+    if(!area){
+      const titulo = Array.from(modal.querySelectorAll('strong,b,h3,h4,p,div')).find(el => /Seu pedido/i.test(el.textContent || ''));
+      if(titulo){
+        area=document.createElement('div');
+        area.id='listaCarrinhoCorrigida';
+        titulo.insertAdjacentElement('afterend', area);
+      }
+    }
+    if(!area) return;
+
+    if(!arr.length){
+      area.innerHTML='<p>Nenhum item no carrinho.</p>';
+    }else{
+      area.innerHTML=arr.map((it,i)=>`
+        <div class="cart-item">
+          <div>
+            <strong>${it.qtd}x ${it.nome}</strong>
+            ${it.detalhes ? `<p style="margin:4px 0;color:#805d70">${it.detalhes}</p>` : ''}
+            <p style="margin:4px 0;color:#8d2b58;font-weight:800">${brl(it.total)}</p>
+          </div>
+          <div class="actions">
+            <button type="button" onclick="removerItemCarrinhoCorrigido(${i})">Remover</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    const total=arr.reduce((s,it)=>s+it.total,0);
+    const totalEl = modal.querySelector('.total') || document.getElementById('cartTotal') || document.getElementById('totalCarrinho');
+    if(totalEl) totalEl.textContent=brl(total);
+  }
+
+  window.removerItemCarrinhoCorrigido=function(index){
+    try{
+      if(typeof carrinho !== 'undefined' && Array.isArray(carrinho)) carrinho.splice(index,1);
+      else if(Array.isArray(window.carrinho)) window.carrinho.splice(index,1);
+    }catch(e){
+      if(Array.isArray(window.carrinho)) window.carrinho.splice(index,1);
+    }
+
+    const arr=getCarrinhoReal();
+    try{ localStorage.setItem('carrinhoAndreza', JSON.stringify(arr)); }catch(e){}
+    try{ localStorage.setItem('andreza_carrinho', JSON.stringify(arr)); }catch(e){}
+    try{ localStorage.setItem('cart', JSON.stringify(arr)); }catch(e){}
+
+    atualizarContadoresJunino();
+    renderizarListaNoModal();
+  };
+
+  // Ao clicar no carrinho, espera o modal abrir e força a renderização correta.
+  document.addEventListener('click',function(e){
+    const btn=e.target.closest('button,#cartBtn,#mobileSafeCartBtn,.float-btn');
+    if(!btn) return;
+    const txt=(btn.textContent||'') + ' ' + (btn.id||'') + ' ' + (btn.className||'');
+    if(/cart|carrinho|🛒/i.test(txt)){
+      setTimeout(renderizarListaNoModal,80);
+      setTimeout(renderizarListaNoModal,250);
+      setTimeout(renderizarListaNoModal,600);
+    }
+  },true);
+
+  const obs=new MutationObserver(function(){
+    const open=document.querySelector('.modal.open');
+    if(open && /Finalizar pedido/i.test(open.textContent||'')){
+      renderizarListaNoModal();
+    }
+    atualizarContadoresJunino();
+  });
+  obs.observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','style']});
+
+  setInterval(function(){
+    atualizarContadoresJunino();
+    const open=document.querySelector('.modal.open');
+    if(open && /Finalizar pedido/i.test(open.textContent||'')) renderizarListaNoModal();
+  },700);
 })();
 </script>
 
