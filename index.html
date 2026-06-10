@@ -2901,7 +2901,7 @@ const produtos=[
 {id:33,cat:"Personalizados",nome:"Pirulito",emoji:"",desc:"Personalizado.",preco:6},
 {id:34,cat:"Personalizados",nome:"Trufas",emoji:"",desc:"Personalizada.",preco:5}
 ,
-{id:900,cat:"Cardápio Junino",nome:"Bolo Junino",emoji:"🌽",desc:"Tradicional, fresquinho e vendido por kg.",preco:90},
+{id:900,cat:"Cardápio Junino",nome:"Bolo Junino (Personalizado)",emoji:"🌽",desc:"Tradicional, fresquinho e vendido por kg.",preco:90},
 {id:901,cat:"Cardápio Junino",nome:"Canjica",emoji:"",desc:"Cremosa e tradicional.",preco:5,juninoSimples:true},
 {id:902,cat:"Cardápio Junino",nome:"Arroz Doce",emoji:"",desc:"Tradicional e cremoso.",preco:6,juninoSimples:true},
 {id:903,cat:"Cardápio Junino",nome:"Munguzá",emoji:"",desc:"Sabor clássico do São João.",preco:6,juninoSimples:true},
@@ -3755,7 +3755,7 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
   function precoUnit(){
     if(!produtoJuninoAtual) return 0;
 
-    if(produtoJuninoAtual.nome === 'Bolo Junino'){
+    if(produtoJuninoAtual.nome.includes('Bolo Junino')){
       return 90 * kg();
     }
 
@@ -3782,7 +3782,7 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
   function preencherCamposEdicao(item){
     document.getElementById('juninoOrigQtd').value = item?.qty || item?.qtd || item?.quantidade || 1;
 
-    if(produtoJuninoAtual.nome === 'Bolo Junino'){
+    if(produtoJuninoAtual.nome.includes('Bolo Junino')){
       const nomeItem = item?.nome || '';
       const saborSelect = document.getElementById('juninoOrigSabor');
       const kgInput = document.getElementById('juninoOrigKg');
@@ -3811,7 +3811,7 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
 
     document.getElementById('juninoOrigTitulo').textContent = (index !== null ? 'Editar ' : 'Adicionar ') + prod.nome;
 
-    const isBolo = prod.nome === 'Bolo Junino';
+    const isBolo = prod.nome.includes('Bolo Junino');
     const isCaseiro = prod.nome === 'Bolos Caseiros';
 
     document.getElementById('juninoOrigKgBox').style.display = isBolo ? 'block' : 'none';
@@ -3837,7 +3837,7 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
     let preco = precoUnit();
     let quantidade = qtd();
 
-    if(produtoJuninoAtual.nome === 'Bolo Junino'){
+    if(produtoJuninoAtual.nome.includes('Bolo Junino')){
       const sabor = document.getElementById('juninoOrigSabor')?.value || 'Bolo de Milho';
       const kilos = kg();
       nome = `${sabor} (${kilos}kg)`;
