@@ -1505,11 +1505,9 @@ textarea{
 
 <style id="supabase-diagnostico-claro">
 #statusSupabaseAdmin.local-warning::after{
-  content:" — confira se as tabelas pedidos e produtos existem no Supabase novo";
-  font-weight:700;
+  content:"";
 }
 </style>
-
 </head>
 <body>
   <section id="loginPage" class="login-page">
@@ -1889,13 +1887,16 @@ textarea{
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
 
-    const SUPABASE_URL = "https://zybwkqjkwpdusnxjgnfu.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_9Fe8WMnzl0geZvxGqCkjAg_PyeJC-mf";
+    const SUPABASE_URL = "https://kegbnovwbfvfpwemvhgs.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_Erank1QrAbfUWmEQRkEmrA_XCvWadHT";
     const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
     let usandoSupabase = !!supabaseClient;
 
     async function carregarDadosSupabase() {
-      if (!supabaseClient) return false;
+      if (!supabaseClient) {
+        usandoSupabase = false;
+        return false;
+      }
 
       try {
         const pedidosResp = await supabaseClient
@@ -1903,13 +1904,8 @@ textarea{
           .select('*')
           .order('created_at', { ascending: false });
 
-        const produtosResp = await supabaseClient
-          .from('produtos')
-          .select('*')
-          .order('created_at', { ascending: false });
-
-        if (pedidosResp.error || produtosResp.error) {
-          console.warn('Supabase ainda não está pronto. Usando modo local.', pedidosResp.error || produtosResp.error);
+        if (pedidosResp.error) {
+          console.warn('Não foi possível carregar pedidos do Supabase. Usando modo local.', pedidosResp.error);
           usandoSupabase = false;
           return false;
         }
@@ -1930,14 +1926,25 @@ textarea{
           status: p.status || 'pendente',
           notes: p.notes || '',
           device_type: p.device_type || p.dispositivo_tipo || '',
-          device_label: p.device_label || p.dispositivo || '',}));
-
-        products = (produtosResp.data || []).map(p => ({
-          id: p.id,
-          name: p.name || '',
-          price: Number(p.price || 0),
-          category: p.category || ''
+          device_label: p.device_label || p.dispositivo || ''
         }));
+
+        // Produtos são úteis, mas não podem impedir o painel de conectar.
+        const produtosResp = await supabaseClient
+          .from('produtos')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (!produtosResp.error) {
+          products = (produtosResp.data || []).map(p => ({
+            id: p.id,
+            name: p.name || '',
+            price: Number(p.price || 0),
+            category: p.category || ''
+          }));
+        } else {
+          console.warn('Tabela produtos não carregou, mas o painel continuará conectado aos pedidos.', produtosResp.error);
+        }
 
         usandoSupabase = true;
         return true;
@@ -2020,7 +2027,7 @@ textarea{
       if (!el) return;
 
       if (usandoSupabase) {
-        el.innerHTML = '🟢 Conectado ao Supabase';
+        el.innerHTML = '🟢 Supabase conectado';
         el.style.background = '#ddf7e9';
         el.style.color = '#2e9d65';
       } else {
