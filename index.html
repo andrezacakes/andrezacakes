@@ -2909,6 +2909,29 @@ const produtos=[
 {id:905,cat:"Cardápio Junino",nome:"Milho Cozido",emoji:"",desc:"Unidade.",preco:4,juninoSimples:true},
 {id:906,cat:"Cardápio Junino",nome:"Bolos Caseiros",emoji:"",desc:"Caseirinhos juninos feitos com carinho para deixar sua festa ainda mais gostosa.",preco:15,boloCaseiro:true}];
 
+// Cardápio Junino disponível somente até 30/06/2026, às 23:59:59 (horário local do aparelho).
+const fimCardapioJunino = new Date(2026, 5, 30, 23, 59, 59, 999);
+
+function cardapioJuninoAtivo(){
+  return new Date() <= fimCardapioJunino;
+}
+
+function atualizarVisibilidadeCardapioJunino(){
+  const tabJunino = document.getElementById("tabJunino");
+  const ativo = cardapioJuninoAtivo();
+
+  if(tabJunino){
+    tabJunino.style.display = ativo ? "" : "none";
+    tabJunino.setAttribute("aria-hidden", ativo ? "false" : "true");
+  }
+
+  if(!ativo && current === "Cardápio Junino"){
+    current = "";
+    document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+    renderProducts();
+  }
+}
+
 let cart=[], current="", selected=null, editing=null, playlist=["assets/audio/musica1.mp3","assets/audio/musica2.mp3","assets/audio/musica3.mp3"], music=0;
 
 function money(v){return Number(v||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"})}
@@ -2923,7 +2946,9 @@ function renderProducts(){
     return;
   }
 
-  area.innerHTML=produtos.filter(p=>current==="Todos"||p.cat===current).map(p=>`
+  area.innerHTML=produtos
+    .filter(p=>cardapioJuninoAtivo() || p.cat!=="Cardápio Junino")
+    .filter(p=>current==="Todos"||p.cat===current).map(p=>`
     <div class="card" data-cat="${p.cat}"><div class="icon">${p.emoji}</div><h3>${p.nome}</h3>
       ${p.desc?`<p>${p.desc}</p>`:""}
       <div class="price">${p.preco===.8?"R$ 0,80 / unidade":money(p.preco)+(p.bolo?" / kg":"")}</div><button class="btn" onclick="openCustom(${p.id})">Adicionar</button></div>
@@ -4427,6 +4452,12 @@ fillSelects();renderProducts();renderCart();arrastavel(cartBtn,openCart);arrasta
 })();
 </script>
 
+
+<script id="expiracao-cardapio-junino-js">
+document.addEventListener("DOMContentLoaded", atualizarVisibilidadeCardapioJunino);
+// Reconfere periodicamente caso a página fique aberta durante a virada da data.
+setInterval(atualizarVisibilidadeCardapioJunino, 60000);
+</script>
 </body>
 </html><script id="fix-bolo-melado">
 setInterval(() => {
